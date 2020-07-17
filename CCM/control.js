@@ -39,6 +39,12 @@ class Position extends Button {
     paint(context) {
         context.fillStyle = "gold";
         context.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Add string representation of this position's concentration.
+        context.strokeStyle = "indigo";
+        context.font = "10px Sylfaen";
+        context.textAlign = "center";
+        context.strokeText(this.c.toString(), this.x, this.y);
     }
 
 }
