@@ -27,10 +27,195 @@ class Button {
 }
 
 class Position extends Button {
+
     constructor(xPos, yPos, width, height, isDescending, concentration) {
         super(xPos, yPos, width, height, 
             function() {
                 console.log("New position has been selected!");
+
+                if (isDescending) {
+
+                    // Draw triangular portion of drop down for descending limb.
+                    CONTEXT.beginPath();
+                    CONTEXT.moveTo(xPos - 50, yPos);
+                    CONTEXT.lineTo(xPos - 75, yPos - height / 2);
+                    CONTEXT.lineTo(xPos - 75, yPos + height / 2);
+                    CONTEXT.lineTo(xPos - 50, yPos);
+                    CONTEXT.fillStyle = "gold";
+                    CONTEXT.fill();
+
+                    // Draw square portion of drop down menu.
+                    CONTEXT.fillRect(xPos - 295, yPos - height / 2, 220, 310);
+
+                    // Draw token grid of drop down menu.
+                    // Row 1.
+                    CONTEXT.fillStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.fill();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.fill();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.fill();
+
+
+                    // Row 2.
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    // Row 3.
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    // Row 4.
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    // Row 5.
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                } else {
+
+                    // Draw triangular portion of drop down for descending limb.
+                    CONTEXT.strokeStyle = "gold";
+                    CONTEXT.beginPath();
+                    CONTEXT.moveTo(xPos + 50, yPos);
+                    CONTEXT.lineTo(xPos + 75, yPos - height / 2);
+                    CONTEXT.lineTo(xPos + 75, yPos + height / 2);
+                    CONTEXT.lineTo(xPos + 50, yPos);
+                    CONTEXT.fillStyle = "gold";
+                    CONTEXT.fill();
+                    CONTEXT.stroke();
+
+                    // Draw square portion of drop down menu.
+                    CONTEXT.fillRect(xPos + 75, yPos - height / 2, 220, 310);
+
+                    // Draw token grid of drop down menu.
+                    // Row 1.
+                    CONTEXT.fillStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.fill();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.fill();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.fill();
+
+
+                    // Row 2.
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    // Row 3.
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    // Row 4.
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    // Row 5.
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+                }
+
             });
         this.isDescending = isDescending;
         this.c = concentration;
@@ -184,12 +369,12 @@ function initDescendingLimb() {
 function initAscendingLimb() {
 
     // Create the 6 Positions and their corresponding concentrations.
-    var pos1 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 30, 60, 30, true, 300);
-    var pos2 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 80, 60, 30, true, 300);
-    var pos3 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 130, 60, 30, true, 300);
-    var pos4 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 180, 60, 30, true, 300);
-    var pos5 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 230, 60, 30, true, 300);
-    var pos6 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 280, 60, 30, true, 300);
+    var pos1 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 30, 60, 30, false, 300);
+    var pos2 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 80, 60, 30, false, 300);
+    var pos3 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 130, 60, 30, false, 300);
+    var pos4 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 180, 60, 30, false, 300);
+    var pos5 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 230, 60, 30, false, 300);
+    var pos6 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 280, 60, 30, false, 300);
 
     // Paint all positions.
     pos1.paint(CONTEXT);
