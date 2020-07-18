@@ -4,6 +4,8 @@ var CANVAS = document.getElementById("game-canvas");
 var CONTEXT = CANVAS.getContext("2d");
 var CLICKABLE = [];
 var DROPDOWN = false;
+var LASTPOS = null;
+var LASTINTER = null;
 
 /**
  * A class representing buttons and their behaviour 
@@ -34,11 +36,41 @@ class Position extends Button {
             function() {
                 console.log("New position has been selected!");
 
-                // Remove old drop down menu.
+                // Add selected box around position.
+                CONTEXT.strokeStyle = "black";
+                CONTEXT.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+
+                // Remove old drop down menu and paint selection highlight.
                 if (DROPDOWN) {
-                    removeDropDown();
+
+                   if (this.isInterstitial && LASTINTER != null) {
+                       LASTINTER.paint(CONTEXT);
+                       LASTINTER = this;
+                   }
+                   if (!this.isInterstitial && LASTPOS != null) {
+                        removeDropDown();
+                        LASTPOS.paint(CONTEXT);
+                        LASTPOS = this;
+                   }
+
+                   if (this.isInterstitial) {
+                        LASTINTER = this;
+                   }
+
+                   if (!this.isInterstitial) {
+                        removeDropDown();
+                        LASTPOS = this;
+                   }
+
                 } else {
                     DROPDOWN = true;
+
+                    if (this.isInterstitial) {
+                        LASTINTER = this;
+                    } else {
+                        LASTPOS = this;
+                    }
                 }
 
                 if (isInterstitial) {
@@ -503,6 +535,6 @@ function initInterstitialFluid() {
 
 function removeDropDown() {
     CONTEXT.fillStyle = "dodgerblue";
-    CONTEXT.fillRect(0, 0, CANVAS.clientWidth / 8 * 3 - 80, CANVAS.clientHeight);
+    CONTEXT.fillRect(0, 0, CANVAS.clientWidth / 8 * 3 - 85, CANVAS.clientHeight);
     CONTEXT.fillRect(CANVAS.clientWidth / 8 * 5 + 80, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 }
