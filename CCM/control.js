@@ -29,7 +29,7 @@ class Button {
 
 class Position extends Button {
 
-    constructor(xPos, yPos, width, height, isDescending, concentration) {
+    constructor(xPos, yPos, width, height, isDescending, concentration, isInterstitial = false) {
         super(xPos, yPos, width, height, 
             function() {
                 console.log("New position has been selected!");
@@ -41,192 +41,276 @@ class Position extends Button {
                     DROPDOWN = true;
                 }
 
-                if (isDescending) {
+                if (isInterstitial) {
 
                     // Draw triangular portion of drop down for descending limb.
                     CONTEXT.beginPath();
-                    CONTEXT.moveTo(xPos - 50, yPos);
-                    CONTEXT.lineTo(xPos - 75, yPos - height / 2);
-                    CONTEXT.lineTo(xPos - 75, yPos + height / 2);
-                    CONTEXT.lineTo(xPos - 50, yPos);
+                    CONTEXT.moveTo(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 * 3 - 75);
+                    CONTEXT.lineTo(CANVAS.clientWidth / 2 - 15, CANVAS.clientHeight / 4 * 3 - 50);
+                    CONTEXT.lineTo(CANVAS.clientWidth / 2 + 15, CANVAS.clientHeight / 4 * 3 - 50);
+                    CONTEXT.lineTo(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 * 3 - 75);
                     CONTEXT.fillStyle = "gold";
                     CONTEXT.fill();
 
-                    // Draw square portion of drop down menu.
-                    CONTEXT.fillRect(xPos - 295, yPos - height / 2, 220, 310);
+                    // Draw square portion of the drop down menu. 
+                    CONTEXT.fillRect(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 4 * 3 - 50, CANVAS.clientWidth / 8 * 2, CANVAS.clientHeight - CANVAS.clientHeight / 4 * 3 + 45);
 
                     // Draw token grid of drop down menu.
                     // Row 1.
                     CONTEXT.fillStyle = "indigo";
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 35, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
                     CONTEXT.fill();
 
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 100, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
                     CONTEXT.fill();
 
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 165, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
                     CONTEXT.fill();
 
+                    CONTEXT.strokeStyle = "indigo";
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 230, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 295, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
 
                     // Row 2.
-                    CONTEXT.strokeStyle = "indigo";
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 35, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
                     CONTEXT.stroke();
 
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 100, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 165, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 230, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 295, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
                     CONTEXT.stroke();
 
                     // Row 3.
-                    CONTEXT.strokeStyle = "indigo";
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 35, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
                     CONTEXT.stroke();
 
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    // Row 4.
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 100, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
                     CONTEXT.stroke();
 
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    // Row 5.
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 260, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 195, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 165, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
                     CONTEXT.stroke();
 
                     CONTEXT.beginPath();
-                    CONTEXT.arc(xPos - 130, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 230, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
+                    CONTEXT.stroke();
+
+                    CONTEXT.beginPath();
+                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 295, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
                     CONTEXT.stroke();
 
                 } else {
 
-                    // Draw triangular portion of drop down for descending limb.
-                    CONTEXT.strokeStyle = "gold";
-                    CONTEXT.beginPath();
-                    CONTEXT.moveTo(xPos + 50, yPos);
-                    CONTEXT.lineTo(xPos + 75, yPos - height / 2);
-                    CONTEXT.lineTo(xPos + 75, yPos + height / 2);
-                    CONTEXT.lineTo(xPos + 50, yPos);
-                    CONTEXT.fillStyle = "gold";
-                    CONTEXT.fill();
-                    CONTEXT.stroke();
+                    if (isDescending) {
 
-                    // Draw square portion of drop down menu.
-                    CONTEXT.fillRect(xPos + 75, yPos - height / 2, 220, 310);
+                        // Draw triangular portion of drop down for descending limb.
+                        CONTEXT.beginPath();
+                        CONTEXT.moveTo(xPos - 50, yPos);
+                        CONTEXT.lineTo(xPos - 75, yPos - height / 2);
+                        CONTEXT.lineTo(xPos - 75, yPos + height / 2);
+                        CONTEXT.lineTo(xPos - 50, yPos);
+                        CONTEXT.fillStyle = "gold";
+                        CONTEXT.fill();
 
-                    // Draw token grid of drop down menu.
-                    // Row 1.
-                    CONTEXT.fillStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                    CONTEXT.fill();
+                        // Draw square portion of drop down menu.
+                        CONTEXT.fillRect(xPos - 295, yPos - height / 2, 220, 310);
 
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                    CONTEXT.fill();
+                        // Draw token grid of drop down menu.
+                        // Row 1.
+                        CONTEXT.fillStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                        CONTEXT.fill();
 
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                    CONTEXT.fill();
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                        CONTEXT.fill();
+
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                        CONTEXT.fill();
 
 
-                    // Row 2.
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        // Row 2.
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    // Row 3.
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        // Row 3.
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    // Row 4.
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        // Row 4.
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    // Row 5.
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 260, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        // Row 5.
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 195, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
 
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(xPos + 130, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                    } else {
+
+                        // Draw triangular portion of drop down for descending limb.
+                        CONTEXT.strokeStyle = "gold";
+                        CONTEXT.beginPath();
+                        CONTEXT.moveTo(xPos + 50, yPos);
+                        CONTEXT.lineTo(xPos + 75, yPos - height / 2);
+                        CONTEXT.lineTo(xPos + 75, yPos + height / 2);
+                        CONTEXT.lineTo(xPos + 50, yPos);
+                        CONTEXT.fillStyle = "gold";
+                        CONTEXT.fill();
+                        CONTEXT.stroke();
+
+                        // Draw square portion of drop down menu.
+                        CONTEXT.fillRect(xPos + 75, yPos - height / 2, 220, 310);
+
+                        // Draw token grid of drop down menu.
+                        // Row 1.
+                        CONTEXT.fillStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                        CONTEXT.fill();
+
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                        CONTEXT.fill();
+
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
+                        CONTEXT.fill();
+
+
+                        // Row 2.
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        // Row 3.
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        // Row 4.
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        // Row 5.
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        CONTEXT.strokeStyle = "indigo";
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+
+                        CONTEXT.beginPath();
+                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
+                        CONTEXT.stroke();
+                    }
                 }
 
             });
         this.isDescending = isDescending;
         this.c = concentration;
+        this.isInterstitial = isInterstitial;
     }
 
     paint(context) {
@@ -312,40 +396,42 @@ function initClickHandler() {
 }
 
 function initGameBoard() {
+
+    // Set new background color (must be behind other elements).
+    CONTEXT.fillStyle = "dodgerblue";
+    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+
     // Draw the loop.
     drawLoopOfHenle();
 
     // Initialize the limbs.
     initDescendingLimb();
     initAscendingLimb();
+
+    // Initialize the interstitial fluid.
+    initInterstitialFluid()
 }
 
 function drawLoopOfHenle() {
-
-    // Set new background color (must be behind other elements).
-    CONTEXT.fillStyle = "dodgerblue";
-    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-
-    // Draw the loop outline.
     CONTEXT.strokeStyle = "gold";
     CONTEXT.beginPath();
-    CONTEXT.moveTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 4);
-    CONTEXT.lineTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 8 * 5);
-    CONTEXT.arcTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 4 * 3, CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 * 3, 50);
-    CONTEXT.arcTo(CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 4 * 3, CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 8 * 5, 50);
-    CONTEXT.lineTo(CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 4);
+    CONTEXT.moveTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 4 - 100);
+    CONTEXT.lineTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 8 * 5 - 100);
+    CONTEXT.arcTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 4 * 3 - 100, CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 * 3 - 100, 50);
+    CONTEXT.arcTo(CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 4 * 3 - 100, CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 8 * 5 - 100, 50);
+    CONTEXT.lineTo(CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 4 - 100);
     CONTEXT.stroke();
 }
 
 function initDescendingLimb() {
 
     // Create the 6 Positions and their corresponding concentrations.
-    var pos1 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 30, 60, 30, true, 300);
-    var pos2 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 80, 60, 30, true, 300);
-    var pos3 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 130, 60, 30, true, 300);
-    var pos4 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 180, 60, 30, true, 300);
-    var pos5 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 230, 60, 30, true, 300);
-    var pos6 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 280, 60, 30, true, 300);
+    var pos1 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 - 70, 60, 30, true, 300);
+    var pos2 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 - 20, 60, 30, true, 300);
+    var pos3 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 30, 60, 30, true, 300);
+    var pos4 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 80, 60, 30, true, 300);
+    var pos5 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 130, 60, 30, true, 300);
+    var pos6 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 180, 60, 30, true, 300);
 
     // Paint all positions.
     pos1.paint(CONTEXT);
@@ -363,12 +449,39 @@ function initDescendingLimb() {
 function initAscendingLimb() {
 
     // Create the 6 Positions and their corresponding concentrations.
-    var pos1 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 30, 60, 30, false, 300);
-    var pos2 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 80, 60, 30, false, 300);
-    var pos3 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 130, 60, 30, false, 300);
-    var pos4 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 180, 60, 30, false, 300);
-    var pos5 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 230, 60, 30, false, 300);
-    var pos6 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 280, 60, 30, false, 300);
+    var pos1 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 - 70, 60, 30, false, 300);
+    var pos2 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 - 20, 60, 30, false, 300);
+    var pos3 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 30, 60, 30, false, 300);
+    var pos4 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 80, 60, 30, false, 300);
+    var pos5 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 130, 60, 30, false, 300);
+    var pos6 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 180, 60, 30, false, 300);
+
+    // Paint all positions.
+    pos1.paint(CONTEXT);
+    pos2.paint(CONTEXT);
+    pos3.paint(CONTEXT);
+    pos4.paint(CONTEXT);
+    pos5.paint(CONTEXT);
+    pos6.paint(CONTEXT);
+
+    // Register each position as clickable.
+    CLICKABLE.push(pos1);
+    CLICKABLE.push(pos2);
+    CLICKABLE.push(pos3);
+    CLICKABLE.push(pos4);
+    CLICKABLE.push(pos5);
+    CLICKABLE.push(pos6);
+
+}
+
+function initInterstitialFluid() {
+
+    var pos1 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 - 70, 60, 30, false, 300, true);
+    var pos2 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 - 20, 60, 30, false, 300, true);
+    var pos3 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 + 30, 60, 30, false, 300, true);
+    var pos4 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 + 80, 60, 30, false, 300, true);
+    var pos5 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 + 130, 60, 30, false, 300, true);
+    var pos6 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 + 180, 60, 30, false, 300, true);
 
     // Paint all positions.
     pos1.paint(CONTEXT);
