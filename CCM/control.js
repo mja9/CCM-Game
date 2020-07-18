@@ -3,6 +3,7 @@
 var CANVAS = document.getElementById("game-canvas");
 var CONTEXT = CANVAS.getContext("2d");
 var CLICKABLE = [];
+var DROPDOWN = false;
 
 /**
  * A class representing buttons and their behaviour 
@@ -32,6 +33,13 @@ class Position extends Button {
         super(xPos, yPos, width, height, 
             function() {
                 console.log("New position has been selected!");
+
+                // Remove old drop down menu.
+                if (DROPDOWN) {
+                    removeDropDown();
+                } else {
+                    DROPDOWN = true;
+                }
 
                 if (isDescending) {
 
@@ -265,24 +273,10 @@ function initTitleScreen() {
                                         initGameBoard();
                                     });
 
-    // var restartButton = new Button(CANVAS.clientWidth / 2, (3 * CANVAS.clientHeight / 4 + CANVAS.clientHeight) / 2, 400, 100,
-    //                                 function() {
-    //                                     console.log("Clicked restart button!");
-
-    //                                     // Lock user out of trigerring another click event.
-    //                                     Clickable = [];
-
-    //                                     // Clear the canvas
-    //                                     CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-    //                                     initGameBoard();
-    //                                 });
-
     // Paint the buttons on the canvas.
     startButton.paint(CONTEXT, "start-button");
-    // restartButton.paint(CONTEXT, "start-button?");
 
-    // Regiter the buttons as clickable items on the GUI.
-    // CLICKABLE = [startButton, restartButton];
+    // Regiter the button as clickable items on the GUI.
     CLICKABLE = [startButton];
     initClickHandler();
 }
@@ -392,4 +386,10 @@ function initAscendingLimb() {
     CLICKABLE.push(pos5);
     CLICKABLE.push(pos6);
 
+}
+
+function removeDropDown() {
+    CONTEXT.fillStyle = "dodgerblue";
+    CONTEXT.fillRect(0, 0, CANVAS.clientWidth / 8 * 3 - 80, CANVAS.clientHeight);
+    CONTEXT.fillRect(CANVAS.clientWidth / 8 * 5 + 80, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 }
