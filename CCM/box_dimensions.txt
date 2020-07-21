@@ -1,0 +1,24 @@
+LIMB BOXES
+
+width: 124	height: 80
+
+vertical space: 13 px on either side of limb
+	desc limb:	13		[124]		137
+	asc limb: 	513		[124]		637
+
+horizontal space: 13 px above and below
+	(top)	box 1: 	13	[80]	93
+		box 2: 	106	[80]	186
+		box 3: 	199	[80]	279
+		box 4:	292	[80]	372	
+		box 5:	385	[80]	465
+	(bot)	box 6:	478	[80]	558
+
+INTERSTITIAL FLUID BOXES
+
+width: 324	height: 80
+
+vertical space: 13 px on either side of limb
+	163		[324]		487
+
+horizontal space: same as limb boxes
