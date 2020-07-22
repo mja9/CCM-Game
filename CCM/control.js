@@ -32,7 +32,6 @@ class LimbPosition {
     }   
 
     paint() {
-
         // Draw rectangular positions.
         CONTEXT.fillStyle = "#ffc730";
         CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
@@ -44,7 +43,6 @@ class LimbPosition {
         // Draw water/salt icons.
         this.salt.paint();
         this.water.paint();
-
     }
 
 }
@@ -68,12 +66,12 @@ class InterPosition {
 class WaterIcon {
 
     constructor(xPos, yPos) {
-
+        this.startX = xPos;
+        this.startY = yPos;
         this.x = xPos;
         this.y = yPos;
         this.w = 26;
         this.h = 38;
-
     }
 
     paint() {
@@ -85,12 +83,12 @@ class WaterIcon {
 class SaltIcon {
 
     constructor(xPos, yPos) {
-
+        this.startX = xPos;
+        this.startY = yPos;
         this.x = xPos;
         this.y = yPos;
         this.w = 30;
         this.h = 34;
-
     }
 
     paint() {
@@ -141,6 +139,7 @@ var INTER_FLUID = [
 
 var CLICKABLE = [];
 var DRAGGABLE = [];
+var DROPPABLE = [];
 
 /**
  * Initialize game board and start title screen for the game.
@@ -260,9 +259,31 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
    var drop = function() {
 
     window.clearInterval(animateInterval);
+
+    // Check if item was dropped in a droppable.
+    var canDrop = false;
+    DROPPABLE.forEach(droppable => {
+
+        // Check x position.
+        if (xPos >= droppable.x - droppable.w / 2 && xPos <= droppable.x + droppable.w / 2) {
+
+            if (yPos >= droppable.y - droppable.h / 2 && yPos <= droppable.y + droppable.h / 2) {
+                canDrop = true;
+            }
+
+        }
+
+    });
+
+    // If item dropped elsewhere, reset position.
+    if (!canDrop) {
+        draggable.x = draggable.startX;
+        draggable.y = draggable.startY;
+    }
+
     repaintGameBoard();
     draggable.paint();
-    removeDragHandler(draggable, drag, drop);
+    removeDragHandler(drag, drop);
     
     };
 
@@ -275,7 +296,7 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
 
 }
 
-function removeDragHandler(draggable, drag, drop) {
+function removeDragHandler(drag, drop) {
     
     // Remove dragging event.
     CANVAS.removeEventListener("mousemove", drag);
@@ -344,6 +365,9 @@ function drawAscendingLimb() {
 
 function initInterstitialFluid() {
 
+    INTER_FLUID.forEach(pos => {
+        DROPPABLE.push(pos);
+    });
     drawInterstitialFluid();
 
 }
@@ -368,13 +392,13 @@ function repaintGameBoard() {
     // Draw the loop.
     drawLoopOfHenle();
 
+    // Draw interstitial fluid.
+    drawInterstitialFluid();
+
     // Draw descending limb.
     drawDescendingLimb();
 
-    // // Draw ascending limb.
+    // Draw ascending limb.
     drawAscendingLimb();
-
-    // // Draw interstitial fluid.
-    drawInterstitialFluid();
 
 }
