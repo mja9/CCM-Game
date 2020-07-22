@@ -27,8 +27,9 @@ class LimbPosition {
         this.h = 80;
         this.x = xPos + this.w / 2;
         this.y = yPos + this.h / 2;
-        this.salt = new SaltIcon(this.x + this.w / 2 - 22, this.y + this.h / 2 - 24);
-        this.water = new WaterIcon(this.x - this.w / 2 + 20, this.y + this.h / 2 - 26);
+        this.salt = new SaltIcon(this.x + this.w / 2 - 22, this.y + this.h / 2 - 24, this);
+        this.water = new WaterIcon(this.x - this.w / 2 + 20, this.y + this.h / 2 - 26, this);
+        this.c = 300;
     }   
 
     paint() {
@@ -39,6 +40,10 @@ class LimbPosition {
         CONTEXT.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 
         // Draw numerical representation of concentration.
+        CONTEXT.fillStyle = "#252525";
+        CONTEXT.font = "30px Trebuchet MS";
+        CONTEXT.textAlign = "center";
+        CONTEXT.fillText(this.c.toString(), this.x - this.w / 2 + 58, this.y);
 
         // Draw water/salt icons.
         this.salt.paint();
@@ -54,6 +59,7 @@ class InterPosition {
         this.h = 80;
         this.x = xPos + this.w / 2;
         this.y = yPos + this.h / 2;
+        this.c = 300;
     }   
 
     paint() {
@@ -65,33 +71,21 @@ class InterPosition {
         CONTEXT.fillStyle = "#252525";
         CONTEXT.font = "40px Trebuchet MS";
         CONTEXT.textAlign = "center";
-        CONTEXT.fillText("300", this.x, this.y + 11);
-
-        // CONTEXT.strokeStyle = "red";
-        // CONTEXT.beginPath();
-        // CONTEXT.moveTo(this.x - this.w / 2, this.y);
-        // CONTEXT.lineTo(this.x + this.w / 2, this.y);
-        // CONTEXT.stroke();
-
-        // CONTEXT.strokeStyle = "red";
-        // CONTEXT.beginPath();
-        // CONTEXT.moveTo(this.x - this.w / 2, this.y - 30);
-        // CONTEXT.lineTo(this.x + this.w / 2, this.y - 30);
-        // CONTEXT.stroke();
-    
+        CONTEXT.fillText(this.c.toString(), this.x, this.y + 11);
     }
 
 }
 
 class WaterIcon {
 
-    constructor(xPos, yPos) {
+    constructor(xPos, yPos, limbPos) {
         this.startX = xPos;
         this.startY = yPos;
         this.x = xPos;
         this.y = yPos;
         this.w = 26;
         this.h = 38;
+        this.limbPos = limbPos;
     }
 
     paint() {
@@ -102,13 +96,14 @@ class WaterIcon {
 
 class SaltIcon {
 
-    constructor(xPos, yPos) {
+    constructor(xPos, yPos, limbPos) {
         this.startX = xPos;
         this.startY = yPos;
         this.x = xPos;
         this.y = yPos;
         this.w = 30;
         this.h = 34;
+        this.limbPos = limbPos;
     }
 
     paint() {
@@ -245,6 +240,7 @@ function initClickHandler() {
                 // Check y-position.
                 if (yPos >= draggable.y - draggable.h / 2 && yPos <= draggable.y + draggable.h / 2) {
 
+                    draggable.limbPos.c -= 50;
                     addDragHandler(draggable, draggable.x - xPos, draggable.y - yPos);
 
                 }
@@ -260,49 +256,60 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
     // Create interval for painting the box moving.
     var animateInterval = window.setInterval(function() {
                             repaintGameBoard();
-                            draggable.paint();
                             }, 
                             50);
 
-    var drag = function() {
+    var drag = function(event) {
 
         // Get event location.
-       xPos = event.offsetX;
-       yPos = event.offsetY;
+        xPos = event.offsetX;
+        yPos = event.offsetY;
 
-       // Change location of draggable item.
-       draggable.x = xPos + dragOffsetX;
-       draggable.y = yPos + dragOffsetY;
+        // Change location of draggable item.
+        draggable.x = xPos + dragOffsetX;
+        draggable.y = yPos + dragOffsetY;
 
    };
 
-   var drop = function() {
+   var drop = function(event) {
 
-    window.clearInterval(animateInterval);
+        window.clearInterval(animateInterval);
 
-    // Check if item was dropped in a droppable.
-    var canDrop = false;
-    DROPPABLE.forEach(droppable => {
+        // Get event location.
+        xPos = event.offsetX;
+        yPos = event.offsetY;
 
-        // Check x position.
-        if (xPos >= droppable.x - droppable.w / 2 && xPos <= droppable.x + droppable.w / 2) {
+        // Check if item was dropped in a droppable.
+        var canDrop = false;
+        DROPPABLE.forEach(droppable => {
 
-            if (yPos >= droppable.y - droppable.h / 2 && yPos <= droppable.y + droppable.h / 2) {
-                canDrop = true;
+            // Check x position.
+            if (xPos >= droppable.x - droppable.w / 2 && xPos <= droppable.x + droppable.w / 2) {
+
+                if (yPos >= droppable.y - droppable.h / 2 && yPos <= droppable.y + droppable.h / 2) {
+
+                    // Can only change concentration of fluid adjacent to limb position.
+                    if (draggable.limbPos.y == droppable.y) {
+                        canDrop = true;
+                        droppable.c += 50;
+                    }
+                    
+                }
+
             }
-
-        }
 
     });
 
-    // If item dropped elsewhere, reset position.
-    if (!canDrop) {
-        draggable.x = draggable.startX;
-        draggable.y = draggable.startY;
+     // If item dropped elsewhre, reset concentration of limb position.
+     if (!canDrop) {
+        draggable.limbPos.c += 50;
     }
 
+    // Reset position.
+    draggable.x = draggable.startX;
+    draggable.y = draggable.startY;
+
     repaintGameBoard();
-    draggable.paint();
     removeDragHandler(drag, drop);
     
     };
@@ -342,6 +349,9 @@ function initGameBoard() {
 
     // Initialize the interstitial fluid.
     initInterstitialFluid()
+
+    // Initialize pump, equilibrate, flow buttons.
+
 }
 
 function drawLoopOfHenle() {
@@ -398,6 +408,20 @@ function drawInterstitialFluid() {
     INTER_FLUID.forEach(pos => {
         pos.paint();
     });
+
+}
+
+function initStateButtons() {
+
+    // Pump button.
+
+    // Equilibrate button.
+
+    // Flow button.
+
+}
+
+function drawStateButtons() {
 
 }
 
