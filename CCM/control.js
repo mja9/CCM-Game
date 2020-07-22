@@ -79,6 +79,7 @@ class InterPosition {
 class WaterIcon {
 
     constructor(xPos, yPos, limbPos) {
+        this.id = "water";
         this.startX = xPos;
         this.startY = yPos;
         this.x = xPos;
@@ -97,6 +98,7 @@ class WaterIcon {
 class SaltIcon {
 
     constructor(xPos, yPos, limbPos) {
+        this.id = "salt";
         this.startX = xPos;
         this.startY = yPos;
         this.x = xPos;
@@ -240,7 +242,14 @@ function initClickHandler() {
                 // Check y-position.
                 if (yPos >= draggable.y - draggable.h / 2 && yPos <= draggable.y + draggable.h / 2) {
 
-                    draggable.limbPos.c -= 50;
+                    // Removing salt from system reduces concentration.
+                    if (draggable.id == "salt") {
+                        draggable.limbPos.c -= 50;
+
+                    // Remove water from system increases concentration.
+                    } else {
+                        draggable.limbPos.c += 50;
+                    }
                     addDragHandler(draggable, draggable.x - xPos, draggable.y - yPos);
 
                 }
@@ -291,7 +300,11 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
                     // Can only change concentration of fluid adjacent to limb position.
                     if (draggable.limbPos.y == droppable.y) {
                         canDrop = true;
-                        droppable.c += 50;
+
+                        // Interstitial fluid concentrationonly changes with the addition of salt.
+                        if (draggable.id == "salt") {
+                            droppable.c += 50;
+                        }
                     }
                     
                 }
@@ -300,9 +313,13 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
 
     });
 
-     // If item dropped elsewhre, reset concentration of limb position.
+     // If item dropped elsewhere, reset concentration of limb position.
      if (!canDrop) {
-        draggable.limbPos.c += 50;
+        if (draggable.id == "salt") {
+            draggable.limbPos.c += 50;
+        } else {
+            draggable.limbPos.c -= 50;
+        }
     }
 
     // Reset position.
