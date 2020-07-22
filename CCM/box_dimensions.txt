@@ -14,6 +14,10 @@ horizontal space: 13 px above and below
 		box 5:	385	[80]	465
 	(bot)	box 6:	478	[80]	558
 
+
+
+
+
 INTERSTITIAL FLUID BOXES
 
 width: 324	height: 80
@@ -22,3 +26,16 @@ vertical space: 13 px on either side of limb
 	163		[324]		487
 
 horizontal space: same as limb boxes
+
+
+
+
+SALT ICON
+
+width: 30	height: 34
+7 px between edge and box to both the right and the bottom
+
+WATER ICON
+
+width: 26	height: 38
+7 px as well
