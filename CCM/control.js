@@ -57,8 +57,28 @@ class InterPosition {
     }   
 
     paint() {
+        // Draw rectangular positions.
         CONTEXT.fillStyle = "#ffc730";
         CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Draw numerical representation of concentration.
+        CONTEXT.fillStyle = "#252525";
+        CONTEXT.font = "40px Trebuchet MS";
+        CONTEXT.textAlign = "center";
+        CONTEXT.fillText("300", this.x, this.y + 11);
+
+        // CONTEXT.strokeStyle = "red";
+        // CONTEXT.beginPath();
+        // CONTEXT.moveTo(this.x - this.w / 2, this.y);
+        // CONTEXT.lineTo(this.x + this.w / 2, this.y);
+        // CONTEXT.stroke();
+
+        // CONTEXT.strokeStyle = "red";
+        // CONTEXT.beginPath();
+        // CONTEXT.moveTo(this.x - this.w / 2, this.y - 30);
+        // CONTEXT.lineTo(this.x + this.w / 2, this.y - 30);
+        // CONTEXT.stroke();
+    
     }
 
 }
@@ -147,11 +167,11 @@ var DROPPABLE = [];
 function initTitleScreen() {
 
     // Set the background.
-    CONTEXT.fillStyle = "darkolivegreen";
+    CONTEXT.fillStyle = "cornsilk";
     CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Set the game title.
-    CONTEXT.fillStyle = "gold";
+    CONTEXT.fillStyle = "darkslateblue";
     CONTEXT.font = "100px Sylfaen";
     CONTEXT.textAlign = "center";
     CONTEXT.fillText("Countercurrent Multiplication", CANVAS.clientWidth / 2, CANVAS.clientHeight / 4);
@@ -309,7 +329,8 @@ function removeDragHandler(drag, drop) {
 function initGameBoard() {
 
     // Set new background color (must be behind other elements).
-    CONTEXT.fillStyle = "#fdc689";
+    // CONTEXT.fillStyle = "#fdc689";
+    CONTEXT.fillStyle = "cornsilk";
     CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Draw the loop.
@@ -386,7 +407,7 @@ function repaintGameBoard() {
     CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Set new background color (must be behind other elements).
-    CONTEXT.fillStyle = "#fdc689";
+    CONTEXT.fillStyle = "cornsilk";
     CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Draw the loop.
