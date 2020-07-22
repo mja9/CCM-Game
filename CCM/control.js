@@ -1,11 +1,4 @@
 // Copyright © 2020 mja9
-// Global constants.
-var CANVAS = document.getElementById("game-canvas");
-var CONTEXT = CANVAS.getContext("2d");
-var CLICKABLE = [];
-var DROPDOWN = false;
-var LASTPOS = null;
-var LASTINTER = null;
 
 /**
  * A class representing buttons and their behaviour 
@@ -21,345 +14,133 @@ class Button {
         this.onClick = clickAction;
     }
 
-    paint(context, image) {
-        // context.fillStyle = "gold";
-        // context.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-        context.drawImage(document.getElementById(image), this.x - this.w / 2, this.y - this.h / 2);
+    paint(image) {
+        CONTEXT.drawImage(document.getElementById(image), this.x - this.w / 2, this.y - this.h / 2);
     }
 
 }
 
-class Position extends Button {
+class LimbPosition {
+
+    constructor(xPos, yPos) {
+        this.w = 124;
+        this.h = 80;
+        this.x = xPos + this.w / 2;
+        this.y = yPos + this.h / 2;
+        this.salt = new SaltIcon(this.x + this.w / 2 - 22, this.y + this.h / 2 - 24);
+        this.water = new WaterIcon(this.x - this.w / 2 + 20, this.y + this.h / 2 - 26);
+    }   
+
+    paint() {
+
+        // Draw rectangular positions.
+        CONTEXT.fillStyle = "#ffc730";
+        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        CONTEXT.strokeStyle = "#252525";
+        CONTEXT.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Draw numerical representation of concentration.
+
+        // Draw water/salt icons.
+        this.salt.paint();
+        this.water.paint();
 
-    constructor(xPos, yPos, width, height, isDescending, concentration, isInterstitial = false) {
-        super(xPos, yPos, width, height, 
-            function() {
-                console.log("New position has been selected!");
-
-                // Add selected box around position.
-                CONTEXT.strokeStyle = "black";
-                CONTEXT.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-
-
-                // Remove old drop down menu and paint selection highlight.
-                if (DROPDOWN) {
-
-                   if (this.isInterstitial && LASTINTER != null) {
-                       LASTINTER.paint(CONTEXT);
-                       LASTINTER = this;
-                   }
-                   if (!this.isInterstitial && LASTPOS != null) {
-                        removeDropDown();
-                        LASTPOS.paint(CONTEXT);
-                        LASTPOS = this;
-                   }
-
-                   if (this.isInterstitial) {
-                        LASTINTER = this;
-                   }
-
-                   if (!this.isInterstitial) {
-                        removeDropDown();
-                        LASTPOS = this;
-                   }
-
-                } else {
-                    DROPDOWN = true;
-
-                    if (this.isInterstitial) {
-                        LASTINTER = this;
-                    } else {
-                        LASTPOS = this;
-                    }
-                }
-
-                if (isInterstitial) {
-
-                    // Draw triangular portion of drop down for descending limb.
-                    CONTEXT.beginPath();
-                    CONTEXT.moveTo(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 * 3 - 75);
-                    CONTEXT.lineTo(CANVAS.clientWidth / 2 - 15, CANVAS.clientHeight / 4 * 3 - 50);
-                    CONTEXT.lineTo(CANVAS.clientWidth / 2 + 15, CANVAS.clientHeight / 4 * 3 - 50);
-                    CONTEXT.lineTo(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 * 3 - 75);
-                    CONTEXT.fillStyle = "gold";
-                    CONTEXT.fill();
-
-                    // Draw square portion of the drop down menu. 
-                    CONTEXT.fillRect(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 4 * 3 - 50, CANVAS.clientWidth / 8 * 2, CANVAS.clientHeight - CANVAS.clientHeight / 4 * 3 + 45);
-
-                    // Draw token grid of drop down menu.
-                    // Row 1.
-                    CONTEXT.fillStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 35, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
-                    CONTEXT.fill();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 100, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
-                    CONTEXT.fill();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 165, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
-                    CONTEXT.fill();
-
-                    CONTEXT.strokeStyle = "indigo";
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 230, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 295, CANVAS.clientHeight / 4 * 3 - 15, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    // Row 2.
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 35, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 100, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 165, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 230, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 295, CANVAS.clientHeight / 4 * 3 + 45, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    // Row 3.
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 35, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 100, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 165, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 230, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                    CONTEXT.beginPath();
-                    CONTEXT.arc(CANVAS.clientWidth / 8 * 3 + 295, CANVAS.clientHeight / 4 * 3 + 105, 25, 0, 2 * Math.PI);
-                    CONTEXT.stroke();
-
-                } else {
-
-                    if (isDescending) {
-
-                        // Draw triangular portion of drop down for descending limb.
-                        CONTEXT.beginPath();
-                        CONTEXT.moveTo(xPos - 50, yPos);
-                        CONTEXT.lineTo(xPos - 75, yPos - height / 2);
-                        CONTEXT.lineTo(xPos - 75, yPos + height / 2);
-                        CONTEXT.lineTo(xPos - 50, yPos);
-                        CONTEXT.fillStyle = "gold";
-                        CONTEXT.fill();
-
-                        // Draw square portion of drop down menu.
-                        CONTEXT.fillRect(xPos - 295, yPos - height / 2, 220, 310);
-
-                        // Draw token grid of drop down menu.
-                        // Row 1.
-                        CONTEXT.fillStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                        CONTEXT.fill();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                        CONTEXT.fill();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                        CONTEXT.fill();
-
-
-                        // Row 2.
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        // Row 3.
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        // Row 4.
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        // Row 5.
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 260, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 195, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos - 130, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                    } else {
-
-                        // Draw triangular portion of drop down for descending limb.
-                        CONTEXT.strokeStyle = "gold";
-                        CONTEXT.beginPath();
-                        CONTEXT.moveTo(xPos + 50, yPos);
-                        CONTEXT.lineTo(xPos + 75, yPos - height / 2);
-                        CONTEXT.lineTo(xPos + 75, yPos + height / 2);
-                        CONTEXT.lineTo(xPos + 50, yPos);
-                        CONTEXT.fillStyle = "gold";
-                        CONTEXT.fill();
-                        CONTEXT.stroke();
-
-                        // Draw square portion of drop down menu.
-                        CONTEXT.fillRect(xPos + 75, yPos - height / 2, 220, 310);
-
-                        // Draw token grid of drop down menu.
-                        // Row 1.
-                        CONTEXT.fillStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                        CONTEXT.fill();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                        CONTEXT.fill();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 35, 25, 0, 2 * Math.PI);
-                        CONTEXT.fill();
-
-
-                        // Row 2.
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 95, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        // Row 3.
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 155, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        // Row 4.
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 215, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        // Row 5.
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 260, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.strokeStyle = "indigo";
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 195, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-
-                        CONTEXT.beginPath();
-                        CONTEXT.arc(xPos + 130, yPos - height / 2 + 275, 25, 0, 2 * Math.PI);
-                        CONTEXT.stroke();
-                    }
-                }
-
-            });
-        this.isDescending = isDescending;
-        this.c = concentration;
-        this.isInterstitial = isInterstitial;
-    }
-
-    paint(context) {
-        context.fillStyle = "gold";
-        context.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-
-        // Add string representation of this position's concentration.
-        context.strokeStyle = "indigo";
-        context.font = "10px Sylfaen";
-        context.textAlign = "center";
-        context.strokeText(this.c.toString(), this.x, this.y);
     }
 
 }
 
-// Begin the system upon webpage loading. (Maybe best placed in index?)
-CANVAS.onload = initTitleScreen();
+class InterPosition {
+
+    constructor(xPos, yPos) {
+        this.w = 324;
+        this.h = 80;
+        this.x = xPos + this.w / 2;
+        this.y = yPos + this.h / 2;
+    }   
+
+    paint() {
+        CONTEXT.fillStyle = "#ffc730";
+        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+    }
+
+}
+
+class WaterIcon {
+
+    constructor(xPos, yPos) {
+
+        this.x = xPos;
+        this.y = yPos;
+        this.w = 26;
+        this.h = 38;
+
+    }
+
+    paint() {
+        CONTEXT.drawImage(document.getElementById("water-icon"), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+    }
+
+}
+
+class SaltIcon {
+
+    constructor(xPos, yPos) {
+
+        this.x = xPos;
+        this.y = yPos;
+        this.w = 30;
+        this.h = 34;
+
+    }
+
+    paint() {
+        CONTEXT.drawImage(document.getElementById("salt-icon"), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+    }
+
+}
+
+// Global constants.
+var CANVAS = document.getElementById("game-canvas");
+var CONTEXT = CANVAS.getContext("2d");
+var LOOP_OF_HENLE = {
+    x: CANVAS.clientWidth / 2,
+    y: CANVAS.clientHeight / 2,
+    w: 650,
+    h: 700,
+    paint: function() {
+                CONTEXT.drawImage(document.getElementById("loop-of-henle"), this.x - this.w / 2, this.y - this.h / 2);
+           }
+};
+
+var D_LIMB = [
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
+             ];
+
+var A_LIMB = [
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),        
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
+             ];
+
+var INTER_FLUID = [
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
+                  ];
+
+var CLICKABLE = [];
+var DRAGGABLE = [];
 
 /**
  * Initialize game board and start title screen for the game.
@@ -390,11 +171,11 @@ function initTitleScreen() {
                                     });
 
     // Paint the buttons on the canvas.
-    startButton.paint(CONTEXT, "start-button");
+    startButton.paint("start-button");
 
     // Regiter the button as clickable items on the GUI.
     CLICKABLE = [startButton];
-    initClickHandler();
+        initClickHandler();
 }
 
 /*
@@ -402,7 +183,7 @@ function initTitleScreen() {
 */
 function initClickHandler() {
 
-    // Canvas click event handling
+    // Clickable event handling.
     CANVAS.addEventListener("click", function(event) {
 
         // Get click location relative to canvas.
@@ -425,12 +206,89 @@ function initClickHandler() {
             }
         }
     });
+
+    // Draggable event handling.
+    CANVAS.addEventListener("mousedown", function(event) {
+
+        // Get click location relative to canvas.
+        var xPos = event.offsetX;
+        var yPos = event.offsetY;
+
+        // Check each draggable item.
+        for (i = 0; i < DRAGGABLE.length; i++) {
+
+            // This draggable item.
+            draggable = DRAGGABLE[i];
+
+            // Check if mousedown on a draggable item.
+            if (xPos >= draggable.x - draggable.w / 2 && xPos <= draggable.x + draggable.w / 2) {
+
+                // Check y-position.
+                if (yPos >= draggable.y - draggable.h / 2 && yPos <= draggable.y + draggable.h / 2) {
+
+                    addDragHandler(draggable, draggable.x - xPos, draggable.y - yPos);
+
+                }
+
+            }
+
+        }
+    });
+}
+
+function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
+
+    // Create interval for painting the box moving.
+    var animateInterval = window.setInterval(function() {
+                            repaintGameBoard();
+                            draggable.paint();
+                            }, 
+                            50);
+
+    var drag = function() {
+
+        // Get event location.
+       xPos = event.offsetX;
+       yPos = event.offsetY;
+
+       // Change location of draggable item.
+       draggable.x = xPos + dragOffsetX;
+       draggable.y = yPos + dragOffsetY;
+
+   };
+
+   var drop = function() {
+
+    window.clearInterval(animateInterval);
+    repaintGameBoard();
+    draggable.paint();
+    removeDragHandler(draggable, drag, drop);
+    
+    };
+
+
+    // Add dragging event.
+    CANVAS.addEventListener("mousemove", drag);
+
+    // Add drop event.
+    CANVAS.addEventListener("mouseup", drop);
+
+}
+
+function removeDragHandler(draggable, drag, drop) {
+    
+    // Remove dragging event.
+    CANVAS.removeEventListener("mousemove", drag);
+
+    // Remove drop event.
+    CANVAS.removeEventListener("mouseup", drop);
+
 }
 
 function initGameBoard() {
 
     // Set new background color (must be behind other elements).
-    CONTEXT.fillStyle = "dodgerblue";
+    CONTEXT.fillStyle = "#fdc689";
     CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Draw the loop.
@@ -445,96 +303,78 @@ function initGameBoard() {
 }
 
 function drawLoopOfHenle() {
-    CONTEXT.strokeStyle = "gold";
-    CONTEXT.beginPath();
-    CONTEXT.moveTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 4 - 100);
-    CONTEXT.lineTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 8 * 5 - 100);
-    CONTEXT.arcTo(CANVAS.clientWidth / 8 * 3, CANVAS.clientHeight / 4 * 3 - 100, CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 * 3 - 100, 50);
-    CONTEXT.arcTo(CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 4 * 3 - 100, CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 8 * 5 - 100, 50);
-    CONTEXT.lineTo(CANVAS.clientWidth / 8 * 5, CANVAS.clientHeight / 4 - 100);
-    CONTEXT.stroke();
+    LOOP_OF_HENLE.paint();
 }
 
 function initDescendingLimb() {
 
-    // Create the 6 Positions and their corresponding concentrations.
-    var pos1 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 - 70, 60, 30, true, 300);
-    var pos2 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 - 20, 60, 30, true, 300);
-    var pos3 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 30, 60, 30, true, 300);
-    var pos4 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 80, 60, 30, true, 300);
-    var pos5 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 130, 60, 30, true, 300);
-    var pos6 = new Position(CANVAS.clientWidth / 8 * 3 - 50, CANVAS.clientHeight / 4 + 180, 60, 30, true, 300);
+    D_LIMB.forEach(pos => {
+        DRAGGABLE.push(pos.salt);
+        DRAGGABLE.push(pos.water);
+    });
+    drawDescendingLimb();
 
-    // Paint all positions.
-    pos1.paint(CONTEXT);
-    pos2.paint(CONTEXT);
-    pos3.paint(CONTEXT);
-    pos4.paint(CONTEXT);
-    pos5.paint(CONTEXT);
-    pos6.paint(CONTEXT);
+}
 
-    // Register each position as clickable.
-    CLICKABLE = [pos1, pos2, pos3, pos4, pos5, pos6];
+function drawDescendingLimb() {
+
+    D_LIMB.forEach(pos => {
+        pos.paint();
+    });
 
 }
 
 function initAscendingLimb() {
 
-    // Create the 6 Positions and their corresponding concentrations.
-    var pos1 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 - 70, 60, 30, false, 300);
-    var pos2 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 - 20, 60, 30, false, 300);
-    var pos3 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 30, 60, 30, false, 300);
-    var pos4 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 80, 60, 30, false, 300);
-    var pos5 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 130, 60, 30, false, 300);
-    var pos6 = new Position(CANVAS.clientWidth / 8 * 5 + 50, CANVAS.clientHeight / 4 + 180, 60, 30, false, 300);
+    A_LIMB.forEach(pos => {
+        DRAGGABLE.push(pos.salt);
+        DRAGGABLE.push(pos.water);
+    });
+    drawAscendingLimb();
 
-    // Paint all positions.
-    pos1.paint(CONTEXT);
-    pos2.paint(CONTEXT);
-    pos3.paint(CONTEXT);
-    pos4.paint(CONTEXT);
-    pos5.paint(CONTEXT);
-    pos6.paint(CONTEXT);
+}
 
-    // Register each position as clickable.
-    CLICKABLE.push(pos1);
-    CLICKABLE.push(pos2);
-    CLICKABLE.push(pos3);
-    CLICKABLE.push(pos4);
-    CLICKABLE.push(pos5);
-    CLICKABLE.push(pos6);
+function drawAscendingLimb() {
+
+    A_LIMB.forEach(pos => {
+        pos.paint();
+    });
 
 }
 
 function initInterstitialFluid() {
 
-    var pos1 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 - 70, 60, 30, false, 300, true);
-    var pos2 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 - 20, 60, 30, false, 300, true);
-    var pos3 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 + 30, 60, 30, false, 300, true);
-    var pos4 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 + 80, 60, 30, false, 300, true);
-    var pos5 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 + 130, 60, 30, false, 300, true);
-    var pos6 = new Position(CANVAS.clientWidth / 2, CANVAS.clientHeight / 4 + 180, 60, 30, false, 300, true);
-
-    // Paint all positions.
-    pos1.paint(CONTEXT);
-    pos2.paint(CONTEXT);
-    pos3.paint(CONTEXT);
-    pos4.paint(CONTEXT);
-    pos5.paint(CONTEXT);
-    pos6.paint(CONTEXT);
-
-    // Register each position as clickable.
-    CLICKABLE.push(pos1);
-    CLICKABLE.push(pos2);
-    CLICKABLE.push(pos3);
-    CLICKABLE.push(pos4);
-    CLICKABLE.push(pos5);
-    CLICKABLE.push(pos6);
+    drawInterstitialFluid();
 
 }
 
-function removeDropDown() {
-    CONTEXT.fillStyle = "dodgerblue";
-    CONTEXT.fillRect(0, 0, CANVAS.clientWidth / 8 * 3 - 85, CANVAS.clientHeight);
-    CONTEXT.fillRect(CANVAS.clientWidth / 8 * 5 + 80, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+function drawInterstitialFluid() {
+
+    INTER_FLUID.forEach(pos => {
+        pos.paint();
+    });
+
+}
+
+function repaintGameBoard() {
+
+    // Clear the canvas.
+    CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+
+    // Set new background color (must be behind other elements).
+    CONTEXT.fillStyle = "#fdc689";
+    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+
+    // Draw the loop.
+    drawLoopOfHenle();
+
+    // Draw descending limb.
+    drawDescendingLimb();
+
+    // // Draw ascending limb.
+    drawAscendingLimb();
+
+    // // Draw interstitial fluid.
+    drawInterstitialFluid();
+
 }
