@@ -278,6 +278,17 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
         draggable.x = xPos + dragOffsetX;
         draggable.y = yPos + dragOffsetY;
 
+        // Block water movement if in the ascending limb.
+        if (draggable.id == "water" && draggable.limbPos.x == LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513 + draggable.limbPos.w / 2) {
+
+            // Check if we are trying to move past the wall of the ascending limb.
+            if (draggable.x - draggable.w / 2 <= draggable.limbPos.x - draggable.limbPos.w / 2 - 13) {
+                draggable.x = draggable.limbPos.x - draggable.limbPos.w / 2 - 13 + draggable.w / 2;
+            } else if (draggable.x + draggable.w / 2 >= draggable.limbPos.x + draggable.limbPos.w / 2 + 13) {
+                draggable.x = draggable.limbPos.x + draggable.limbPos.w / 2 + 13 - draggable.w / 2;
+            }
+        }
+
    };
 
    var drop = function(event) {
@@ -462,5 +473,8 @@ function repaintGameBoard() {
 
     // Draw ascending limb.
     drawAscendingLimb();
+
+    // Draw state controlling buttons.
+    drawStateButtons();
 
 }
