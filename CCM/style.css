@@ -1,6 +1,6 @@
 /* Copyright © 2020 mja9 */
 body {
-    background-color: seashell;
+    background-color: #fedbb4;
 }
 
 .game-title {
@@ -14,6 +14,6 @@ body {
     margin-left: auto;
     margin-right: auto;
     border-style: solid;
-    border-color: lightgreen;
+    border-color: #fcac4f;
 }
 
