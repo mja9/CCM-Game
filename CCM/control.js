@@ -15,7 +15,7 @@ class Button {
     }
 
     paint(image) {
-        CONTEXT.drawImage(document.getElementById(image), this.x - this.w / 2, this.y - this.h / 2);
+        CONTEXT.drawImage(document.getElementById(image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
 }
@@ -157,6 +157,7 @@ var INTER_FLUID = [
 var CLICKABLE = [];
 var DRAGGABLE = [];
 var DROPPABLE = [];
+var STATE_BUTTONS = [];
 
 /**
  * Initialize game board and start title screen for the game.
@@ -191,7 +192,7 @@ function initTitleScreen() {
 
     // Regiter the button as clickable items on the GUI.
     CLICKABLE = [startButton];
-        initClickHandler();
+    initClickHandler();
 }
 
 /*
@@ -265,6 +266,7 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
     // Create interval for painting the box moving.
     var animateInterval = window.setInterval(function() {
                             repaintGameBoard();
+                            draggable.paint();
                             }, 
                             50);
 
@@ -281,7 +283,7 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
         // Block water movement if in the ascending limb.
         if (draggable.id == "water" && draggable.limbPos.x == LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513 + draggable.limbPos.w / 2) {
 
-            // Check if we are trying to move past the wall of the ascending limb.
+            // Check if we are trying to move water past the wall of the ascending limb.
             if (draggable.x - draggable.w / 2 <= draggable.limbPos.x - draggable.limbPos.w / 2 - 13) {
                 draggable.x = draggable.limbPos.x - draggable.limbPos.w / 2 - 13 + draggable.w / 2;
             } else if (draggable.x + draggable.w / 2 >= draggable.limbPos.x + draggable.limbPos.w / 2 + 13) {
@@ -289,15 +291,27 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
             }
         }
 
+        // Block salt movement in the descending limb.
+        if (draggable.id == "salt" && draggable.limbPos.x == LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13 + draggable.limbPos.w / 2) {
+
+            // Check if we are trying to move salt past the wall of the descending limb.
+            if (draggable.x - draggable.w / 2 <= draggable.limbPos.x - draggable.limbPos.w / 2 - 13) {
+                draggable.x = draggable.limbPos.x - draggable.limbPos.w / 2 - 13 + draggable.w / 2;
+            } else if (draggable.x + draggable.w / 2 >= draggable.limbPos.x + draggable.limbPos.w / 2 + 13) {
+                draggable.x = draggable.limbPos.x + draggable.limbPos.w / 2 + 13 - draggable.w / 2;
+            }
+
+        }
+
    };
 
-   var drop = function(event) {
+   var drop = function() {
 
         window.clearInterval(animateInterval);
 
         // Get event location.
-        xPos = event.offsetX;
-        yPos = event.offsetY;
+        xPos = draggable.x;
+        yPos = draggable.y;
 
         // Check if item was dropped in a droppable.
         var canDrop = false;
@@ -371,14 +385,15 @@ function initGameBoard() {
     // Draw the loop.
     drawLoopOfHenle();
 
+    // Initialize pump, equilibrate, flow buttons.
+    initStateButtons();
+
     // Initialize the limbs.
     initDescendingLimb();
     initAscendingLimb();
 
     // Initialize the interstitial fluid.
     initInterstitialFluid()
-
-    // Initialize pump, equilibrate, flow buttons.
 
 }
 
@@ -442,14 +457,110 @@ function drawInterstitialFluid() {
 function initStateButtons() {
 
     // Pump button.
+    var pumpButton = new Button(CANVAS.clientWidth - 150, CANVAS.clientHeight / 2, 100, 50, validatePump);
+    STATE_BUTTONS.push(pumpButton);
+    CLICKABLE.push(pumpButton);
 
     // Equilibrate button.
+    var equilibrateButton = new Button(150, CANVAS.clientHeight / 2, 100, 50, function() {});
+    STATE_BUTTONS.push(equilibrateButton);
+    CLICKABLE.push(equilibrateButton);
 
     // Flow button.
+    var flowButton = new Button(CANVAS.clientWidth / 2, CANVAS.clientHeight - 60, 100, 50, function() {});
+    STATE_BUTTONS.push(flowButton);
+    CLICKABLE.push(flowButton);
+
+    // Draw buttons
+    drawStateButtons();
 
 }
 
 function drawStateButtons() {
+
+    STATE_BUTTONS.forEach(button => {
+        button.paint("start-button");
+    });
+
+}
+
+function validatePump() {
+
+    for (i = 0; i < A_LIMB.length; i++) {
+
+        // Check that the difference is not greater than 200.
+        if (Math.abs(A_LIMB[i].c - INTER_FLUID[i].c) > 200) {
+            console.log("Pump failed!");
+            return false;
+        }
+
+        // Check that max amount of salt was removed.
+        if (200 - Math.abs(A_LIMB[i].c - INTER_FLUID[i].c) >= 100) {
+            console.log("Pump failed!");
+            return false;
+        }
+
+    }
+
+    STATE_BUTTONS[1].onClick = validateEquilibrate;
+    console.log("Pump successful!");
+    return true;
+
+}
+
+function validateEquilibrate() {
+
+    var improperEquil = false;
+
+    for (i = 0; i < D_LIMB.length; i++) {
+        if (D_LIMB[i].c == INTER_FLUID[i].c) {
+            improperEquil = false;
+        } else {
+            improperEquil = true;
+        }
+    }
+
+    if (improperEquil) {
+        console.log("Equilibrate failed!");
+    } else {
+        console.log("Equilibrate successful!");
+        STATE_BUTTONS[0].onClick = function() {};
+        STATE_BUTTONS[2].onClick = flow;
+    }
+    return improperEquil;
+
+}
+
+function flow(i=0, limb="alimb") {
+
+    // Flow in the ascending limb.
+    if (limb == "alimb") {
+        if (i == 5) {
+            A_LIMB[i].c = D_LIMB[D_LIMB.length - 1].c;
+            repaintGameBoard();
+            window.setTimeout(function() {flow(5, "dlimb")}, 2000);
+        } else {
+            A_LIMB[i].c = A_LIMB[i + 1].c;
+            repaintGameBoard();
+            window.setTimeout(function() {flow(i + 1)}, 2000);
+        }
+
+    }
+
+    // Flow in the descending limb.
+    if (limb == "dlimb") {
+        if (i == 0) {
+            D_LIMB[i].c = 300;
+            STATE_BUTTONS[0].onClick = validatePump;
+            STATE_BUTTONS[1].onClick = function() {};
+            repaintGameBoard();
+        } else {
+            D_LIMB[i].c = D_LIMB[i - 1].c;
+            repaintGameBoard();
+            window.setTimeout(function() {flow(i - 1, "dlimb")}, 2000);
+        }
+
+    }
 
 }
 
@@ -465,6 +576,9 @@ function repaintGameBoard() {
     // Draw the loop.
     drawLoopOfHenle();
 
+    // Draw state controlling buttons.
+    drawStateButtons();
+
     // Draw interstitial fluid.
     drawInterstitialFluid();
 
@@ -473,8 +587,5 @@ function repaintGameBoard() {
 
     // Draw ascending limb.
     drawAscendingLimb();
-
-    // Draw state controlling buttons.
-    drawStateButtons();
 
 }
