@@ -514,7 +514,7 @@ function validateEquilibrate() {
 
     for (i = 0; i < D_LIMB.length; i++) {
         if (D_LIMB[i].c == INTER_FLUID[i].c) {
-            improperEquil = false;
+            // Do nothing. Experiencing issue with !=.
         } else {
             improperEquil = true;
         }
@@ -538,11 +538,11 @@ function flow(i=0, limb="alimb") {
         if (i == 5) {
             A_LIMB[i].c = D_LIMB[D_LIMB.length - 1].c;
             repaintGameBoard();
-            window.setTimeout(function() {flow(5, "dlimb")}, 2000);
+            window.setTimeout(function() {flow(5, "dlimb")}, 500);
         } else {
             A_LIMB[i].c = A_LIMB[i + 1].c;
             repaintGameBoard();
-            window.setTimeout(function() {flow(i + 1)}, 2000);
+            window.setTimeout(function() {flow(i + 1)}, 500);
         }
 
     }
@@ -553,11 +553,12 @@ function flow(i=0, limb="alimb") {
             D_LIMB[i].c = 300;
             STATE_BUTTONS[0].onClick = validatePump;
             STATE_BUTTONS[1].onClick = function() {};
+            STATE_BUTTONS[2].onClick = function() {};
             repaintGameBoard();
         } else {
             D_LIMB[i].c = D_LIMB[i - 1].c;
             repaintGameBoard();
-            window.setTimeout(function() {flow(i - 1, "dlimb")}, 2000);
+            window.setTimeout(function() {flow(i - 1, "dlimb")}, 500);
         }
 
     }
