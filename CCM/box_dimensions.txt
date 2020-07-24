@@ -39,3 +39,28 @@ WATER ICON
 
 width: 26	height: 38
 7 px as well
+
+
+
+
+BUTTONS
+
+vertical center of two lateral buttons: 162.5			1137.5
+124 pixels away from tippy top of lateral buttons from top of canvas
+
+
+
+
+CONCENTRATION GRADIENT
+
+0 - 299 mOsm:		ffe7c7	
+
+300 - 599 mOsm:		ffbe4d
+
+600 - 899 mOsm:		ffab04
+
+900 - 1199 mOsm:	ff8316
+
+1200 - 1499 mOsm:	ff5f33
+
+1500+ mOsm:		ff413b
