@@ -6,37 +6,54 @@
  */
 class Button {
 
-    constructor(xPos, yPos, width, height, clickAction) {
+    constructor(xPos, yPos, width, height, clickAction, image) {
         this.x = xPos;
         this.y = yPos;
         this.w = width;
         this.h = height;
         this.onClick = clickAction;
+        this.image = image
     }
 
-    paint(image) {
-        CONTEXT.drawImage(document.getElementById(image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+    paint() {
+        CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
 }
 
 class LimbPosition {
 
+    static colorGrad = new Map([
+        [0, "#ffe7c7"],
+        [300, "#ffbe4d"],
+        [600, "#ffab04"],
+        [900, "#ff8316"],
+        [1200, "#ff5f33"],
+        [1500, "#ff413b"]
+    ]);
+
     constructor(xPos, yPos) {
-        this.w = 124;
+        this.w = 147;
         this.h = 80;
         this.x = xPos + this.w / 2;
         this.y = yPos + this.h / 2;
         this.salt = new SaltIcon(this.x + this.w / 2 - 22, this.y + this.h / 2 - 24, this);
         this.water = new WaterIcon(this.x - this.w / 2 + 20, this.y + this.h / 2 - 26, this);
         this.c = 300;
+        this.isSelected = false;
     }   
 
     paint() {
         // Draw rectangular positions.
         CONTEXT.fillStyle = "#ffc730";
         CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-        CONTEXT.strokeStyle = "#252525";
+
+        CONTEXT.lineWidth = 3;
+        if (this.isSelected) {
+            CONTEXT.strokeStyle = "yellow";
+        } else {
+            CONTEXT.strokeStyle = "#252525";
+        }
         CONTEXT.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 
         // Draw numerical representation of concentration.
@@ -48,6 +65,22 @@ class LimbPosition {
         // Draw water/salt icons.
         this.salt.paint();
         this.water.paint();
+    }
+
+    drawRectangle() {
+
+        switch((this.c / 300.0 * 100) % 100) {
+
+            case 1.0 / 6.0:
+
+            case 50:
+
+            case 75:
+
+            default: 
+
+        }
+
     }
 
 }
@@ -128,21 +161,21 @@ var LOOP_OF_HENLE = {
 };
 
 var D_LIMB = [
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
              ];
 
 var A_LIMB = [
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),        
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),        
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
              ];
 
 var INTER_FLUID = [
@@ -155,24 +188,19 @@ var INTER_FLUID = [
                   ];
 
 var CLICKABLE = [];
-var DRAGGABLE = [];
+var MOVEABLE = [];
 var DROPPABLE = [];
 var STATE_BUTTONS = [];
+
+// ---------------------------------------------- Methods for the game title scene. ---------------------------------
 
 /**
  * Initialize game board and start title screen for the game.
  */
 function initTitleScreen() {
 
-    // Set the background.
-    CONTEXT.fillStyle = "cornsilk";
-    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-
-    // Set the game title.
-    CONTEXT.fillStyle = "darkslateblue";
-    CONTEXT.font = "100px Sylfaen";
-    CONTEXT.textAlign = "center";
-    CONTEXT.fillText("Countercurrent Multiplication", CANVAS.clientWidth / 2, CANVAS.clientHeight / 4);
+    // Draw title screen.
+    paintTitleScreen();
 
     // Create the title screen buttons.
     var startButton = new Button(CANVAS.clientWidth / 2, (CANVAS.clientHeight / 2 + 3 * CANVAS.clientHeight / 4) / 2, 400, 100, 
@@ -184,21 +212,37 @@ function initTitleScreen() {
 
                                         // Clear the canvas
                                         CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-                                        initGameBoard();
-                                    });
+                                        initGameTutorial();
+                                    }, "start-button");
 
     // Paint the buttons on the canvas.
-    startButton.paint("start-button");
+    startButton.paint();
 
     // Regiter the button as clickable items on the GUI.
     CLICKABLE = [startButton];
-    initClickHandler();
+    addClickHandler();
 }
+
+function paintTitleScreen() {
+
+    // Set the background.
+    CONTEXT.fillStyle = "cornsilk";
+    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+
+    // Set the game title.
+    CONTEXT.fillStyle = "darkslateblue";
+    CONTEXT.font = "100px Sylfaen";
+    CONTEXT.textAlign = "center";
+    CONTEXT.fillText("Countercurrent Multiplication", CANVAS.clientWidth / 2, CANVAS.clientHeight / 4);
+
+}
+
+// ---------------------------------------------- Methods for handling user triggered events. ---------------------------------
 
 /*
 * Initialize the click handler.
 */
-function initClickHandler() {
+function addClickHandler() {
 
     // Clickable event handling.
     CANVAS.addEventListener("click", function(event) {
@@ -223,50 +267,117 @@ function initClickHandler() {
             }
         }
     });
+   
+}
 
-    // Draggable event handling.
-    CANVAS.addEventListener("mousedown", function(event) {
+/**
+ * This function defines the event handler for moveable objects 
+ * during the tutorial of the game. This handler places no restrictions
+ * on the limb position from which a player can trigger drag and drop 
+ * events. 
+ * @param {*} event A mousedown event on the CANVAS used to decide whether a 
+ *                  player is attempting to drag a moveable item.
+ */
+function tutorialMoveableHandler(event) {
 
-        // Get click location relative to canvas.
-        var xPos = event.offsetX;
-        var yPos = event.offsetY;
+    // Get click location relative to canvas.
+    var xPos = event.offsetX;
+    var yPos = event.offsetY;
 
-        // Check each draggable item.
-        for (i = 0; i < DRAGGABLE.length; i++) {
+    // Check each moveable item.
+    for (i = 0; i < MOVEABLE.length; i++) {
 
-            // This draggable item.
-            draggable = DRAGGABLE[i];
+        // This moveable item.
+        moveable = MOVEABLE[i];
 
-            // Check if mousedown on a draggable item.
-            if (xPos >= draggable.x - draggable.w / 2 && xPos <= draggable.x + draggable.w / 2) {
+        // Check if mousedown on a moveable item.
+        if (xPos >= moveable.x - moveable.w / 2 && xPos <= moveable.x + moveable.w / 2) {
 
-                // Check y-position.
-                if (yPos >= draggable.y - draggable.h / 2 && yPos <= draggable.y + draggable.h / 2) {
+            // Check y-position.
+            if (yPos >= moveable.y - moveable.h / 2 && yPos <= moveable.y + moveable.h / 2) {
+
+                // Highlight selected limb position.
+                moveable.limbPos.isSelected = true;
+
+                // Removing salt from system reduces concentration.
+                if (moveable.id == "salt") {
+                    moveable.limbPos.c -= 50;
+
+                // Remove water from system increases concentration.
+                } else {
+                    moveable.limbPos.c += 50;
+                }
+                addDragNDropHandler(moveable, moveable.x - xPos, moveable.y - yPos);
+
+            }
+
+        }
+
+    }
+}
+
+function addTutorialMoveableHandler() {
+
+    // Moveable event handling.
+    CANVAS.addEventListener("mousedown", tutorialMoveableHandler);
+
+}
+
+function removeTutorialMoveableHandler() {
+    CANVAS.onpointermove("moudsedown", tutorialMoveableHandler);
+}
+
+function gameMoveableHandler(event) {
+
+    // Get click location relative to canvas.
+    var xPos = event.offsetX;
+    var yPos = event.offsetY;
+
+    // Check each moveable item.
+    for (i = 0; i < MOVEABLE.length; i++) {
+
+        // This moveable item.
+        moveable = MOVEABLE[i];
+
+        // Check if mousedown on a moveable item.
+        if (xPos >= moveable.x - moveable.w / 2 && xPos <= moveable.x + moveable.w / 2) {
+
+            // Check y-position.
+            if (yPos >= moveable.y - moveable.h / 2 && yPos <= moveable.y + moveable.h / 2) {
+
+                // Check if dragging from current limp position.
+                if (moveable.limbPos.isSelected) {
 
                     // Removing salt from system reduces concentration.
-                    if (draggable.id == "salt") {
-                        draggable.limbPos.c -= 50;
+                    if (moveable.id == "salt") {
+                        moveable.limbPos.c -= 50;
 
                     // Remove water from system increases concentration.
                     } else {
-                        draggable.limbPos.c += 50;
+                        moveable.limbPos.c += 50;
                     }
-                    addDragHandler(draggable, draggable.x - xPos, draggable.y - yPos);
+
+                    addDragNDropHandler(moveable, moveable.x - xPos, moveable.y - yPos);
 
                 }
 
             }
 
         }
-    });
+
+    }
 }
 
-function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
+function addGameMoveableHandler() {
+    CANVAS.addEventListener("mousedown", gameMoveableHandler);
+}
+
+function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
 
     // Create interval for painting the box moving.
     var animateInterval = window.setInterval(function() {
-                            repaintGameBoard();
-                            draggable.paint();
+                            paintGameBoard();
+                            moveable.paint();
                             }, 
                             50);
 
@@ -276,29 +387,29 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
         xPos = event.offsetX;
         yPos = event.offsetY;
 
-        // Change location of draggable item.
-        draggable.x = xPos + dragOffsetX;
-        draggable.y = yPos + dragOffsetY;
+        // Change location of moveable item.
+        moveable.x = xPos + dragOffsetX;
+        moveable.y = yPos + dragOffsetY;
 
         // Block water movement if in the ascending limb.
-        if (draggable.id == "water" && draggable.limbPos.x == LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 513 + draggable.limbPos.w / 2) {
+        if (moveable.id == "water" && moveable.limbPos.x > LOOP_OF_HENLE.x) {
 
             // Check if we are trying to move water past the wall of the ascending limb.
-            if (draggable.x - draggable.w / 2 <= draggable.limbPos.x - draggable.limbPos.w / 2 - 13) {
-                draggable.x = draggable.limbPos.x - draggable.limbPos.w / 2 - 13 + draggable.w / 2;
-            } else if (draggable.x + draggable.w / 2 >= draggable.limbPos.x + draggable.limbPos.w / 2 + 13) {
-                draggable.x = draggable.limbPos.x + draggable.limbPos.w / 2 + 13 - draggable.w / 2;
+            if (moveable.x - moveable.w / 2 <= LOOP_OF_HENLE.x + LOOP_OF_HENLE.w / 2 - 150) {
+                moveable.x = moveable.limbPos.x - moveable.limbPos.w / 2 + moveable.w / 2;
+            } else if (moveable.x + moveable.w / 2 >= LOOP_OF_HENLE.x + LOOP_OF_HENLE.w / 2) {
+                moveable.x = moveable.limbPos.x + moveable.limbPos.w / 2 - moveable.w / 2;
             }
         }
 
         // Block salt movement in the descending limb.
-        if (draggable.id == "salt" && draggable.limbPos.x == LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 13 + draggable.limbPos.w / 2) {
+        if (moveable.id == "salt" && moveable.limbPos.x < LOOP_OF_HENLE.x) {
 
             // Check if we are trying to move salt past the wall of the descending limb.
-            if (draggable.x - draggable.w / 2 <= draggable.limbPos.x - draggable.limbPos.w / 2 - 13) {
-                draggable.x = draggable.limbPos.x - draggable.limbPos.w / 2 - 13 + draggable.w / 2;
-            } else if (draggable.x + draggable.w / 2 >= draggable.limbPos.x + draggable.limbPos.w / 2 + 13) {
-                draggable.x = draggable.limbPos.x + draggable.limbPos.w / 2 + 13 - draggable.w / 2;
+            if (moveable.x - moveable.w / 2 <= LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2) {
+                moveable.x = moveable.limbPos.x - moveable.limbPos.w / 2 + moveable.w / 2;
+            } else if (moveable.x + moveable.w / 2 >= LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 150) {
+                moveable.x = moveable.limbPos.x + moveable.limbPos.w / 2 - moveable.w / 2;
             }
 
         }
@@ -310,8 +421,8 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
         window.clearInterval(animateInterval);
 
         // Get event location.
-        xPos = draggable.x;
-        yPos = draggable.y;
+        xPos = moveable.x;
+        yPos = moveable.y;
 
         // Check if item was dropped in a droppable.
         var canDrop = false;
@@ -323,11 +434,11 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
                 if (yPos >= droppable.y - droppable.h / 2 && yPos <= droppable.y + droppable.h / 2) {
 
                     // Can only change concentration of fluid adjacent to limb position.
-                    if (draggable.limbPos.y == droppable.y) {
+                    if (moveable.limbPos.y == droppable.y) {
                         canDrop = true;
 
                         // Interstitial fluid concentrationonly changes with the addition of salt.
-                        if (draggable.id == "salt") {
+                        if (moveable.id == "salt") {
                             droppable.c += 50;
                         }
                     }
@@ -340,18 +451,21 @@ function addDragHandler(draggable, dragOffsetX, dragOffsetY) {
 
      // If item dropped elsewhere, reset concentration of limb position.
      if (!canDrop) {
-        if (draggable.id == "salt") {
-            draggable.limbPos.c += 50;
+        if (moveable.id == "salt") {
+            moveable.limbPos.c += 50;
         } else {
-            draggable.limbPos.c -= 50;
+            moveable.limbPos.c -= 50;
         }
     }
 
     // Reset position.
-    draggable.x = draggable.startX;
-    draggable.y = draggable.startY;
+    moveable.x = moveable.startX;
+    moveable.y = moveable.startY;
 
-    repaintGameBoard();
+    // Remove highlight from selected position.
+    moveable.limbPos.isSelected = false;
+
+    paintGameBoard();
     removeDragHandler(drag, drop);
     
     };
@@ -375,115 +489,6 @@ function removeDragHandler(drag, drop) {
 
 }
 
-function initGameBoard() {
-
-    // Set new background color (must be behind other elements).
-    // CONTEXT.fillStyle = "#fdc689";
-    CONTEXT.fillStyle = "cornsilk";
-    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-
-    // Draw the loop.
-    drawLoopOfHenle();
-
-    // Initialize pump, equilibrate, flow buttons.
-    initStateButtons();
-
-    // Initialize the limbs.
-    initDescendingLimb();
-    initAscendingLimb();
-
-    // Initialize the interstitial fluid.
-    initInterstitialFluid()
-
-}
-
-function drawLoopOfHenle() {
-    LOOP_OF_HENLE.paint();
-}
-
-function initDescendingLimb() {
-
-    D_LIMB.forEach(pos => {
-        DRAGGABLE.push(pos.salt);
-        DRAGGABLE.push(pos.water);
-    });
-    drawDescendingLimb();
-
-}
-
-function drawDescendingLimb() {
-
-    D_LIMB.forEach(pos => {
-        pos.paint();
-    });
-
-}
-
-function initAscendingLimb() {
-
-    A_LIMB.forEach(pos => {
-        DRAGGABLE.push(pos.salt);
-        DRAGGABLE.push(pos.water);
-    });
-    drawAscendingLimb();
-
-}
-
-function drawAscendingLimb() {
-
-    A_LIMB.forEach(pos => {
-        pos.paint();
-    });
-
-}
-
-function initInterstitialFluid() {
-
-    INTER_FLUID.forEach(pos => {
-        DROPPABLE.push(pos);
-    });
-    drawInterstitialFluid();
-
-}
-
-function drawInterstitialFluid() {
-
-    INTER_FLUID.forEach(pos => {
-        pos.paint();
-    });
-
-}
-
-function initStateButtons() {
-
-    // Pump button.
-    var pumpButton = new Button(CANVAS.clientWidth - 150, CANVAS.clientHeight / 2, 100, 50, validatePump);
-    STATE_BUTTONS.push(pumpButton);
-    CLICKABLE.push(pumpButton);
-
-    // Equilibrate button.
-    var equilibrateButton = new Button(150, CANVAS.clientHeight / 2, 100, 50, function() {});
-    STATE_BUTTONS.push(equilibrateButton);
-    CLICKABLE.push(equilibrateButton);
-
-    // Flow button.
-    var flowButton = new Button(CANVAS.clientWidth / 2, CANVAS.clientHeight - 60, 100, 50, function() {});
-    STATE_BUTTONS.push(flowButton);
-    CLICKABLE.push(flowButton);
-
-    // Draw buttons
-    drawStateButtons();
-
-}
-
-function drawStateButtons() {
-
-    STATE_BUTTONS.forEach(button => {
-        button.paint("start-button");
-    });
-
-}
-
 function validatePump() {
 
     for (i = 0; i < A_LIMB.length; i++) {
@@ -502,7 +507,15 @@ function validatePump() {
 
     }
 
+    // Enable the next button.
     STATE_BUTTONS[1].onClick = validateEquilibrate;
+    STATE_BUTTONS[1].image = "equi";
+
+    // Disable this button.
+    STATE_BUTTONS[0].onClick = function() {};
+    STATE_BUTTONS[0].image = "pump-disabled";
+
+    paintGameBoard();
     console.log("Pump successful!");
     return true;
 
@@ -523,9 +536,17 @@ function validateEquilibrate() {
     if (improperEquil) {
         console.log("Equilibrate failed!");
     } else {
-        console.log("Equilibrate successful!");
-        STATE_BUTTONS[0].onClick = function() {};
+
+        // Enable the next button.
         STATE_BUTTONS[2].onClick = flow;
+        STATE_BUTTONS[2].image = "flow";
+
+        // Disable this button.
+        STATE_BUTTONS[1].onClick = function() {};
+        STATE_BUTTONS[1].image = "equi-disabled";
+
+        paintGameBoard();
+        console.log("Equilibrate successful!");
     }
     return improperEquil;
 
@@ -537,11 +558,11 @@ function flow(i=0, limb="alimb") {
     if (limb == "alimb") {
         if (i == 5) {
             A_LIMB[i].c = D_LIMB[D_LIMB.length - 1].c;
-            repaintGameBoard();
+            paintGameBoard();
             window.setTimeout(function() {flow(5, "dlimb")}, 500);
         } else {
             A_LIMB[i].c = A_LIMB[i + 1].c;
-            repaintGameBoard();
+            paintGameBoard();
             window.setTimeout(function() {flow(i + 1)}, 500);
         }
 
@@ -549,15 +570,21 @@ function flow(i=0, limb="alimb") {
 
     // Flow in the descending limb.
     if (limb == "dlimb") {
-        if (i == 0) {
+        if (i == 0) {   // Base case.
             D_LIMB[i].c = 300;
+
+            // Enable next button.
             STATE_BUTTONS[0].onClick = validatePump;
-            STATE_BUTTONS[1].onClick = function() {};
+            STATE_BUTTONS[0].image = "pump";
+
+            // Disable this button.
             STATE_BUTTONS[2].onClick = function() {};
-            repaintGameBoard();
+            STATE_BUTTONS[2].image = "flow-disabled";
+
+            paintGameBoard();
         } else {
             D_LIMB[i].c = D_LIMB[i - 1].c;
-            repaintGameBoard();
+            paintGameBoard();
             window.setTimeout(function() {flow(i - 1, "dlimb")}, 500);
         }
 
@@ -565,13 +592,132 @@ function flow(i=0, limb="alimb") {
 
 }
 
-function repaintGameBoard() {
+// ---------------------------------------------- Methods to initialize different game states. ---------------------------------
+
+function initGameTutorial() {
+
+    // Initialize pump, equilibrate, flow buttons.
+    initStateButtons();
+
+    // Initialize the limbs.
+    initDescendingLimb();
+    initAscendingLimb();
+
+    // Initialize the interstitial fluid.
+    initInterstitialFluid()
+
+    // Paint the intitialized elements.
+    paintGameBoard();
+
+    // Add event handlers for tutorial.
+    addTutorialMoveableHandler();
+
+
+}
+
+function initDescendingLimb() {
+
+    D_LIMB.forEach(pos => {
+        MOVEABLE.push(pos.salt);
+        MOVEABLE.push(pos.water);
+    });
+
+}
+
+function initAscendingLimb() {
+
+    A_LIMB.forEach(pos => {
+        MOVEABLE.push(pos.salt);
+        MOVEABLE.push(pos.water);
+    });
+
+}
+
+function initInterstitialFluid() {
+
+    INTER_FLUID.forEach(pos => {
+        DROPPABLE.push(pos);
+    });
+
+}
+
+function initStateButtons() {
+
+    // Pump button.
+    var pumpButton = new Button(1137, 257, 170, 80, validatePump, "pump");
+    STATE_BUTTONS.push(pumpButton);
+    CLICKABLE.push(pumpButton);
+
+    // Equilibrate button.
+    var equilibrateButton = new Button(163, 257, 170, 80, function() {}, "equi-disabled");
+    STATE_BUTTONS.push(equilibrateButton);
+    CLICKABLE.push(equilibrateButton);
+
+    // Flow button.
+    var flowButton = new Button(CANVAS.clientWidth / 2, 665, 200, 60, function() {}, "flow-disabled");
+    STATE_BUTTONS.push(flowButton);
+    CLICKABLE.push(flowButton);
+
+}
+
+function initRegularGame() {
+
+    // Remove old event handler for moveable items.
+    removeTutorialMoveableHandler();
+
+    // Set new event handlers for moveable items.
+
+    // Choose starting limb position.
+
+    // Change state button behaviour to include automated game behaviour.
+
+}
+
+// ---------------------------------------------- Methods for drawing the game scene. ---------------------------------
+
+function drawLoopOfHenle() {
+    LOOP_OF_HENLE.paint();
+}
+
+function drawDescendingLimb() {
+
+    D_LIMB.forEach(pos => {
+        pos.paint();
+    });
+
+}
+
+function drawAscendingLimb() {
+
+    A_LIMB.forEach(pos => {
+        pos.paint();
+    });
+
+}
+
+function drawInterstitialFluid() {
+
+    INTER_FLUID.forEach(pos => {
+        pos.paint();
+    });
+
+}
+
+function drawStateButtons() {
+
+    STATE_BUTTONS.forEach(button => {
+        button.paint();
+    });
+
+}
+
+function paintGameBoard() {
 
     // Clear the canvas.
     CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Set new background color (must be behind other elements).
-    CONTEXT.fillStyle = "cornsilk";
+    CONTEXT.fillStyle = "#f5d9d9";
     CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Draw the loop.
