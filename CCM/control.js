@@ -192,6 +192,8 @@ var MOVEABLE = [];
 var DROPPABLE = [];
 var STATE_BUTTONS = [];
 
+var inTutorial = false;
+
 // ---------------------------------------------- Methods for the game title scene. ---------------------------------
 
 /**
@@ -272,13 +274,14 @@ function addClickHandler() {
 
 /**
  * This function defines the event handler for moveable objects 
- * during the tutorial of the game. This handler places no restrictions
- * on the limb position from which a player can trigger drag and drop 
- * events. 
+ * during the tutorial and regular play for the game. 
+ * This handler places no restrictions on the limb position from 
+ * which a player can trigger drag and drop events when inTutotial
+ * is true. 
  * @param {*} event A mousedown event on the CANVAS used to decide whether a 
  *                  player is attempting to drag a moveable item.
  */
-function tutorialMoveableHandler(event) {
+function moveableHandler(event) {
 
     // Get click location relative to canvas.
     var xPos = event.offsetX;
@@ -296,57 +299,10 @@ function tutorialMoveableHandler(event) {
             // Check y-position.
             if (yPos >= moveable.y - moveable.h / 2 && yPos <= moveable.y + moveable.h / 2) {
 
-                // Highlight selected limb position.
-                moveable.limbPos.isSelected = true;
+                if (inTutorial) {   // Moveable handler for tutorial only.
 
-                // Removing salt from system reduces concentration.
-                if (moveable.id == "salt") {
-                    moveable.limbPos.c -= 50;
-
-                // Remove water from system increases concentration.
-                } else {
-                    moveable.limbPos.c += 50;
-                }
-                addDragNDropHandler(moveable, moveable.x - xPos, moveable.y - yPos);
-
-            }
-
-        }
-
-    }
-}
-
-function addTutorialMoveableHandler() {
-
-    // Moveable event handling.
-    CANVAS.addEventListener("mousedown", tutorialMoveableHandler);
-
-}
-
-function removeTutorialMoveableHandler() {
-    CANVAS.onpointermove("moudsedown", tutorialMoveableHandler);
-}
-
-function gameMoveableHandler(event) {
-
-    // Get click location relative to canvas.
-    var xPos = event.offsetX;
-    var yPos = event.offsetY;
-
-    // Check each moveable item.
-    for (i = 0; i < MOVEABLE.length; i++) {
-
-        // This moveable item.
-        moveable = MOVEABLE[i];
-
-        // Check if mousedown on a moveable item.
-        if (xPos >= moveable.x - moveable.w / 2 && xPos <= moveable.x + moveable.w / 2) {
-
-            // Check y-position.
-            if (yPos >= moveable.y - moveable.h / 2 && yPos <= moveable.y + moveable.h / 2) {
-
-                // Check if dragging from current limp position.
-                if (moveable.limbPos.isSelected) {
+                    // Highlight selected limb position.
+                    moveable.limbPos.isSelected = true;
 
                     // Removing salt from system reduces concentration.
                     if (moveable.id == "salt") {
@@ -356,9 +312,20 @@ function gameMoveableHandler(event) {
                     } else {
                         moveable.limbPos.c += 50;
                     }
-
                     addDragNDropHandler(moveable, moveable.x - xPos, moveable.y - yPos);
 
+                } else if (moveable.limbPos.isSelected) {   // Moveable handler for regular gameplay.
+
+                    // Removing salt from system reduces concentration.
+                    if (moveable.id == "salt") {
+                        moveable.limbPos.c -= 50;
+
+                    // Remove water from system increases concentration.
+                    } else {
+                        moveable.limbPos.c += 50;
+                    }
+                    addDragNDropHandler(moveable, moveable.x - xPos, moveable.y - yPos);
+                    
                 }
 
             }
@@ -368,8 +335,11 @@ function gameMoveableHandler(event) {
     }
 }
 
-function addGameMoveableHandler() {
-    CANVAS.addEventListener("mousedown", gameMoveableHandler);
+function addMoveableHandler() {
+
+    // Moveable event handling.
+    CANVAS.addEventListener("mousedown", moveableHandler);
+
 }
 
 function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
@@ -462,8 +432,10 @@ function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
     moveable.x = moveable.startX;
     moveable.y = moveable.startY;
 
-    // Remove highlight from selected position.
-    moveable.limbPos.isSelected = false;
+    // Remove highlight from selected position in tutorial version.
+    if (inTutorial) {
+        moveable.limbPos.isSelected = false;
+    }
 
     paintGameBoard();
     removeDragHandler(drag, drop);
@@ -581,6 +553,11 @@ function flow(i=0, limb="alimb") {
             STATE_BUTTONS[2].onClick = function() {};
             STATE_BUTTONS[2].image = "flow-disabled";
 
+            // This is the last step of the tutorial before proceeding to regular gameplay.
+            if (inTutorial) {
+                initRegularGame();
+            }
+
             paintGameBoard();
         } else {
             D_LIMB[i].c = D_LIMB[i - 1].c;
@@ -610,9 +587,10 @@ function initGameTutorial() {
     paintGameBoard();
 
     // Add event handlers for tutorial.
-    addTutorialMoveableHandler();
+    addMoveableHandler();
 
-
+    // Tell system we are in the tutorial.
+    inTutorial = true;
 }
 
 function initDescendingLimb() {
@@ -662,12 +640,11 @@ function initStateButtons() {
 
 function initRegularGame() {
 
-    // Remove old event handler for moveable items.
-    removeTutorialMoveableHandler();
-
-    // Set new event handlers for moveable items.
+    // Tell system we are out of the tutorial.
+    inTutorial = false;
 
     // Choose starting limb position.
+    D_LIMB[2].isSelected = true;
 
     // Change state button behaviour to include automated game behaviour.
 
