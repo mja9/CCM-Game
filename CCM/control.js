@@ -40,10 +40,9 @@ class PopUp {
     paint() {
 
         // Paint body.
-        CONTEXT.globalAlpha = 0.95;
+        CONTEXT.globalAlpha = 1.0;
         CONTEXT.fillStyle = "coral";
         CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-        CONTEXT.globalAlpha = 1.0;
 
         // Display message.
         CONTEXT.fillStyle = "black";
@@ -536,9 +535,13 @@ function validatePump() {
     STATE_BUTTONS[0].onClick = function() {};
     STATE_BUTTONS[0].image = "pump-disabled";
 
-    // Remove tutorial passive popup.
+    // One time action taken during tutorial.
     if (inTutorial) {
         PASSIVE_POP_UPS.pop();
+        paintGameBoard();
+        displayHowToEquilibrate();
+        console.log("Pump successful!");
+        return true;
     }
 
     paintGameBoard();
@@ -570,6 +573,15 @@ function validateEquilibrate() {
         // Disable this button.
         STATE_BUTTONS[1].onClick = function() {};
         STATE_BUTTONS[1].image = "equi-disabled";
+
+        // One time action taken during tutorial.
+        if (inTutorial) {
+            PASSIVE_POP_UPS.pop();
+            paintGameBoard();
+            displayHowToFlow();
+            console.log("Equilibrate successful!");
+            return improperEquil;
+        }
 
         paintGameBoard();
         console.log("Equilibrate successful!");
@@ -609,10 +621,10 @@ function flow(i=0, limb="alimb") {
 
             // This is the last step of the tutorial before proceeding to regular gameplay.
             if (inTutorial) {
-                initRegularGame();
+                displayNowToRegularPlay();
+                // initRegularGame();
             }
 
-            paintGameBoard();
         } else {
             D_LIMB[i].c = D_LIMB[i - 1].c;
             paintGameBoard();
@@ -781,7 +793,10 @@ function paintGameBoard() {
 
 // -------------------------------------- Methods for handling dialogue pop-ups. -----------------------
 function displayWelcomeTutorial() {
-    var welcomePopUp = new PopUp(LOOP_OF_HENLE.x, LOOP_OF_HENLE.y, LOOP_OF_HENLE.w, LOOP_OF_HENLE.h / 2,
+    var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
+    CLICKABLE = [];
+
+    var welcomePopUp = new PopUp(LOOP_OF_HENLE.x, LOOP_OF_HENLE.y, LOOP_OF_HENLE.w + 200, LOOP_OF_HENLE.h / 2,
         ["Welcome.", "This is the Loop of Henle.", "Its job is to create an osmotic gradient in the interstitial fluid", "to later draw water out of " +
         "the finalized urine.", "You are a unit of soon-to-be urine.", "Your job?", "Pass through the length of the loop, and exit out the ascending limb – ", 
         "but to do this, you’ll have to play by the rules."], 
@@ -789,11 +804,12 @@ function displayWelcomeTutorial() {
             paintGameBoard();
             addMoveableHandler();
             displayHowToPump();
-            CLICKABLE.pop();
-            console.log(CLICKABLE);
+            CLICKABLE = oldClickable;
         });
 
-        welcomePopUp.paint();
+    CONTEXT.globalAlpha = 0.5;
+    paintGameBoard();
+    welcomePopUp.paint();
 }
 
 function displayHowToPump() {
@@ -808,10 +824,46 @@ function displayHowToPump() {
 }
 
 function displayHowToEquilibrate() {
-
+    var equiPopUp = new PopUp((LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2) / 2, LOOP_OF_HENLE.y + LOOP_OF_HENLE.h / 4, 
+    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 - 30, LOOP_OF_HENLE.h / 2, 
+    ["This is the descending limb. Its walls are permeable to water.", "It participates in a passive exchange of solvent with", "the surrounding fluid, matching its concentration.",
+     "Drag the correct element into the corresponding position", "in the interstitial fluid until you’ve reached equilibrium.", "Press ‘equi’ when you are done."]);
+    equiPopUp.paint();
+    PASSIVE_POP_UPS.push(equiPopUp);
 }
 
 function displayHowToFlow() {
+    var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
+    CLICKABLE = [];
+
+    var flowPopUp = new PopUp(LOOP_OF_HENLE.x, LOOP_OF_HENLE.y, LOOP_OF_HENLE.w + 200, LOOP_OF_HENLE.h / 2,
+        ["You’ve set up all the concentrations correctly.", "Fluid is transported along the loop,", "each unit occupying its neighbor’s position.", 
+        "One unit of new fluid will enter the descending limb,", "and another will exit out the loop.", "Press ‘flow’ to move the units of fluid from left to right by one position."],
+        function() {
+            paintGameBoard();
+            CLICKABLE = oldClickable;
+        });
+
+    CONTEXT.globalAlpha = 0.5;
+    paintGameBoard();
+    flowPopUp.paint();
+}
+
+function displayNowToRegularPlay() {
+    var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
+    CLICKABLE = [];
+
+    var regularPlayPopUp = new PopUp(LOOP_OF_HENLE.x, LOOP_OF_HENLE.y, LOOP_OF_HENLE.w + 200, LOOP_OF_HENLE.h / 2,
+        ["That’s it! You’ve completed the tutorial.", "Now you will be restricted to your spot as a single unit of primary urine.", "Follow the loop’s rules when it’s your turn, and watch how the gradient builds."],
+        function() {
+            initRegularGame();
+            CLICKABLE = oldClickable;
+            paintGameBoard();
+        });
+
+    CONTEXT.globalAlpha = 0.5;
+    paintGameBoard();
+    regularPlayPopUp.paint();
 
 }
 
