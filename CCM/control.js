@@ -21,6 +21,50 @@ class Button {
 
 }
 
+class PopUp {
+
+    constructor(xPos, yPos, width, height, message, closeAction) {
+        this.x = xPos;
+        this.y = yPos;
+        this.w = width;
+        this.h = height;
+        this.m = message;
+
+        if (closeAction != undefined) {
+            this.onClose = closeAction;
+            this.closeButton = new Button(this.x + this.w / 2 - 13, this.y - this.h / 2 + 13, 15, 15, this.onClose, "close-button");
+            CLICKABLE.push(this.closeButton);
+        }
+    }
+
+    paint() {
+
+        // Paint body.
+        CONTEXT.globalAlpha = 0.95;
+        CONTEXT.fillStyle = "coral";
+        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        CONTEXT.globalAlpha = 1.0;
+
+        // Display message.
+        CONTEXT.fillStyle = "black";
+        CONTEXT.font = "20px Arial";
+        CONTEXT.textAlign = "center";
+        var txtHeight = this.y - this.h / 2 + 40;
+
+        for (i = 0; i < this.m.length; i++) {
+            CONTEXT.fillText(this.m[i], this.x, txtHeight, this.w);
+            txtHeight += 40;
+        }
+
+        // Paint close button if one exists.
+        if (this.closeButton != undefined) {
+            this.closeButton.paint();
+        }
+
+    }
+
+}
+
 class LimbPosition {
 
     static colorGrad = new Map([
@@ -342,6 +386,10 @@ function addMoveableHandler() {
 
 }
 
+function removeMoveableHandler() {
+    CANVAS.removeEventListener("mousedown", moveableHandler);
+}
+
 function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
 
     // Create interval for painting the box moving.
@@ -586,11 +634,11 @@ function initGameTutorial() {
     // Paint the intitialized elements.
     paintGameBoard();
 
-    // Add event handlers for tutorial.
-    addMoveableHandler();
-
     // Tell system we are in the tutorial.
     inTutorial = true;
+    
+    // Display welcome popup.
+    displayWelcomeTutorial();
 }
 
 function initDescendingLimb() {
@@ -713,3 +761,33 @@ function paintGameBoard() {
     drawAscendingLimb();
 
 }
+
+// -------------------------------------- Methods for handling dialogue pop-ups. -----------------------
+function displayWelcomeTutorial() {
+    var welcomePopUp = new PopUp(LOOP_OF_HENLE.x, LOOP_OF_HENLE.y, LOOP_OF_HENLE.w, LOOP_OF_HENLE.h / 2,
+        ["Welcome.", "This is the Loop of Henle.", "Its job is to create an osmotic gradient in the interstitial fluid", "to later draw water out of " +
+        "the finalized urine.", "You are a unit of soon-to-be urine.", "Your job?", "Pass through the length of the loop, and exit out the ascending limb – ", 
+        "but to do this, you’ll have to play by the rules."], 
+        function() {
+            paintGameBoard();
+            addMoveableHandler();
+            displayHowToPump();
+            CLICKABLE.pop();
+            console.log(CLICKABLE);
+        });
+
+        welcomePopUp.paint();
+}
+
+function displayHowToPump() {
+
+}
+
+function displayHowToEquilibrate() {
+
+}
+
+function displayHowToFlow() {
+
+}
+
