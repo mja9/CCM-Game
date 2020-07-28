@@ -235,6 +235,7 @@ var CLICKABLE = [];
 var MOVEABLE = [];
 var DROPPABLE = [];
 var STATE_BUTTONS = [];
+var PASSIVE_POP_UPS = [];
 
 var inTutorial = false;
 
@@ -535,6 +536,11 @@ function validatePump() {
     STATE_BUTTONS[0].onClick = function() {};
     STATE_BUTTONS[0].image = "pump-disabled";
 
+    // Remove tutorial passive popup.
+    if (inTutorial) {
+        PASSIVE_POP_UPS.pop();
+    }
+
     paintGameBoard();
     console.log("Pump successful!");
     return true;
@@ -736,6 +742,14 @@ function drawStateButtons() {
 
 }
 
+function drawPassivePopUps() {
+
+    PASSIVE_POP_UPS.forEach(popUp => {
+        popUp.paint();
+    });
+
+}
+
 function paintGameBoard() {
 
     // Clear the canvas.
@@ -760,6 +774,9 @@ function paintGameBoard() {
     // Draw ascending limb.
     drawAscendingLimb();
 
+    // Draw any passive popups present.
+    drawPassivePopUps();
+
 }
 
 // -------------------------------------- Methods for handling dialogue pop-ups. -----------------------
@@ -780,6 +797,13 @@ function displayWelcomeTutorial() {
 }
 
 function displayHowToPump() {
+    var pumpPopUp = new PopUp((LOOP_OF_HENLE.x + LOOP_OF_HENLE.w / 2 + CANVAS.clientWidth) / 2, LOOP_OF_HENLE.y + LOOP_OF_HENLE.h / 4,
+     CANVAS.clientWidth - (LOOP_OF_HENLE.x + LOOP_OF_HENLE.w / 2) - 30, LOOP_OF_HENLE.h / 2, 
+     ["This is the ascending limb. Its walls are impermeable to water.", "It is in charge of actively pumping out solutes into the surrounding fluid.", 
+      "However, it cannot exceed a concentration difference of 200 mOsm with the nterstitial fluid!", "Drag the correct element into the corresponding position",
+      "in the interstitial fluid until you’ve reduced the", "concentrations of the limb as much as possible.", "Press ‘pump’ when you are done."]);
+      pumpPopUp.paint();
+    PASSIVE_POP_UPS.push(pumpPopUp);
 
 }
 
