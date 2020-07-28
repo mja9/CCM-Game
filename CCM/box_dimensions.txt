@@ -1,31 +1,35 @@
+background color at the moment:		f5d9d9
+
 LIMB BOXES
 
-width: 124	height: 80
+width: 150	height: 90
+stroke: 3, center aligned
 
-vertical space: 13 px on either side of limb
-	desc limb:	13		[124]		137
-	asc limb: 	513		[124]		637
+topmost box is 13 px away from top of limb WITHOUT including strokes!! 
+including the entire stroke, 19 px
 
-horizontal space: 13 px above and below
-	(top)	box 1: 	13	[80]	93
-		box 2: 	106	[80]	186
-		box 3: 	199	[80]	279
-		box 4:	292	[80]	372	
-		box 5:	385	[80]	465
-	(bot)	box 6:	478	[80]	558
-
-
+all boxes are perfectly touching, so topmost edge of each box hould be set at 
+13	103	193	283	373	463
 
 
 
 INTERSTITIAL FLUID BOXES
 
-width: 324	height: 80
+width: 323	height: 85
 
-vertical space: 13 px on either side of limb
-	163		[324]		487
+vertical space: 12 px on either side of limb [including stroke]
 
-horizontal space: same as limb boxes
+excluding stroke:
+163.5		[323]		486.5
+
+horizontal space between boxes: 5 px apart
+ 	topmost box: 17		[85]		102
+			107			192
+			197			282
+			287			372
+			377			462
+			467			552     
+
 
 
 
