@@ -1,0 +1,41 @@
+Welcome.
+This is the Loop of Henle. 
+Its job is to create an osmotic gradient in the interstitial fluid, to later draw water out of the finalized urine.
+You are a unit of soon-to-be urine. 
+Your job? Pass through the length of the loop, and exit out the ascending limb – but to do this, you’ll have to play by the rules.
+
+*Hits ok*
+
+pg 1 
+This is the ascending limb. Its walls are impermeable to water.
+It is in charge of actively pumping out solutes into the interstitial fluid.
+However, it cannot exceed a concentration difference of 200 mOsm with the surrounding fluid.
+
+pg 2
+Drag the correct element into the corresponding position in the interstitial fluid until you’ve reduced the concentrations of the limb as much as possible. Press ‘pump’ when you are done.
+
+*Hits pump, all correct*
+
+pg 1
+This is the descending limb. Its walls are permeable to water.
+It participates in a passive exchange of solvent with the surrounding fluid, matching its concentration.
+
+pg 2
+Drag the correct element into the corresponding position in the interstitial fluid until you’ve reached equilibrium. Press ‘equi’ when you are done.
+
+*Hits equi, all correct*
+
+pg 1
+You’ve set up all the concentrations correctly. 
+Fluid is transported along the loop, each unit occupying its neighbor’s position. One unit of new fluid will enter the descending limb, and another will exit out the loop.
+
+pg 2
+Press ‘flow’ to move the units of fluid from left to right by one position.
+
+*Hits flow*
+
+That’s it! You’ve completed the tutorial. 
+Now you will be restricted to your spot as a single unit of primary urine. Follow the loop’s rules when it’s your turn, and watch how the gradient builds.
+
+*Hits okay*
+
