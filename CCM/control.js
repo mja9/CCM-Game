@@ -638,26 +638,28 @@ function validateEquilibrate() {
 
 }
 
-function flow(i=0, limb="alimb") {
+function flow(i=0, limb="dlimb", conc=300) {
 
-    // Flow in the ascending limb.
-    if (limb == "alimb") {
+    // Flow in the descending limb.
+    if (limb == "dlimb") {
         if (i == 5) {
-            A_LIMB[i].c = D_LIMB[D_LIMB.length - 1].c;
+            var oldConc = D_LIMB[i].c;
+            D_LIMB[i].c = conc;
             paintGameBoard();
-            window.setTimeout(function() {flow(5, "dlimb")}, 500);
+            window.setTimeout(function() {flow(5, "alimb", oldConc)}, 500);
         } else {
-            A_LIMB[i].c = A_LIMB[i + 1].c;
+            var oldConc = D_LIMB[i].c;
+            D_LIMB[i].c = conc;
             paintGameBoard();
-            window.setTimeout(function() {flow(i + 1)}, 500);
+            window.setTimeout(function() {flow(i + 1, limb, oldConc)}, 500);
         }
 
     }
 
-    // Flow in the descending limb.
-    if (limb == "dlimb") {
+    // Flow in the ascending limb.
+    if (limb == "alimb") {
         if (i == 0) {   // Base case.
-            D_LIMB[i].c = 300;
+            A_LIMB[i].c = conc;
 
             // Enable next button.
             STATE_BUTTONS[0].onClick = validatePump;
@@ -670,13 +672,13 @@ function flow(i=0, limb="alimb") {
             // This is the last step of the tutorial before proceeding to regular gameplay.
             if (inTutorial) {
                 displayNowToRegularPlay();
-                // initRegularGame();
             }
 
         } else {
-            D_LIMB[i].c = D_LIMB[i - 1].c;
+            var oldConc = A_LIMB[i].c;
+            A_LIMB[i].c = conc;
             paintGameBoard();
-            window.setTimeout(function() {flow(i - 1, "dlimb")}, 500);
+            window.setTimeout(function() {flow(i - 1, limb, oldConc)}, 500);
         }
 
     }
