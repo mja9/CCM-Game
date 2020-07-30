@@ -66,31 +66,33 @@ class PopUp {
 
 class LimbPosition {
 
-    static colorGrad = new Map([
-        [0, "#ffe7c7"],
-        [300, "#ffbe4d"],
-        [600, "#ffab04"],
-        [900, "#ff8316"],
-        [1200, "#ff5f33"],
-        [1500, "#ff413b"]
-    ]);
+    // static colorGrad = new Map([
+    //     [0, "#ffe7c7"],
+    //     [300, "#ffbe4d"],
+    //     [600, "#ffab04"],
+    //     [900, "#ff8316"],
+    //     [1200, "#ff5f33"],
+    //     [1500, "#ff413b"]
+    // ]);
+
+    static colorGrad = ["#ffe7c7", "#ffbe4d", "#ffab04", "#ff8316", "#ff5f33", "#ff413b"];
 
     constructor(xPos, yPos) {
         this.w = 147;
-        this.h = 80;
+        this.h = 90;
         this.x = xPos + this.w / 2;
         this.y = yPos + this.h / 2;
-        this.salt = new SaltIcon(this.x + this.w / 2 - 22, this.y + this.h / 2 - 24, this);
-        this.water = new WaterIcon(this.x - this.w / 2 + 20, this.y + this.h / 2 - 26, this);
+        this.salt = new SaltIcon(this.x + this.w / 2 - 7, this.y + this.h / 2 - 7, this);
+        this.water = new WaterIcon(this.x - this.w / 2 + 7, this.y + this.h / 2 - 7, this);
         this.c = 300;
         this.isSelected = false;
     }   
 
     paint() {
         // Draw rectangular positions.
-        CONTEXT.fillStyle = "#ffc730";
-        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        this.colorFillMechanic();
 
+        // Draw highlight around limb position.
         CONTEXT.lineWidth = 3;
         if (this.isSelected) {
             CONTEXT.strokeStyle = "yellow";
@@ -110,17 +112,59 @@ class LimbPosition {
         this.water.paint();
     }
 
-    drawRectangle() {
+    colorFillMechanic() {
 
-        switch((this.c / 300.0 * 100) % 100) {
+        // Color change when concentration < 300 or > 1500.
+        if (this.c < 300 | this.c >= 1500) {
+            CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+            CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 
-            case 1.0 / 6.0:
+        // Handle color change when concentration > 300 and < 1500.
+        } else {
 
-            case 50:
+            switch((this.c / 300.0 % 1).toFixed(2)) {
 
-            case 75:
+                case (350.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (this.h / 6));
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (5 * this.h / 6), this.w, this.h / 6);
+                    break;
 
-            default: 
+                case (400.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (2 * this.h / 6));
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (2 * this.h / 6)), this.w, 2 * this.h / 6);
+                    break;
+
+                case (450.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (3 * this.h / 6));
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (3 * this.h / 6)), this.w, 3 * this.h / 6);
+                    break;
+
+                case (500.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (4 * this.h / 6));
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (4 * this.h / 6)), this.w, 4 * this.h / 6);
+                    break;
+
+                case (550.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (5 * this.h / 6));
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (5 * this.h / 6)), this.w, 5 * this.h / 6);
+                    break;
+
+                case (600.0 / 300.0 % 1).toFixed(2): 
+                    CONTEXT.fillStyle = LimbPosition.colorGrad[this.c / 300];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+                    break;
+
+            }
 
         }
 
@@ -131,8 +175,8 @@ class LimbPosition {
 class InterPosition {
 
     constructor(xPos, yPos) {
-        this.w = 324;
-        this.h = 80;
+        this.w = 323;
+        this.h = 85;
         this.x = xPos + this.w / 2;
         this.y = yPos + this.h / 2;
         this.c = 300;
@@ -150,18 +194,22 @@ class InterPosition {
         CONTEXT.fillText(this.c.toString(), this.x, this.y + 11);
     }
 
+    increaseConcentration() {
+
+    }
+
 }
 
 class WaterIcon {
 
     constructor(xPos, yPos, limbPos) {
         this.id = "water";
-        this.startX = xPos;
-        this.startY = yPos;
-        this.x = xPos;
-        this.y = yPos;
         this.w = 26;
         this.h = 38;
+        this.startX = xPos + this.w / 2;
+        this.startY = yPos - this.h / 2;
+        this.x = this.startX;
+        this.y = this.startY;
         this.limbPos = limbPos;
     }
 
@@ -175,12 +223,12 @@ class SaltIcon {
 
     constructor(xPos, yPos, limbPos) {
         this.id = "salt";
-        this.startX = xPos;
-        this.startY = yPos;
-        this.x = xPos;
-        this.y = yPos;
         this.w = 30;
         this.h = 34;
+        this.startX = xPos - this.w / 2;
+        this.startY = yPos - this.h / 2;
+        this.x = this.startX;
+        this.y = this.startY;
         this.limbPos = limbPos;
     }
 
@@ -205,29 +253,29 @@ var LOOP_OF_HENLE = {
 
 var D_LIMB = [
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463)
              ];
 
 var A_LIMB = [
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),        
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103),        
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463)
              ];
 
 var INTER_FLUID = [
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 199),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 292),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 385),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 478)
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 16),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 196),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 286),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 376),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 466)
                   ];
 
 var CLICKABLE = [];
@@ -452,10 +500,10 @@ function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
                 if (yPos >= droppable.y - droppable.h / 2 && yPos <= droppable.y + droppable.h / 2) {
 
                     // Can only change concentration of fluid adjacent to limb position.
-                    if (moveable.limbPos.y == droppable.y) {
+                    if ((moveable.limbPos.y > droppable.y - droppable.h / 2) && (moveable.limbPos.y < droppable.y + droppable.h / 2)) {
                         canDrop = true;
 
-                        // Interstitial fluid concentrationonly changes with the addition of salt.
+                        // Interstitial fluid concentration only changes with the addition of salt.
                         if (moveable.id == "salt") {
                             droppable.c += 50;
                         }
@@ -846,6 +894,7 @@ function displayHowToFlow() {
 
     CONTEXT.globalAlpha = 0.5;
     paintGameBoard();
+    console.log("got to this point");
     flowPopUp.paint();
 }
 
