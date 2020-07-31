@@ -78,3 +78,16 @@ CONCENTRATION GRADIENT
 1200 - 1499 mOsm:	ff5f33
 
 1500+ mOsm:		ff413b
+
+
+
+
+PASSIVE DIALOGUE BOXES
+
+descending limb:  (relative to center)
+x = 171.5
+y = 526
+
+ascending limb:  (relative to center)
+x = 1158.5
+y = 506
