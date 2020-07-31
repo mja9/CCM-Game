@@ -443,7 +443,6 @@ function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
     // Create interval for painting the box moving.
     var animateInterval = window.setInterval(function() {
                             paintGameBoard();
-                            moveable.paint();
                             }, 
                             50);
 
@@ -763,8 +762,141 @@ function initRegularGame() {
     D_LIMB[2].isSelected = true;
 
     // Change state button behaviour to include automated game behaviour.
+    changeValidateButtons();
+
+    // Begin AI control of other positions.
+    startGameAI();
 
 }
+
+// ------------------------------------------ Methods for regular gameplay. ----------------------------------------
+
+function changeValidateButtons() {
+
+    // Switch all buttons to grayed out no-ops.
+    STATE_BUTTONS.forEach(button => {
+        button.onClick = function(){};
+    });
+
+    STATE_BUTTONS[0].image = "pump-disabled";
+    STATE_BUTTONS[1].image = "equi-disabled";
+    STATE_BUTTONS[2].image = "flow-disabled";
+
+}
+
+function startGameAI(currentPos = 5, currentLimb = "alimb") {
+
+    // Ascending limb automation logic.
+    if (currentLimb == "alimb") {
+
+        // If we reach the player's position, pause the automation.
+        if (A_LIMB[currentPos].isSelected) {
+            pauseGameAI("pump");
+
+        // Otherwise, animate the pump cycle until we've reached the end of this limb.
+        } else {
+
+            animatePump(currentPos);
+
+        }
+
+    // Descending limb automation cycle.
+    } else {
+
+        // If we reach the player's position, pause th automation.
+        if (D_LIMB[currentPos].isSelected) {
+            pauseGameAI("equi");
+
+        // Otherwise, animate the pump cycle until we've reached the end of this limb.
+        } else {
+
+            animateEquilibrate(currentPos);
+
+        }        
+
+    }
+
+}
+
+function pauseGameAI(pauseID) {
+
+    // According to the position we are at, set up the button accordingly.
+
+    // Once pressed, resume the animation on the next position.
+
+}
+
+function animatePump(currentPos, firstRun=true) {
+
+    if (200 - Math.abs(A_LIMB[currentPos].c - INTER_FLUID[currentPos].c) >= 100) {
+
+        // Drop effect.
+        if (A_LIMB[currentPos].salt.x <= INTER_FLUID[currentPos].x + INTER_FLUID[currentPos].w / 4) {
+            INTER_FLUID[currentPos].c += 50;
+            A_LIMB[currentPos].salt.x = A_LIMB[currentPos].salt.startX;
+        
+        // Move salt icon.
+        } else {
+
+            // Only reduce current positions concentration if we can remove salt.
+            if (firstRun) {
+                A_LIMB[currentPos].c -= 50;
+                firstRun = false;
+            }
+
+            A_LIMB[currentPos].salt.x -= 10;
+        }
+
+        // Paint board and recursively call function.
+        paintGameBoard();
+        window.setTimeout(function() {animatePump(currentPos)}, 50);
+
+    // Base case.
+    } else if (currentPos == 0) {
+        window.setTimeout(function() {startGameAI(5, "dlimb")}, 250);
+    } else {
+        window.setTimeout(function() {startGameAI(currentPos - 1, "alimb")}, 250);
+    }
+
+}
+
+function animateEquilibrate(currentPos, firstRun=true) {
+
+    // Base case.
+    if(D_LIMB[currentPos].c == INTER_FLUID[currentPos].c) {
+
+        if(currentPos == 0) {
+            pauseGameAI("flow");
+        } else {
+            window.setTimeout(function() {startGameAI(currentPos - 1, "dlimb")}, 250);
+        }
+
+    } else {
+
+        // Drop effect.
+        if (D_LIMB[currentPos].water.x >= INTER_FLUID[currentPos].x - INTER_FLUID[currentPos].w / 4) {
+            D_LIMB[currentPos].water.x = D_LIMB[currentPos].water.startX;
+        
+        // Move water icon.
+        } else {
+
+            // Only add concentration if water is removed from the system.
+            if(firstRun) {
+                D_LIMB[currentPos].c += 50;
+                firstRun = false;
+            }
+
+            D_LIMB[currentPos].water.x += 10;
+        }
+
+        // Paint board and recursively call function.
+        paintGameBoard();
+        window.setTimeout(function() {animateEquilibrate(currentPos)}, 50);
+
+    }
+
+}
+
 
 // ---------------------------------------------- Methods for drawing the game scene. ---------------------------------
 
@@ -896,7 +1028,6 @@ function displayHowToFlow() {
 
     CONTEXT.globalAlpha = 0.5;
     paintGameBoard();
-    console.log("got to this point");
     flowPopUp.paint();
 }
 
