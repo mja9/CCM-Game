@@ -84,10 +84,20 @@ CONCENTRATION GRADIENT
 
 PASSIVE DIALOGUE BOXES
 
-descending limb:  (relative to center)
+descending limb (relative to center)
+width: 321	height: 330
 x = 171.5
 y = 526
 
-ascending limb:  (relative to center)
+ascending limb (relative to center)
+width: 321	height: 370
 x = 1158.5
+
+ACTIVE DIALOGUE BOXES
+
+welcome box (relative to center)
+width: 900	height: 580
+x = 665
+y = 365
+
 y = 506
