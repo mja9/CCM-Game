@@ -623,16 +623,16 @@ function validatePump() {
 
     } else {
 
-         // Enable the next button.
-        STATE_BUTTONS[1].onClick = validateEquilibrate;
-        STATE_BUTTONS[1].image = "equi";
-
-        // Disable this button.
-        STATE_BUTTONS[0].onClick = function() {};
-        STATE_BUTTONS[0].image = "pump-disabled";
-
         // One time action taken during tutorial.
         if (inTutorial) {
+
+            // Enable the next button.
+            STATE_BUTTONS[1].onClick = validateEquilibrate;
+            STATE_BUTTONS[1].image = "equi";
+
+            // Disable this button.
+            STATE_BUTTONS[0].onClick = function() {};
+            STATE_BUTTONS[0].image = "pump-disabled";
 
             // Remove last pop up and its corresponding button.
             PASSIVE_POP_UPS.pop();
@@ -642,10 +642,18 @@ function validatePump() {
             console.log("Pump successful!");
             return improperPump;
 
-        }
+        // Regular game action.
+        } else {
 
-        paintGameBoard();
-        console.log("Pump successful!");
+            // Disable this button.
+            STATE_BUTTONS[0].onClick = function() {};
+            STATE_BUTTONS[0].image = "pump-disabled";
+            paintGameBoard();
+            console.log("Pump successful!");
+
+            // Continue the AI.
+            startGameAI("dlimb");
+        }
 
     }
    
@@ -670,16 +678,16 @@ function validateEquilibrate() {
 
     } else {
 
-        // Enable the next button.
-        STATE_BUTTONS[2].onClick = flow;
-        STATE_BUTTONS[2].image = "flow";
-
-        // Disable this button.
-        STATE_BUTTONS[1].onClick = function() {};
-        STATE_BUTTONS[1].image = "equi-disabled";
-
         // One time action taken during tutorial.
         if (inTutorial) {
+
+            // Enable the next button.
+            STATE_BUTTONS[2].onClick = flow;
+            STATE_BUTTONS[2].image = "flow";
+
+            // Disable this button.
+            STATE_BUTTONS[1].onClick = function() {};
+            STATE_BUTTONS[1].image = "equi-disabled";
 
             // Remove last pop up and its corresponding button.
             PASSIVE_POP_UPS.pop();
@@ -688,10 +696,20 @@ function validateEquilibrate() {
             displayHowToFlow();
             console.log("Equilibrate successful!");
             return improperEquil;
+      
+        // Regular game action.
+        } else {
+
+             // Disable this button.
+             STATE_BUTTONS[1].onClick = function() {};
+             STATE_BUTTONS[1].image = "equi-disabled";
+            paintGameBoard();
+            console.log("Equilibrate successful!");
+
+            // Continue to flow paused game state.
+            pauseGameAI("player flow");
         }
 
-        paintGameBoard();
-        console.log("Equilibrate successful!");
     }
     return true;
 
@@ -720,21 +738,32 @@ function flow(i=0, limb="dlimb", conc=300) {
         if (i == 0) {   // Base case.
             A_LIMB[i].c = conc;
 
-            // Enable next button.
-            STATE_BUTTONS[0].onClick = validatePump;
-            STATE_BUTTONS[0].image = "pump";
-
-            // Disable this button.
-            STATE_BUTTONS[2].onClick = function() {};
-            STATE_BUTTONS[2].image = "flow-disabled";
-
             // This is the last step of the tutorial before proceeding to regular gameplay.
             if (inTutorial) {
+
+                // Disable this button.
+                STATE_BUTTONS[2].onClick = function() {};
+                STATE_BUTTONS[2].image = "flow-disabled";
 
                 // Remove last pop up and its corresponding button.
                 PASSIVE_POP_UPS.pop();
                 CLICKABLE.pop();           
                 displayNowToRegularPlay();
+
+            // Regular gameplay action.
+            } else {
+
+                // Disable this button.
+                STATE_BUTTONS[2].onClick = function() {};
+                STATE_BUTTONS[2].image = "flow-disabled";
+
+                // Move on to the next round unless the game is over.
+                if (checkEndGame()) {
+                    dispalyEndGameScreen();
+                } else {
+                    movePlayer();
+                    startGameAI();
+                }
 
             }
 
@@ -826,9 +855,6 @@ function initRegularGame() {
     // Choose starting limb position.
     D_LIMB[2].isSelected = true;
 
-    // Change state button behaviour to include automated game behaviour.
-    changeValidateButtons();
-
     // Begin AI control of other positions.
     startGameAI();
 
@@ -836,27 +862,63 @@ function initRegularGame() {
 
 // ------------------------------------------ Methods for regular gameplay. ----------------------------------------
 
-function changeValidateButtons() {
 
-    // Switch all buttons to grayed out no-ops.
-    STATE_BUTTONS.forEach(button => {
-        button.onClick = function(){};
-    });
+function checkEndGame() {
 
-    STATE_BUTTONS[0].image = "pump-disabled";
-    STATE_BUTTONS[1].image = "equi-disabled";
-    STATE_BUTTONS[2].image = "flow-disabled";
+    if (A_LIMB[0].isSelected) {
+        return true;
+    } 
+
+    return false;
+
+}
+
+function movePlayer() {
+
+    var playerFlag = false;
+    var playerPosition = 0;
+
+    for (i = 0; i < D_LIMB; i ++) {
+        if (D_LIMB[i].isSelected) {
+            playerFlag = true;
+            playerPosition = i;
+        }
+    }
+
+    if (playerFlag) {
+
+        if (playerPosition == 5) {
+            D_LIMB[playerPosition].isSelected = false;
+            A_LIMB[playerPosition].isSelected = true;
+        } else {
+            D_LIMB[playerPosition].isSelected = false;
+            D_LIMB[playerPosition + 1].isSelected = true;
+        }
+
+    } else {
+
+        for (i = 0; i < A_LIMB; i ++) {
+            if (A_LIMB[i].isSelected) {
+                playerFlag = true;
+                playerPosition = i;
+            }
+        }
+
+        A_LIMB[playerPosition] = false;
+        A_LIMB[playerPosition + 1] = true;
+
+    }
 
 }
 
 function startGameAI(currentLimb = "alimb") {
 
-    console.log("AI started!");
-
     var playerFlag = false;
 
     // Ascending limb automation logic.
     if (currentLimb == "alimb") {
+
+        console.log("Automating pump phase!");
 
         var pumpFlag = false;
 
@@ -887,7 +949,7 @@ function startGameAI(currentLimb = "alimb") {
     // Descending limb automation cycle.
     } else {
 
-        console.log("Descending limb automation");
+        console.log("Automating equilibrate phase!");
 
         var equiFlag = false;
 
@@ -919,11 +981,28 @@ function startGameAI(currentLimb = "alimb") {
 
 function pauseGameAI(pauseID) {
 
-    console.log(pauseID);
+    switch(pauseID) {
 
-    // According to the position we are at, set up the button accordingly.
+        case "player pump":
+            STATE_BUTTONS[0].onClick = validatePump;
+            STATE_BUTTONS[0].image = "pump";
+            break;
 
-    // Once pressed, resume the animation on the next position.
+        case "player equi":
+            STATE_BUTTONS[0].onClick = validateEquilibrate;
+            STATE_BUTTONS[0].image = "equi";
+            break;
+
+        case "player flow":
+            STATE_BUTTONS[0].onClick = flow;
+            STATE_BUTTONS[0].image = "flow";
+            break;
+
+        default:
+            console.log("Unrecognized pause ID passed!");
+            console.log(pauseID);
+            break;
+    }
 
 }
 
@@ -978,6 +1057,14 @@ function animateEquilibrate(currentPos) {
 
 }
 
+// ----------------------------------- Methods for handling end game ------------------------------------------------
+
+function dispalyEndGameScreen() {
+
+    // TO BE CHANGED!   
+    displayWelcomeTutorial();
+
+}
 
 // ---------------------------------------------- Methods for drawing the game scene. ---------------------------------
 
