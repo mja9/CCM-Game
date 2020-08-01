@@ -23,19 +23,18 @@ class Button {
 
 class PopUp {
 
-    constructor(xPos, yPos, width, height, message, closeAction, image) {
+    constructor(xPos, yPos, width, height, message, closeBtn, image) {
         this.x = xPos;
         this.y = yPos;
         this.w = width;
         this.h = height;
         this.m = message;
         this.image = image;
+        this.closeButton = closeBtn;
 
-        if (closeAction != undefined) {
-            this.onClose = closeAction;
-            this.closeButton = new Button(this.x + this.w / 2 - 13, this.y - this.h / 2 + 13, 15, 15, this.onClose, "close-button");
-            CLICKABLE.push(this.closeButton);
-        }
+        // Initialize the click action for the button.
+        CLICKABLE.push(this.closeButton);
+
     }
 
     paint() {
@@ -53,20 +52,17 @@ class PopUp {
             CONTEXT.fillStyle = "black";
             CONTEXT.font = "20px Arial";
             CONTEXT.textAlign = "center";
-            var txtHeight = this.y - this.h / 2 + 40;
+            var txtHeight = this.y - this.h / 2 + 40.0;
 
             for (i = 0; i < this.m.length; i++) {
                 CONTEXT.fillText(this.m[i], this.x, txtHeight, this.w);
-                txtHeight += 40;
+                txtHeight += 40.0;
             }
         } else {
             CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
         }
 
-        // Paint close button if one exists.
-        if (this.closeButton != undefined) {
-            this.closeButton.paint();
-        }
+        this.closeButton.paint();
 
     }
 
@@ -81,8 +77,8 @@ class LimbPosition {
         this.h = 90;
         this.x = xPos + this.w / 2;
         this.y = yPos + this.h / 2;
-        this.salt = new SaltIcon(this.x + this.w / 2 - 7, this.y + this.h / 2 - 7, this);
-        this.water = new WaterIcon(this.x - this.w / 2 + 7, this.y + this.h / 2 - 7, this);
+        this.salt = new SaltIcon(this.x + this.w / 2 - 7.0, this.y + this.h / 2 - 7.0, this);
+        this.water = new WaterIcon(this.x - this.w / 2 + 7.0, this.y + this.h / 2 - 7.0, this);
         this.c = 300;
         this.isSelected = false;
     }   
@@ -104,7 +100,7 @@ class LimbPosition {
         CONTEXT.fillStyle = "#252525";
         CONTEXT.font = "30px Trebuchet MS";
         CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x - this.w / 2 + 58, this.y);
+        CONTEXT.fillText(this.c.toString(), this.x - this.w / 2 + 58.0, this.y);
 
         // Draw water/salt icons.
         this.salt.paint();
@@ -191,7 +187,7 @@ class InterPosition {
         CONTEXT.fillStyle = "#252525";
         CONTEXT.font = "40px Trebuchet MS";
         CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x, this.y + 11);
+        CONTEXT.fillText(this.c.toString(), this.x, this.y + 11.0);
     }
 
     colorFillMechanic() {
@@ -296,8 +292,8 @@ class SaltIcon {
 var CANVAS = document.getElementById("game-canvas");
 var CONTEXT = CANVAS.getContext("2d");
 var LOOP_OF_HENLE = {
-    x: CANVAS.clientWidth / 2,
-    y: CANVAS.clientHeight / 2,
+    x: CANVAS.clientWidth / 2.0,
+    y: CANVAS.clientHeight / 2.0,
     w: 650,
     h: 700,
     paint: function() {
@@ -306,30 +302,30 @@ var LOOP_OF_HENLE = {
 };
 
 var D_LIMB = [
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463)
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0)
              ];
 
 var A_LIMB = [
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103),        
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463)
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),        
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0)
              ];
 
 var INTER_FLUID = [
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 16),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 196),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 286),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 376),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 466)
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 16.0),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106.0),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 196.0),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 286.0),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 376.0),
+                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 466.0)
                   ];
 
 var CLICKABLE = [];
@@ -351,15 +347,14 @@ function initTitleScreen() {
     paintTitleScreen();
 
     // Create the title screen buttons.
-    var startButton = new Button(CANVAS.clientWidth / 2, (CANVAS.clientHeight / 2 + 3 * CANVAS.clientHeight / 4) / 2, 400, 100, 
+    var startButton = new Button(CANVAS.clientWidth / 2.0, (CANVAS.clientHeight / 2.0 + 3 * CANVAS.clientHeight / 4) / 2, 400, 100, 
                                     function() {
                                         console.log("Clicked start button!");
 
                                         // Lock user out of trigerring another click event.
                                         CLICKABLE = [];
 
-                                        // Clear the canvas
-                                        CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+                                        // Start the tutorial.
                                         initGameTutorial();
                                     }, "start-button");
 
@@ -638,11 +633,15 @@ function validatePump() {
 
         // One time action taken during tutorial.
         if (inTutorial) {
+
+            // Remove last pop up and its corresponding button.
             PASSIVE_POP_UPS.pop();
+            CLICKABLE.pop();
             paintGameBoard();
             displayHowToEquilibrate();
             console.log("Pump successful!");
             return improperPump;
+
         }
 
         paintGameBoard();
@@ -681,7 +680,10 @@ function validateEquilibrate() {
 
         // One time action taken during tutorial.
         if (inTutorial) {
+
+            // Remove last pop up and its corresponding button.
             PASSIVE_POP_UPS.pop();
+            CLICKABLE.pop();           
             paintGameBoard();
             displayHowToFlow();
             console.log("Equilibrate successful!");
@@ -728,7 +730,12 @@ function flow(i=0, limb="dlimb", conc=300) {
 
             // This is the last step of the tutorial before proceeding to regular gameplay.
             if (inTutorial) {
+
+                // Remove last pop up and its corresponding button.
+                PASSIVE_POP_UPS.pop();
+                CLICKABLE.pop();           
                 displayNowToRegularPlay();
+
             }
 
         } else {
@@ -795,17 +802,17 @@ function initInterstitialFluid() {
 function initStateButtons() {
 
     // Pump button.
-    var pumpButton = new Button(1137, 257, 170, 80, validatePump, "pump");
+    var pumpButton = new Button(1137.0, 257.0, 170, 80, validatePump, "pump");
     STATE_BUTTONS.push(pumpButton);
     CLICKABLE.push(pumpButton);
 
     // Equilibrate button.
-    var equilibrateButton = new Button(163, 257, 170, 80, function() {}, "equi-disabled");
+    var equilibrateButton = new Button(163.0, 257.0, 170, 80, function() {}, "equi-disabled");
     STATE_BUTTONS.push(equilibrateButton);
     CLICKABLE.push(equilibrateButton);
 
     // Flow button.
-    var flowButton = new Button(CANVAS.clientWidth / 2, 665, 200, 60, function() {}, "flow-disabled");
+    var flowButton = new Button(CANVAS.clientWidth / 2.0, 665.0, 200, 60, function() {}, "flow-disabled");
     STATE_BUTTONS.push(flowButton);
     CLICKABLE.push(flowButton);
 
@@ -881,17 +888,8 @@ function startGameAI(currentLimb = "alimb") {
     } else {
 
 
-        console.log("Descending limb time.");
-        // // If we reach the player's position, pause th automation.
-        // if (D_LIMB[currentPos].isSelected) {
-        //     pauseGameAI("equi");
+        console.log("Descending limb time.");    
 
-        // // Otherwise, animate the pump cycle until we've reached the end of this limb.
-        // } else {
-
-        //     animateEquilibrate(currentPos);
-
-        // }        
 
     }
 
@@ -1028,7 +1026,7 @@ function paintGameBoard() {
     CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Set new background color (must be behind other elements).
-    CONTEXT.fillStyle = "#f5d9d9";
+    CONTEXT.fillStyle = "#e4f6ff";
     CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Draw the loop.
@@ -1056,13 +1054,14 @@ function displayWelcomeTutorial() {
     var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
     CLICKABLE = [];
 
-    var welcomePopUp = new PopUp(665, 365, 900, 580, [], 
-        function() {
+    var welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
+        new Button(1102.5, 88.0, 15, 15, function() {
+            CLICKABLE = oldClickable;
             paintGameBoard();
             addMoveableHandler();
             displayHowToPump();
-            CLICKABLE = oldClickable;
-        }, "welcome-box");
+        }, "close-button"),
+        "welcome-box");
 
     CONTEXT.globalAlpha = 0.35;
     paintGameBoard();
@@ -1070,51 +1069,97 @@ function displayWelcomeTutorial() {
 }
 
 function displayHowToPump() {
-    var pumpPopUp = new PopUp(1158.5, 506, 321, 370, 
-     ["This is the ascending limb. Its walls are impermeable to water.", "It is in charge of actively pumping out solutes into the surrounding fluid.", 
-      "However, it cannot exceed a concentration difference of 200 mOsm with the nterstitial fluid!", "Drag the correct element into the corresponding position",
-      "in the interstitial fluid until you’ve reduced the", "concentrations of the limb as much as possible.", "Press ‘pump’ when you are done."]);
-      pumpPopUp.paint();
+
+    var pumpPopUp = new PopUp(1158.5, 506.0, 321, 370, [], 
+        new Button(1289.0, 661.0, 19, 22, function() {
+
+            // Lock player out of retriggering this click action.
+            CLICKABLE.pop();
+
+            // Display second popUp
+            var pumpPopUp2 = new PopUp(1158.5, 506.0, 321, 370, [], new Button(1289.0, 661.0, 19, 22, 
+                function() {
+                    CLICKABLE.pop();    // Lock player out of retriggering button 2.
+                    PASSIVE_POP_UPS.pop();  // Remove pop up 2.
+                    displayHowToPump();
+            }, "invert-tri"), "pump-box2");
+
+            PASSIVE_POP_UPS.pop();  // Remove pop up 1.
+            pumpPopUp2.paint();
+            PASSIVE_POP_UPS.push(pumpPopUp2);
+
+        }, "tri"), "pump-box1");
+
+    pumpPopUp.paint();
     PASSIVE_POP_UPS.push(pumpPopUp);
 
 }
 
 function displayHowToEquilibrate() {
-    var equiPopUp = new PopUp(171.5, 526, 321, 330, 
-    ["This is the descending limb. Its walls are permeable to water.", "It participates in a passive exchange of solvent with", "the surrounding fluid, matching its concentration.",
-     "Drag the correct element into the corresponding position", "in the interstitial fluid until you’ve reached equilibrium.", "Press ‘equi’ when you are done."]);
+
+    var equiPopUp = new PopUp(171.5, 526.0, 321, 330, [], 
+        new Button(287.0, 661.0, 19, 22, 
+            function() {
+
+                CLICKABLE.pop();    // Lock player out of rettriggering button 1.
+
+                var equiPopUp2 = new PopUp(171.5, 526.0, 321, 330, [], new Button(287.0, 661.0, 19, 22, 
+                    function() {
+                        CLICKABLE.pop();    // Lock player out of retriggering button 2.
+                        PASSIVE_POP_UPS.pop();  // Remove pop up 2.
+                        displayHowToEquilibrate();
+                    }, "invert-tri"), "equi-box2");
+
+                PASSIVE_POP_UPS.pop();  // Remove pop up 1.
+                equiPopUp2.paint();
+                PASSIVE_POP_UPS.push(equiPopUp2);
+                
+            }, "tri"), "equi-box1");
     equiPopUp.paint();
     PASSIVE_POP_UPS.push(equiPopUp);
+
 }
 
 function displayHowToFlow() {
-    var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
-    CLICKABLE = [];
 
-    var flowPopUp = new PopUp(LOOP_OF_HENLE.x, LOOP_OF_HENLE.y, LOOP_OF_HENLE.w + 200, LOOP_OF_HENLE.h / 2,
-        ["You’ve set up all the concentrations correctly.", "Fluid is transported along the loop,", "each unit occupying its neighbor’s position.", 
-        "One unit of new fluid will enter the descending limb,", "and another will exit out the loop.", "Press ‘flow’ to move the units of fluid from left to right by one position."],
+    var flowPopUp = new PopUp(665.0, 447.5, 330, 321, [], new Button(800.0, 563.0, 19, 22, 
         function() {
-            paintGameBoard();
-            CLICKABLE = oldClickable;
-        });
 
-    CONTEXT.globalAlpha = 0.35;
-    paintGameBoard();
+            CLICKABLE.pop();    // Lock player out of retriggering button 1.
+
+            var flowPopUp2 = new PopUp(665.0, 447.5, 330, 321, [], new Button(800.0, 563.0, 19, 22, 
+                function(){
+
+                    CLICKABLE.pop();    // Lock player out of retrigerring button 2.
+                    PASSIVE_POP_UPS.pop();  // Remove pop up 2.
+                    displayHowToFlow();
+
+                }, "invert-tri"), "flow-box2");
+
+            PASSIVE_POP_UPS.pop();  // Remove pop up 1.
+            flowPopUp2.paint();
+            PASSIVE_POP_UPS.push(flowPopUp2);
+
+        }, "tri"), "flow-box1");
+
     flowPopUp.paint();
+    PASSIVE_POP_UPS.push(flowPopUp);
+
 }
 
 function displayNowToRegularPlay() {
     var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
     CLICKABLE = [];
 
-    var regularPlayPopUp = new PopUp(LOOP_OF_HENLE.x, LOOP_OF_HENLE.y, LOOP_OF_HENLE.w + 200, LOOP_OF_HENLE.h / 2,
-        ["That’s it! You’ve completed the tutorial.", "Now you will be restricted to your spot as a single unit of primary urine.", "Follow the loop’s rules when it’s your turn, and watch how the gradient builds."],
+    var regularPlayPopUp = new PopUp(665.0, 365.0, 900, 580, ["That’s it! You’ve completed the tutorial.", 
+    "Now you will be restricted to your spot as a single unit of primary urine.", 
+    "Follow the loop’s rules when it’s your turn, and watch how the gradient builds."], 
+    new Button(1102.5, 88.0, 15, 15, 
         function() {
             initRegularGame();
             CLICKABLE = oldClickable;
             paintGameBoard();
-        });
+        }, "close-button"));
 
     CONTEXT.globalAlpha = 0.35;
     paintGameBoard();
