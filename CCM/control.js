@@ -887,15 +887,39 @@ function startGameAI(currentLimb = "alimb") {
     // Descending limb automation cycle.
     } else {
 
+        console.log("Descending limb automation");
 
-        console.log("Descending limb time.");    
+        var equiFlag = false;
 
+        for (i = 0; i < D_LIMB.length; i++) {
+
+            // If we reach the player's position, pause the automation.
+            if (D_LIMB[i].isSelected) {
+                playerFlag = true;
+
+            // Otherwise, animate equilibrate cycle if criteria is not met.
+            } else if (!checkEqui(i)) {
+                equiFlag = true;
+                animateEquilibrate(i);
+            }
+        }
+
+        if (equiFlag) {
+            window.setTimeout(function(){startGameAI(currentLimb)}, 1450);
+        }
+        else if(playerFlag) {
+            pauseGameAI("player equi");
+        } else {
+            pauseGameAI("player flow");
+        }
 
     }
 
 }
 
 function pauseGameAI(pauseID) {
+
+    console.log(pauseID);
 
     // According to the position we are at, set up the button accordingly.
 
@@ -915,10 +939,6 @@ function animatePump(currentPos) {
 
                 paintGameBoard();
                 window.clearInterval(iconAnimation);
-                console.log("Icon dropped!");
-
-                // Recursively call function until pump criteria has been satisfied.
-                // animatePump(currentPos);
 
             // Move salt icon.
             } else {
@@ -932,18 +952,11 @@ function animatePump(currentPos) {
 
 }
 
-function animateEquilibrate(currentPos, firstMove=true) {
+function animateEquilibrate(currentPos) {
 
-    // Base case.
-    if(checkEqui(currentPos)) {
+    D_LIMB[currentPos].c += 50;
 
-        if(currentPos == 0) {
-            pauseGameAI("flow");
-        } else {
-            window.setTimeout(function() {startGameAI(currentPos - 1, "dlimb")}, 250);
-        }
-
-    } else {
+    var waterAnimation = window.setInterval(function() {
 
         // Drop effect.
         if (D_LIMB[currentPos].water.x >= INTER_FLUID[currentPos].x - INTER_FLUID[currentPos].w / 4) {
@@ -951,25 +964,17 @@ function animateEquilibrate(currentPos, firstMove=true) {
 
              // Paint board and recursively call function.
             paintGameBoard();
-            window.setTimeout(function() {animateEquilibrate(currentPos, true)}, 50);
-
+            window.clearInterval(waterAnimation);
         
         // Move water icon.
         } else {
 
-            if (firstMove) {
-                D_LIMB[currentPos].c += 50;
-            }
-
             D_LIMB[currentPos].water.x += 10;
-
-             // Paint board and recursively call function.
             paintGameBoard();
-            window.setTimeout(function() {animateEquilibrate(currentPos, false)}, 50);
 
         }
 
-    }
+    }, 50);
 
 }
 
