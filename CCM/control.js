@@ -23,12 +23,13 @@ class Button {
 
 class PopUp {
 
-    constructor(xPos, yPos, width, height, message, closeAction) {
+    constructor(xPos, yPos, width, height, message, closeAction, image) {
         this.x = xPos;
         this.y = yPos;
         this.w = width;
         this.h = height;
         this.m = message;
+        this.image = image;
 
         if (closeAction != undefined) {
             this.onClose = closeAction;
@@ -39,20 +40,27 @@ class PopUp {
 
     paint() {
 
-        // Paint body.
+        // Active boxes require semi-transparent background.
         CONTEXT.globalAlpha = 1.0;
-        CONTEXT.fillStyle = "coral";
-        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 
-        // Display message.
-        CONTEXT.fillStyle = "black";
-        CONTEXT.font = "20px Arial";
-        CONTEXT.textAlign = "center";
-        var txtHeight = this.y - this.h / 2 + 40;
+        if (this.image == undefined) {
 
-        for (i = 0; i < this.m.length; i++) {
-            CONTEXT.fillText(this.m[i], this.x, txtHeight, this.w);
-            txtHeight += 40;
+            // Paint body.
+            CONTEXT.fillStyle = "coral";
+            CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+            // Display message.
+            CONTEXT.fillStyle = "black";
+            CONTEXT.font = "20px Arial";
+            CONTEXT.textAlign = "center";
+            var txtHeight = this.y - this.h / 2 + 40;
+
+            for (i = 0; i < this.m.length; i++) {
+                CONTEXT.fillText(this.m[i], this.x, txtHeight, this.w);
+                txtHeight += 40;
+            }
+        } else {
+            CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
         }
 
         // Paint close button if one exists.
@@ -65,15 +73,6 @@ class PopUp {
 }
 
 class LimbPosition {
-
-    // static colorGrad = new Map([
-    //     [0, "#ffe7c7"],
-    //     [300, "#ffbe4d"],
-    //     [600, "#ffab04"],
-    //     [900, "#ff8316"],
-    //     [1200, "#ff5f33"],
-    //     [1500, "#ff413b"]
-    // ]);
 
     static colorGrad = ["#ffe7c7", "#ffbe4d", "#ffab04", "#ff8316", "#ff5f33", "#ff413b"];
 
@@ -174,6 +173,8 @@ class LimbPosition {
 
 class InterPosition {
 
+    static colorGrad = ["#ffe7c7", "#ffbe4d", "#ffab04", "#ff8316", "#ff5f33", "#ff413b"];
+
     constructor(xPos, yPos) {
         this.w = 323;
         this.h = 85;
@@ -184,8 +185,7 @@ class InterPosition {
 
     paint() {
         // Draw rectangular positions.
-        CONTEXT.fillStyle = "#ffc730";
-        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        this.colorFillMechanic();
 
         // Draw numerical representation of concentration.
         CONTEXT.fillStyle = "#252525";
@@ -194,7 +194,61 @@ class InterPosition {
         CONTEXT.fillText(this.c.toString(), this.x, this.y + 11);
     }
 
-    increaseConcentration() {
+    colorFillMechanic() {
+
+        // Color change when concentration < 300 or > 1500.
+        if (this.c < 300 | this.c >= 1500) {
+            CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300)];
+            CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Handle color change when concentration > 300 and < 1500.
+        } else {
+
+            switch((this.c / 300.0 % 1).toFixed(2)) {
+
+                case (350.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (this.h / 6));
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (5 * this.h / 6), this.w, this.h / 6);
+                    break;
+
+                case (400.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (2 * this.h / 6));
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (2 * this.h / 6)), this.w, 2 * this.h / 6);
+                    break;
+
+                case (450.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (3 * this.h / 6));
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (3 * this.h / 6)), this.w, 3 * this.h / 6);
+                    break;
+
+                case (500.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (4 * this.h / 6));
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (4 * this.h / 6)), this.w, 4 * this.h / 6);
+                    break;
+
+                case (550.0 / 300.0 % 1).toFixed(2):
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300)];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (5 * this.h / 6));
+                    CONTEXT.fillStyle = InterPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (5 * this.h / 6)), this.w, 5 * this.h / 6);
+                    break;
+
+                case (600.0 / 300.0 % 1).toFixed(2): 
+                    CONTEXT.fillStyle = InterPosition.colorGrad[this.c / 300];
+                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+                    break;
+
+            }
+
+        }
 
     }
 
@@ -370,7 +424,7 @@ function addClickHandler() {
  * This handler places no restrictions on the limb position from 
  * which a player can trigger drag and drop events when inTutotial
  * is true. 
- * @param {*} event A mousedown event on the CANVAS used to decide whether a 
+ * @param {MouseEvent} event A mousedown event on the CANVAS used to decide whether a 
  *                  player is attempting to drag a moveable item.
  */
 function moveableHandler(event) {
@@ -558,42 +612,45 @@ function removeDragHandler(drag, drop) {
 
 function validatePump() {
 
+    var improperPump = false;
+
     for (i = 0; i < A_LIMB.length; i++) {
 
-        // Check that the difference is not greater than 200.
-        if (Math.abs(A_LIMB[i].c - INTER_FLUID[i].c) > 200) {
-            console.log("Pump failed!");
-            return false;
-        }
-
-        // Check that max amount of salt was removed.
-        if (200 - Math.abs(A_LIMB[i].c - INTER_FLUID[i].c) >= 100) {
-            console.log("Pump failed!");
-            return false;
+        if (!checkPump(i)) {
+            improperPump = true;
         }
 
     }
 
-    // Enable the next button.
-    STATE_BUTTONS[1].onClick = validateEquilibrate;
-    STATE_BUTTONS[1].image = "equi";
+    if (improperPump) {
 
-    // Disable this button.
-    STATE_BUTTONS[0].onClick = function() {};
-    STATE_BUTTONS[0].image = "pump-disabled";
+        console.log("Pump failed!");
 
-    // One time action taken during tutorial.
-    if (inTutorial) {
-        PASSIVE_POP_UPS.pop();
+    } else {
+
+         // Enable the next button.
+        STATE_BUTTONS[1].onClick = validateEquilibrate;
+        STATE_BUTTONS[1].image = "equi";
+
+        // Disable this button.
+        STATE_BUTTONS[0].onClick = function() {};
+        STATE_BUTTONS[0].image = "pump-disabled";
+
+        // One time action taken during tutorial.
+        if (inTutorial) {
+            PASSIVE_POP_UPS.pop();
+            paintGameBoard();
+            displayHowToEquilibrate();
+            console.log("Pump successful!");
+            return improperPump;
+        }
+
         paintGameBoard();
-        displayHowToEquilibrate();
         console.log("Pump successful!");
-        return true;
-    }
 
-    paintGameBoard();
-    console.log("Pump successful!");
-    return true;
+    }
+   
+    return improperPump;
 
 }
 
@@ -602,15 +659,16 @@ function validateEquilibrate() {
     var improperEquil = false;
 
     for (i = 0; i < D_LIMB.length; i++) {
-        if (D_LIMB[i].c == INTER_FLUID[i].c) {
-            // Do nothing. Experiencing issue with !=.
-        } else {
+
+        // Flag any descending limb positions that fail the equilibrate criteria.
+        if (!checkEqui(i)) {
             improperEquil = true;
         }
     }
 
     if (improperEquil) {
         console.log("Equilibrate failed!");
+
     } else {
 
         // Enable the next button.
@@ -633,7 +691,7 @@ function validateEquilibrate() {
         paintGameBoard();
         console.log("Equilibrate successful!");
     }
-    return improperEquil;
+    return true;
 
 }
 
@@ -784,35 +842,56 @@ function changeValidateButtons() {
 
 }
 
-function startGameAI(currentPos = 5, currentLimb = "alimb") {
+function startGameAI(currentLimb = "alimb") {
+
+    console.log("AI started!");
+
+    var playerFlag = false;
 
     // Ascending limb automation logic.
     if (currentLimb == "alimb") {
 
-        // If we reach the player's position, pause the automation.
-        if (A_LIMB[currentPos].isSelected) {
-            pauseGameAI("pump");
+        var pumpFlag = false;
 
-        // Otherwise, animate the pump cycle until we've reached the end of this limb.
+        for (i = 0; i < A_LIMB.length; i++) {
+
+            // If we reach the player's position, pause the automation.
+            if (A_LIMB[i].isSelected) {
+
+                playerFlag = true;
+
+            // Otherwise, animate the pump cycle if criteria is not being met.
+            } else if (!checkPump(i)) {
+
+                pumpFlag = true;
+                animatePump(i);
+
+            }
+        }
+
+        if (pumpFlag) {
+            window.setTimeout(function() {startGameAI(currentLimb)}, 1450); // Distance is 217.5, / distanced moved per tick * tick time ms.
+        } else if (playerFlag) {
+            pauseGameAI("player pump");
         } else {
-
-            animatePump(currentPos);
-
+            window.setTimeout(function() {startGameAI("dlimb")}, 300);
         }
 
     // Descending limb automation cycle.
     } else {
 
-        // If we reach the player's position, pause th automation.
-        if (D_LIMB[currentPos].isSelected) {
-            pauseGameAI("equi");
 
-        // Otherwise, animate the pump cycle until we've reached the end of this limb.
-        } else {
+        console.log("Descending limb time.");
+        // // If we reach the player's position, pause th automation.
+        // if (D_LIMB[currentPos].isSelected) {
+        //     pauseGameAI("equi");
 
-            animateEquilibrate(currentPos);
+        // // Otherwise, animate the pump cycle until we've reached the end of this limb.
+        // } else {
 
-        }        
+        //     animateEquilibrate(currentPos);
+
+        // }        
 
     }
 
@@ -826,44 +905,39 @@ function pauseGameAI(pauseID) {
 
 }
 
-function animatePump(currentPos, firstRun=true) {
+function animatePump(currentPos) {
 
-    if (200 - Math.abs(A_LIMB[currentPos].c - INTER_FLUID[currentPos].c) >= 100) {
+        A_LIMB[currentPos].c -= 50;
 
-        // Drop effect.
-        if (A_LIMB[currentPos].salt.x <= INTER_FLUID[currentPos].x + INTER_FLUID[currentPos].w / 4) {
-            INTER_FLUID[currentPos].c += 50;
-            A_LIMB[currentPos].salt.x = A_LIMB[currentPos].salt.startX;
-        
-        // Move salt icon.
-        } else {
+        var iconAnimation = window.setInterval(function() {
 
-            // Only reduce current positions concentration if we can remove salt.
-            if (firstRun) {
-                A_LIMB[currentPos].c -= 50;
-                firstRun = false;
+            if (A_LIMB[currentPos].salt.x <= INTER_FLUID[currentPos].x + INTER_FLUID[currentPos].w / 4) {
+                INTER_FLUID[currentPos].c += 50;
+                A_LIMB[currentPos].salt.x = A_LIMB[currentPos].salt.startX;
+
+                paintGameBoard();
+                window.clearInterval(iconAnimation);
+                console.log("Icon dropped!");
+
+                // Recursively call function until pump criteria has been satisfied.
+                // animatePump(currentPos);
+
+            // Move salt icon.
+            } else {
+
+                A_LIMB[currentPos].salt.x -= 10;
+                paintGameBoard();
+
             }
 
-            A_LIMB[currentPos].salt.x -= 10;
-        }
-
-        // Paint board and recursively call function.
-        paintGameBoard();
-        window.setTimeout(function() {animatePump(currentPos)}, 50);
-
-    // Base case.
-    } else if (currentPos == 0) {
-        window.setTimeout(function() {startGameAI(5, "dlimb")}, 250);
-    } else {
-        window.setTimeout(function() {startGameAI(currentPos - 1, "alimb")}, 250);
-    }
+        }, 50);
 
 }
 
-function animateEquilibrate(currentPos, firstRun=true) {
+function animateEquilibrate(currentPos, firstMove=true) {
 
     // Base case.
-    if(D_LIMB[currentPos].c == INTER_FLUID[currentPos].c) {
+    if(checkEqui(currentPos)) {
 
         if(currentPos == 0) {
             pauseGameAI("flow");
@@ -876,22 +950,26 @@ function animateEquilibrate(currentPos, firstRun=true) {
         // Drop effect.
         if (D_LIMB[currentPos].water.x >= INTER_FLUID[currentPos].x - INTER_FLUID[currentPos].w / 4) {
             D_LIMB[currentPos].water.x = D_LIMB[currentPos].water.startX;
+
+             // Paint board and recursively call function.
+            paintGameBoard();
+            window.setTimeout(function() {animateEquilibrate(currentPos, true)}, 50);
+
         
         // Move water icon.
         } else {
 
-            // Only add concentration if water is removed from the system.
-            if(firstRun) {
+            if (firstMove) {
                 D_LIMB[currentPos].c += 50;
-                firstRun = false;
             }
 
             D_LIMB[currentPos].water.x += 10;
-        }
 
-        // Paint board and recursively call function.
-        paintGameBoard();
-        window.setTimeout(function() {animateEquilibrate(currentPos)}, 50);
+             // Paint board and recursively call function.
+            paintGameBoard();
+            window.setTimeout(function() {animateEquilibrate(currentPos, false)}, 50);
+
+        }
 
     }
 
@@ -978,25 +1056,21 @@ function displayWelcomeTutorial() {
     var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
     CLICKABLE = [];
 
-    var welcomePopUp = new PopUp(LOOP_OF_HENLE.x, LOOP_OF_HENLE.y, LOOP_OF_HENLE.w + 200, LOOP_OF_HENLE.h / 2,
-        ["Welcome.", "This is the Loop of Henle.", "Its job is to create an osmotic gradient in the interstitial fluid", "to later draw water out of " +
-        "the finalized urine.", "You are a unit of soon-to-be urine.", "Your job?", "Pass through the length of the loop, and exit out the ascending limb – ", 
-        "but to do this, you’ll have to play by the rules."], 
+    var welcomePopUp = new PopUp(665, 365, 900, 580, [], 
         function() {
             paintGameBoard();
             addMoveableHandler();
             displayHowToPump();
             CLICKABLE = oldClickable;
-        });
+        }, "welcome-box");
 
-    CONTEXT.globalAlpha = 0.5;
+    CONTEXT.globalAlpha = 0.35;
     paintGameBoard();
     welcomePopUp.paint();
 }
 
 function displayHowToPump() {
-    var pumpPopUp = new PopUp((LOOP_OF_HENLE.x + LOOP_OF_HENLE.w / 2 + CANVAS.clientWidth) / 2, LOOP_OF_HENLE.y + LOOP_OF_HENLE.h / 4,
-     CANVAS.clientWidth - (LOOP_OF_HENLE.x + LOOP_OF_HENLE.w / 2) - 30, LOOP_OF_HENLE.h / 2, 
+    var pumpPopUp = new PopUp(1158.5, 506, 321, 370, 
      ["This is the ascending limb. Its walls are impermeable to water.", "It is in charge of actively pumping out solutes into the surrounding fluid.", 
       "However, it cannot exceed a concentration difference of 200 mOsm with the nterstitial fluid!", "Drag the correct element into the corresponding position",
       "in the interstitial fluid until you’ve reduced the", "concentrations of the limb as much as possible.", "Press ‘pump’ when you are done."]);
@@ -1006,8 +1080,7 @@ function displayHowToPump() {
 }
 
 function displayHowToEquilibrate() {
-    var equiPopUp = new PopUp((LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2) / 2, LOOP_OF_HENLE.y + LOOP_OF_HENLE.h / 4, 
-    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 - 30, LOOP_OF_HENLE.h / 2, 
+    var equiPopUp = new PopUp(171.5, 526, 321, 330, 
     ["This is the descending limb. Its walls are permeable to water.", "It participates in a passive exchange of solvent with", "the surrounding fluid, matching its concentration.",
      "Drag the correct element into the corresponding position", "in the interstitial fluid until you’ve reached equilibrium.", "Press ‘equi’ when you are done."]);
     equiPopUp.paint();
@@ -1026,7 +1099,7 @@ function displayHowToFlow() {
             CLICKABLE = oldClickable;
         });
 
-    CONTEXT.globalAlpha = 0.5;
+    CONTEXT.globalAlpha = 0.35;
     paintGameBoard();
     flowPopUp.paint();
 }
@@ -1043,9 +1116,48 @@ function displayNowToRegularPlay() {
             paintGameBoard();
         });
 
-    CONTEXT.globalAlpha = 0.5;
+    CONTEXT.globalAlpha = 0.35;
     paintGameBoard();
     regularPlayPopUp.paint();
+
+}
+
+// ---------------------------------------- Helpers used in both tutorial and regular play ----------------------
+
+/**
+ * Checks if the position in currentPos of the ascending limb
+ * has a valid concentration according to the pump 
+ * criteria.
+ * @param {Number} currentPos The current position in the ascending limb.
+ */
+function checkPump(currentPos) {
+
+    // Check that the difference is not greater than 200.
+    if (Math.abs(A_LIMB[currentPos].c - INTER_FLUID[currentPos].c) > 200) {
+        return false;
+    }
+
+    // Check that max amount of salt was removed.
+    if (200 - Math.abs(A_LIMB[currentPos].c - INTER_FLUID[currentPos].c) >= 100) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Checks if the position in currentPos of the descending limb
+ * has a valid concentration according to the equilibrate 
+ * criteria.
+ * @param {Number} currentPos The current position in the descending limb.
+ */
+function checkEqui(currentPos) {
+
+    if (D_LIMB[currentPos].c == INTER_FLUID[currentPos].c) {
+        return true;
+    }
+
+    return false;
 
 }
 
