@@ -722,13 +722,23 @@ function flow(i=0, limb="dlimb", conc=300) {
         if (i == 5) {
             var oldConc = D_LIMB[i].c;
             D_LIMB[i].c = conc;
+
+            if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
+                checkMovePlayer(i, limb);
+            }
             paintGameBoard();
             window.setTimeout(function() {flow(5, "alimb", oldConc)}, 500);
+
         } else {
             var oldConc = D_LIMB[i].c;
             D_LIMB[i].c = conc;
+
+            if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
+                checkMovePlayer(i, limb);
+            }
             paintGameBoard();
             window.setTimeout(function() {flow(i + 1, limb, oldConc)}, 500);
+
         }
 
     }
@@ -761,7 +771,12 @@ function flow(i=0, limb="dlimb", conc=300) {
                 if (checkEndGame()) {
                     dispalyEndGameScreen();
                 } else {
-                    movePlayer();
+
+                    if (checkMovePlayer.hasBeenCalled != 2) {
+                        checkMovePlayer(i, limb);
+                    }
+                    paintGameBoard(); 
+                    checkMovePlayer.hasBeenCalled = 0;  // Reset call flag.
                     startGameAI();
                 }
 
@@ -770,6 +785,11 @@ function flow(i=0, limb="dlimb", conc=300) {
         } else {
             var oldConc = A_LIMB[i].c;
             A_LIMB[i].c = conc;
+
+            if (!inTutorial) {
+                checkMovePlayer(i, limb);
+            }
+
             paintGameBoard();
             window.setTimeout(function() {flow(i - 1, limb, oldConc)}, 500);
         }
@@ -873,12 +893,52 @@ function checkEndGame() {
 
 }
 
+function checkMovePlayer(currentPos, currentLimb) {
+
+    // Set property during first call of function.
+    if (checkMovePlayer.hasBeenCalled == undefined) {
+        checkMovePlayer.hasBeenCalled = 0;
+    }
+
+    if (checkMovePlayer.hasBeenCalled == 0) {
+
+        if (currentLimb == "dlimb") {
+
+            if (D_LIMB[currentPos].isSelected) {
+                D_LIMB[currentPos].isSelected = false;
+                checkMovePlayer.hasBeenCalled = 1;
+            }
+
+        }
+
+        if (currentLimb == "alimb") {
+
+            if (A_LIMB[currentPos].isSelected) {
+                A_LIMB[currentPos].isSelected = false;
+                checkMovePlayer.hasBeenCalled = 1;
+            }
+
+        }
+    } else if (checkMovePlayer.hasBeenCalled == 1) {
+        
+        if (currentLimb == "dlimb") {
+            D_LIMB[currentPos].isSelected = true;
+        } else {
+            A_LIMB[currentPos].isSelected = true;
+        }
+
+        checkMovePlayer.hasBeenCalled = 2;
+
+    }
+
+}
+
 function movePlayer() {
 
     var playerFlag = false;
     var playerPosition = 0;
 
-    for (i = 0; i < D_LIMB; i ++) {
+    for (i = 0; i < D_LIMB.length; i ++) {
         if (D_LIMB[i].isSelected) {
             playerFlag = true;
             playerPosition = i;
@@ -897,15 +957,15 @@ function movePlayer() {
 
     } else {
 
-        for (i = 0; i < A_LIMB; i ++) {
+        for (i = 0; i < A_LIMB.length; i ++) {
             if (A_LIMB[i].isSelected) {
                 playerFlag = true;
                 playerPosition = i;
             }
         }
 
-        A_LIMB[playerPosition] = false;
-        A_LIMB[playerPosition + 1] = true;
+        A_LIMB[playerPosition].isSelected = false;
+        A_LIMB[playerPosition - 1].isSelected = true;
 
     }
 
@@ -981,21 +1041,26 @@ function startGameAI(currentLimb = "alimb") {
 
 function pauseGameAI(pauseID) {
 
+    console.log(pauseID);
+
     switch(pauseID) {
 
         case "player pump":
             STATE_BUTTONS[0].onClick = validatePump;
             STATE_BUTTONS[0].image = "pump";
+            paintGameBoard();
             break;
 
         case "player equi":
-            STATE_BUTTONS[0].onClick = validateEquilibrate;
-            STATE_BUTTONS[0].image = "equi";
+            STATE_BUTTONS[1].onClick = validateEquilibrate;
+            STATE_BUTTONS[1].image = "equi";
+            paintGameBoard();
             break;
 
         case "player flow":
-            STATE_BUTTONS[0].onClick = flow;
-            STATE_BUTTONS[0].image = "flow";
+            STATE_BUTTONS[2].onClick = flow;
+            STATE_BUTTONS[2].image = "flow";
+            paintGameBoard();
             break;
 
         default:
