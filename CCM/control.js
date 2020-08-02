@@ -1128,6 +1128,7 @@ function animateEquilibrate(currentPos) {
 function dispalyEndGameScreen() {
 
     // TO BE CHANGED!   
+    inTutorial = true;
     displayWelcomeTutorial();
 
 }
