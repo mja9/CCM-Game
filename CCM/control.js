@@ -769,6 +769,7 @@ function flow(i=0, limb="dlimb", conc=300) {
 
                 // Move on to the next round unless the game is over.
                 if (checkEndGame()) {
+                    A_LIMB[i].isSelected = false;
                     dispalyEndGameScreen();
                 } else {
 
