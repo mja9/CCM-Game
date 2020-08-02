@@ -101,9 +101,29 @@ y = 447.5
 
 triangle
 width: 19	height: 22
-all 'move on' triangles are located 9 px away from the bottomost and rightmost edge
 
+flow tri:
+x = 803
+y = 556
 
+asc tri:
+x = 1288
+y = 658
+
+desc tri:
+x = 282
+y = 658
+
+ok button
+
+welcome:
+x = 665
+y = 556
+
+end: 
+x = 665
+y = 404
+ 
 ACTIVE DIALOGUE BOXES
 
 welcome box (relative to center)
