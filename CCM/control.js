@@ -767,6 +767,7 @@ function flow(i=0, limb="dlimb", conc=300) {
                 // Move on to the next round unless the game is over.
                 if (checkEndGame()) {
                     A_LIMB[i].isSelected = false;
+                    paintGameBoard();
                     dispalyEndGameScreen();
                 } else {
 
@@ -1129,7 +1130,7 @@ function animateEquilibrate(currentPos) {
 function dispalyEndGameScreen() {
 
     // Display goodbye box.
-    CONTEXT.drawImage(document.getElementById("goodbye-box"), 665, 365, 900, 580);
+    CONTEXT.drawImage(document.getElementById("goodbye-box"), 215, 75, 900, 580);
 
     // Don't let the player interact with anything else.
     CLICKABLE = [];
