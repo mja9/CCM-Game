@@ -682,7 +682,12 @@ function validateEquilibrate() {
         if (inTutorial) {
 
             // Enable the next button.
-            STATE_BUTTONS[2].onClick = flow;
+            STATE_BUTTONS[2].onClick = 
+                function() {
+                    STATE_BUTTONS[2].onClick = function() {};
+                    STATE_BUTTONS[2].image = "flow-disabled";
+                    flow();
+                };
             STATE_BUTTONS[2].image = "flow";
 
             // Disable this button.
@@ -751,10 +756,6 @@ function flow(i=0, limb="dlimb", conc=300) {
             // This is the last step of the tutorial before proceeding to regular gameplay.
             if (inTutorial) {
 
-                // Disable this button.
-                STATE_BUTTONS[2].onClick = function() {};
-                STATE_BUTTONS[2].image = "flow-disabled";
-
                 // Remove last pop up and its corresponding button.
                 PASSIVE_POP_UPS.pop();
                 CLICKABLE.pop();           
@@ -762,10 +763,6 @@ function flow(i=0, limb="dlimb", conc=300) {
 
             // Regular gameplay action.
             } else {
-
-                // Disable this button.
-                STATE_BUTTONS[2].onClick = function() {};
-                STATE_BUTTONS[2].image = "flow-disabled";
 
                 // Move on to the next round unless the game is over.
                 if (checkEndGame()) {
@@ -1059,7 +1056,11 @@ function pauseGameAI(pauseID) {
             break;
 
         case "player flow":
-            STATE_BUTTONS[2].onClick = flow;
+            STATE_BUTTONS[2].onClick = function() {
+                STATE_BUTTONS[2].onClick = function() {};
+                STATE_BUTTONS[2].image = "flow-disabled";
+                flow();
+            };
             STATE_BUTTONS[2].image = "flow";
             paintGameBoard();
             break;
@@ -1127,9 +1128,15 @@ function animateEquilibrate(currentPos) {
 
 function dispalyEndGameScreen() {
 
-    // TO BE CHANGED!   
-    inTutorial = true;
-    displayWelcomeTutorial();
+    // Display goodbye box.
+    CONTEXT.drawImage(document.getElementById("goodbye-box"), 665, 365, 900, 580);
+
+    // Don't let the player interact with anything else.
+    CLICKABLE = [];
+    MOVEABLE = [];
+    DROPPABLE = [];
+    STATE_BUTTONS = [];
+    PASSIVE_POP_UPS = [];    
 
 }
 
@@ -1214,12 +1221,12 @@ function displayWelcomeTutorial() {
     CLICKABLE = [];
 
     var welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
-        new Button(1102.5, 88.0, 15, 15, function() {
+        new Button(665.0, 556.0, 150, 70, function() {
             CLICKABLE = oldClickable;
             paintGameBoard();
             addMoveableHandler();
             displayHowToPump();
-        }, "close-button"),
+        }, "ok-button"),
         "welcome-box");
 
     CONTEXT.globalAlpha = 0.35;
@@ -1230,13 +1237,13 @@ function displayWelcomeTutorial() {
 function displayHowToPump() {
 
     var pumpPopUp = new PopUp(1158.5, 506.0, 321, 370, [], 
-        new Button(1289.0, 661.0, 19, 22, function() {
+        new Button(1288.0, 658.0, 19, 22, function() {
 
             // Lock player out of retriggering this click action.
             CLICKABLE.pop();
 
             // Display second popUp
-            var pumpPopUp2 = new PopUp(1158.5, 506.0, 321, 370, [], new Button(1289.0, 661.0, 19, 22, 
+            var pumpPopUp2 = new PopUp(1158.5, 506.0, 321, 370, [], new Button(1288.0, 658.0, 19, 22, 
                 function() {
                     CLICKABLE.pop();    // Lock player out of retriggering button 2.
                     PASSIVE_POP_UPS.pop();  // Remove pop up 2.
@@ -1257,12 +1264,12 @@ function displayHowToPump() {
 function displayHowToEquilibrate() {
 
     var equiPopUp = new PopUp(171.5, 526.0, 321, 330, [], 
-        new Button(287.0, 661.0, 19, 22, 
+        new Button(282.0, 658.0, 19, 22, 
             function() {
 
                 CLICKABLE.pop();    // Lock player out of rettriggering button 1.
 
-                var equiPopUp2 = new PopUp(171.5, 526.0, 321, 330, [], new Button(287.0, 661.0, 19, 22, 
+                var equiPopUp2 = new PopUp(171.5, 526.0, 321, 330, [], new Button(282.0, 658.0, 19, 22, 
                     function() {
                         CLICKABLE.pop();    // Lock player out of retriggering button 2.
                         PASSIVE_POP_UPS.pop();  // Remove pop up 2.
@@ -1281,12 +1288,12 @@ function displayHowToEquilibrate() {
 
 function displayHowToFlow() {
 
-    var flowPopUp = new PopUp(665.0, 447.5, 330, 321, [], new Button(800.0, 563.0, 19, 22, 
+    var flowPopUp = new PopUp(665.0, 447.5, 330, 321, [], new Button(803.0, 556.0, 19, 22, 
         function() {
 
             CLICKABLE.pop();    // Lock player out of retriggering button 1.
 
-            var flowPopUp2 = new PopUp(665.0, 447.5, 330, 321, [], new Button(800.0, 563.0, 19, 22, 
+            var flowPopUp2 = new PopUp(665.0, 447.5, 330, 321, [], new Button(803.0, 556.0, 19, 22, 
                 function(){
 
                     CLICKABLE.pop();    // Lock player out of retrigerring button 2.
@@ -1310,15 +1317,13 @@ function displayNowToRegularPlay() {
     var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
     CLICKABLE = [];
 
-    var regularPlayPopUp = new PopUp(665.0, 365.0, 900, 580, ["That’s it! You’ve completed the tutorial.", 
-    "Now you will be restricted to your spot as a single unit of primary urine.", 
-    "Follow the loop’s rules when it’s your turn, and watch how the gradient builds."], 
-    new Button(1102.5, 88.0, 15, 15, 
+    var regularPlayPopUp = new PopUp(665.0, 328.0, 700, 300, [], 
+    new Button(665.0, 404.0, 150, 70, 
         function() {
             initRegularGame();
             CLICKABLE = oldClickable;
             paintGameBoard();
-        }, "close-button"));
+        }, "ok-button"), "end-tutorial");
 
     CONTEXT.globalAlpha = 0.35;
     paintGameBoard();
