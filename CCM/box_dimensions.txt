@@ -125,6 +125,9 @@ end:
 x = 665
 y = 404
  
+
+
+
 ACTIVE DIALOGUE BOXES
 
 welcome box (relative to center)
@@ -132,9 +135,32 @@ width: 900	height: 580
 x = 665
 y = 365
 
+
+
 end box
 width: 700	height: 300
 x = 665
 y = 328
 
+
+
+
+ok button
+width: 150	height: 70
+
+welcome:
+x = 665
+y = 556
+
+end: 
+x = 665
+y = 404
+
+
+
+
+goodbye box
+width: 900	height: 580
+x = 665
+y = 365
 
