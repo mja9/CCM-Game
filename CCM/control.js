@@ -1327,6 +1327,8 @@ function displayWelcomeTutorial() {
 
 function displayHowToPump() {
 
+    highlightLimb("alimb");
+
     var pumpPopUp = new PopUp(1158.5, 506.0, 321, 370, [], 
         new Button(1288.0, 658.0, 19, 22, function() {
 
@@ -1334,15 +1336,15 @@ function displayHowToPump() {
             CLICKABLE.pop();
 
             // End the water highlight and highlight the salt icon.
-            A_LIMB[2].water.stopAnimation();
-            A_LIMB[2].salt.animateHighlight();
+            // A_LIMB[2].water.stopAnimation();
+            // A_LIMB[2].salt.animateHighlight();
 
             // Display second popUp
             var pumpPopUp2 = new PopUp(1158.5, 506.0, 321, 370, [], new Button(1288.0, 658.0, 19, 22, 
                 function() {
                     CLICKABLE.pop();    // Lock player out of retriggering button 2.
                     PASSIVE_POP_UPS.pop();  // Remove pop up 2.
-                    A_LIMB[2].salt.stopAnimation(); // End salt highlight.
+                    // A_LIMB[2].salt.stopAnimation(); // End salt highlight.
                     displayHowToPump();
             }, "invert-tri"), "pump-box2");
 
@@ -1356,7 +1358,7 @@ function displayHowToPump() {
     PASSIVE_POP_UPS.push(pumpPopUp);
 
     // Highlight the water icon.
-    A_LIMB[2].water.animateHighlight();
+    // A_LIMB[2].water.animateHighlight();
 
 }
 
@@ -1469,3 +1471,70 @@ function checkEqui(currentPos) {
 
 }
 
+// ------------------------------------------------------------------- Methods for animating --------------------------------------------------------------------
+ 
+function highlightLimb(limb) {
+
+    switch (limb) {
+
+        case "alimb":
+            highlightA();
+            break
+
+    }
+
+}
+
+function highlightA() {
+
+    // x center = 915
+    // y center = 365
+    // width of the guy is 150 
+    // height of the guy 540
+
+    highlightA.direction = -1;
+    highlightA.lastAlpha = 1.0;
+
+    var highlightAnimation = window.setInterval(function() {
+
+        CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+
+        // Fade Animation
+        paintGameBoard();
+        CONTEXT.globalAlpha = highlightA.lastAlpha;
+
+        // Create gradient.
+        // var grad = CONTEXT.createRadialGradient(915, 365, 15, 915, 365, 150);
+        // grad.addColorStop(0, "#003311");
+        // grad.addColorStop(1, "#66ff99");
+        // var grad = CONTEXT.createLinearGradient(830, 15, 1000, 15);
+        // grad.addColorStop(0.5, "#003311");
+        // grad.addColorStop(0, "#66ff99");
+        // grad.addColorStop(1, "#66ff99");
+
+        // Add shadow effect to slighltly blur line.
+        CONTEXT.shadowBlur = 20;
+        CONTEXT.shadowColor = "#66ff99";
+        CONTEXT.fillStyle = "#66ff99";
+        CONTEXT.fillRect(830, 15, 170, 565);
+        CONTEXT.shadowBlur = 0;
+
+        // Alter alpha for fade effect.
+        highlightA.lastAlpha +=  highlightA.direction * 0.1;
+        if (highlightA.lastAlpha <= 0.2) {
+            highlightA.direction = 1;
+        } else if (highlightA.lastAlpha == 1.0) {
+            highlightA.direction = -1;
+        }
+
+        // Draw the rest of the limb
+        CONTEXT.globalAlpha = 1.0;
+        drawAscendingLimb();
+
+    }, 50);
+
+}
+
+function stopLimbHighlight() {
+
+}
