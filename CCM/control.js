@@ -276,8 +276,8 @@ class WaterIcon {
             CONTEXT.globalAlpha = icon.highlight.lastAlpha;
             var grad = CONTEXT.createRadialGradient(icon.x, icon.y + icon.h / 12, 5, icon.x, icon.y + icon.h / 12, 
                                                     icon.h > icon.w ? icon.h / 2 + icon.h / 10 : icon.w / 2 + icon.w / 10);
-            grad.addColorStop(0, "#ff0000");
-            grad.addColorStop(1, "white");
+            grad.addColorStop(0, "#003311");
+            grad.addColorStop(1, "#66ff99");
             CONTEXT.fillStyle = grad;
             CONTEXT.beginPath();
             CONTEXT.arc(icon.x, icon.y + icon.h / 12, icon.h > icon.w ? icon.h / 2 + icon.h / 10 : icon.w / 2 + icon.w / 10, 0, 2 * Math.PI);
@@ -339,12 +339,12 @@ class SaltIcon {
             paintGameBoard();
             CONTEXT.globalAlpha = icon.highlight.lastAlpha;
             var grad = CONTEXT.createRadialGradient(icon.x, icon.y, 5, icon.x, icon.y, 
-                                                    icon.h > icon.w ? icon.h / 2 + icon.h / 8 : icon.w / 2 + icon.w / 8);
-            grad.addColorStop(0, "#ff0000");
-            grad.addColorStop(1, "white");
+                                                    icon.h > icon.w ? icon.h / 2 + icon.h / 6 : icon.w / 2 + icon.w / 6);
+            grad.addColorStop(0, "#003311");
+            grad.addColorStop(1, "#66ff99");
             CONTEXT.fillStyle = grad;
             CONTEXT.beginPath();
-            CONTEXT.arc(icon.x - icon.w / 35, icon.y, icon.h > icon.w ? icon.h / 2 + icon.h / 8 : icon.w / 2 + icon.w / 8, 0, 2 * Math.PI);
+            CONTEXT.arc(icon.x, icon.y, icon.h > icon.w ? icon.h / 2 + icon.h / 6 : icon.w / 2 + icon.w / 6, 0, 2 * Math.PI);
             CONTEXT.fill();
             CONTEXT.globalAlpha = 1.0;
             icon.paint();
