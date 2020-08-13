@@ -267,6 +267,51 @@ class WaterIcon {
         CONTEXT.drawImage(document.getElementById("water-icon"), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
+    highlight(icon) {
+        
+        return function() {
+
+            // Fade Animation
+            paintGameBoard();
+            CONTEXT.globalAlpha = icon.highlight.lastAlpha;
+            var grad = CONTEXT.createRadialGradient(icon.x + icon.w / 2, icon.y + 4 * icon.h / 8, 5, icon.x + icon.w / 2, icon.y + 5 * icon.h / 8, 
+                icon.h > icon.w ? icon.h / 2 + icon.h / 6 : icon.w / 2 + icon.w / 6);
+            grad.addColorStop(0, "#ff0000");
+            grad.addColorStop(1, "white");
+            CONTEXT.fillStyle = grad;
+            CONTEXT.beginPath();
+            CONTEXT.arc(icon.x + icon.w / 2, icon.y + 4 * icon.h / 8, icon.h > icon.w ? icon.h / 2 + icon.h / 6 : icon.w / 2 + icon.w / 6, 0, 2 * Math.PI);
+            CONTEXT.fill();
+            CONTEXT.globalAlpha = 1.0;
+            icon.paint();
+
+            icon.highlight.lastAlpha +=  icon.highlight.direction * 0.1;
+            if (icon.highlight.lastAlpha <= 0.2) {
+                icon.highlight.direction = 1;
+            } else if (icon.highlight.lastAlpha == 1.0) {
+                icon.highlight.direction = -1;
+            }
+
+        }
+
+    }
+
+    animateHighlight() {
+
+        this.highlight.direction = -1;
+        this.highlight.lastAlpha = 1.0;
+        this.animateHighlight.animation = window.setInterval(this.highlight(this), 50);
+
+    }
+
+    stopAnimation() {
+        window.clearInterval(this.animateHighlight.animation);
+        this.highlight.direction = -1;
+        this.highlight.lastAlpha = 1.0;
+        CONTEXT.globalAlpha = 1.0;
+        paintGameBoard();
+    }
+
 }
 
 class SaltIcon {
@@ -284,6 +329,51 @@ class SaltIcon {
 
     paint() {
         CONTEXT.drawImage(document.getElementById("salt-icon"), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+    }
+
+    highlight(icon) {
+        
+        return function() {
+
+            // Fade Animation
+            paintGameBoard();
+            CONTEXT.globalAlpha = icon.highlight.lastAlpha;
+            var grad = CONTEXT.createRadialGradient(icon.x + icon.w / 2, icon.y + 4 * icon.h / 8, 5, icon.x + icon.w / 2, icon.y + 5 * icon.h / 8, 
+                icon.h > icon.w ? icon.h / 2 + icon.h / 6 : icon.w / 2 + icon.w / 6);
+            grad.addColorStop(0, "#ff0000");
+            grad.addColorStop(1, "white");
+            CONTEXT.fillStyle = grad;
+            CONTEXT.beginPath();
+            CONTEXT.arc(icon.x + icon.w / 2, icon.y + 4 * icon.h / 8, icon.h > icon.w ? icon.h / 2 + icon.h / 6 : icon.w / 2 + icon.w / 6, 0, 2 * Math.PI);
+            CONTEXT.fill();
+            CONTEXT.globalAlpha = 1.0;
+            icon.paint();
+
+            icon.highlight.lastAlpha +=  icon.highlight.direction * 0.1;
+            if (icon.highlight.lastAlpha <= 0.2) {
+                icon.highlight.direction = 1;
+            } else if (icon.highlight.lastAlpha == 1.0) {
+                icon.highlight.direction = -1;
+            }
+
+        }
+
+    }
+
+    animateHighlight() {
+
+        this.highlight.direction = -1;
+        this.highlight.lastAlpha = 1.0;
+        this.animateHighlight.animation = window.setInterval(this.highlight(this), 50);
+
+    }
+
+    stopAnimation() {
+        window.clearInterval(this.animateHighlight.animation);
+        this.highlight.direction = -1;
+        this.highlight.lastAlpha = 1.0;
+        CONTEXT.globalAlpha = 1.0;
+        paintGameBoard();
     }
 
 }
@@ -380,7 +470,7 @@ function paintTitleScreen() {
 
 }
 
-// ---------------------------------------------- Methods for handling user triggered events. ---------------------------------
+// ------------------------------------------------ Methods for handling user triggered events. ----------------------------------------------------------------------------
 
 /*
 * Initialize the click handler.
@@ -1243,11 +1333,16 @@ function displayHowToPump() {
             // Lock player out of retriggering this click action.
             CLICKABLE.pop();
 
+            // End the water highlight and highlight the salt icon.
+            A_LIMB[2].water.stopAnimation();
+            A_LIMB[2].salt.animateHighlight();
+
             // Display second popUp
             var pumpPopUp2 = new PopUp(1158.5, 506.0, 321, 370, [], new Button(1288.0, 658.0, 19, 22, 
                 function() {
                     CLICKABLE.pop();    // Lock player out of retriggering button 2.
                     PASSIVE_POP_UPS.pop();  // Remove pop up 2.
+                    A_LIMB[2].salt.stopAnimation(); // End salt highlight.
                     displayHowToPump();
             }, "invert-tri"), "pump-box2");
 
@@ -1259,6 +1354,9 @@ function displayHowToPump() {
 
     pumpPopUp.paint();
     PASSIVE_POP_UPS.push(pumpPopUp);
+
+    // Highlight the water icon.
+    A_LIMB[2].water.animateHighlight();
 
 }
 
