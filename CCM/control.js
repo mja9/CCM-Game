@@ -1327,7 +1327,7 @@ function displayWelcomeTutorial() {
 
 function displayHowToPump() {
 
-    highlightLimb("alimb");
+    // highlightLimb("alimb");
 
     var pumpPopUp = new PopUp(1158.5, 506.0, 321, 370, [], 
         new Button(1288.0, 658.0, 19, 22, function() {
@@ -1487,11 +1487,6 @@ function highlightLimb(limb) {
 
 function highlightA() {
 
-    // x center = 915
-    // y center = 365
-    // width of the guy is 150 
-    // height of the guy 540
-
     highlightA.direction = -1;
     highlightA.lastAlpha = 1.0;
 
@@ -1503,20 +1498,11 @@ function highlightA() {
         paintGameBoard();
         CONTEXT.globalAlpha = highlightA.lastAlpha;
 
-        // Create gradient.
-        // var grad = CONTEXT.createRadialGradient(915, 365, 15, 915, 365, 150);
-        // grad.addColorStop(0, "#003311");
-        // grad.addColorStop(1, "#66ff99");
-        // var grad = CONTEXT.createLinearGradient(830, 15, 1000, 15);
-        // grad.addColorStop(0.5, "#003311");
-        // grad.addColorStop(0, "#66ff99");
-        // grad.addColorStop(1, "#66ff99");
-
         // Add shadow effect to slighltly blur line.
         CONTEXT.shadowBlur = 20;
         CONTEXT.shadowColor = "#66ff99";
         CONTEXT.fillStyle = "#66ff99";
-        CONTEXT.fillRect(830, 15, 170, 565);
+        CONTEXT.fillRect(832, 15, 166, 565);
         CONTEXT.shadowBlur = 0;
 
         // Alter alpha for fade effect.
