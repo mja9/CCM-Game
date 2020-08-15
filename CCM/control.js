@@ -72,15 +72,19 @@ class LimbPosition {
 
     static colorGrad = ["#ffe7c7", "#ffbe4d", "#ffab04", "#ff8316", "#ff5f33", "#ff413b"];
 
-    constructor(xPos, yPos) {
+    constructor(xPos, yPos, nextX, nextY) {
         this.w = 147;
         this.h = 90;
-        this.x = xPos + this.w / 2;
-        this.y = yPos + this.h / 2;
+        this.startX = xPos + this.w / 2;
+        this.startY = yPos + this.h / 2;
+        this.x = this.startX;
+        this.y = this.startY;
         this.salt = new SaltIcon(this.x + this.w / 2 - 7.0, this.y + this.h / 2 - 7.0, this);
         this.water = new WaterIcon(this.x - this.w / 2 + 7.0, this.y + this.h / 2 - 7.0, this);
         this.c = 300;
         this.isSelected = false;
+        this.nextX = nextX + this.w / 2;
+        this.nextY = nextY + this.h / 2;
     }   
 
     paint() {
@@ -392,21 +396,33 @@ var LOOP_OF_HENLE = {
 };
 
 var D_LIMB = [
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0)
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0,
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0, 
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0,
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0, 
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0,
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0,
+                    0, 0)
              ];
 
 var A_LIMB = [
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),        
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0)
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0,
+                     0, 0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0, 
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0),        
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0,
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0,
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0,
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0),
+                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0,
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0)
              ];
 
 var INTER_FLUID = [
@@ -811,79 +827,103 @@ function validateEquilibrate() {
 }
 
 function flow(i=0, limb="dlimb", conc=300) {
+    console.log("Flowing...");
 
-    // Flow in the descending limb.
-    if (limb == "dlimb") {
-        if (i == 5) {
-            var oldConc = D_LIMB[i].c;
-            D_LIMB[i].c = conc;
+    // // Flow in the descending limb.
+    // if (limb == "dlimb") {
+    //     if (i == 5) {
+    //         var oldConc = D_LIMB[i].c;
+    //         D_LIMB[i].c = conc;
 
-            if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
-                checkMovePlayer(i, limb);
+    //         if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
+    //             checkMovePlayer(i, limb);
+    //         }
+    //         paintGameBoard();
+    //         window.setTimeout(function() {flow(5, "alimb", oldConc)}, 500);
+
+    //     } else {
+    //         var oldConc = D_LIMB[i].c;
+    //         D_LIMB[i].c = conc;
+
+    //         if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
+    //             checkMovePlayer(i, limb);
+    //         }
+    //         paintGameBoard();
+    //         window.setTimeout(function() {flow(i + 1, limb, oldConc)}, 500);
+
+    //     }
+
+    // }
+
+    // // Flow in the ascending limb.
+    // if (limb == "alimb") {
+    //     if (i == 0) {   // Base case.
+    //         A_LIMB[i].c = conc;
+
+    //         // This is the last step of the tutorial before proceeding to regular gameplay.
+    //         if (inTutorial) {
+
+    //             // Remove last pop up and its corresponding button.
+    //             PASSIVE_POP_UPS.pop();
+    //             CLICKABLE.pop();           
+    //             displayNowToRegularPlay();
+
+    //         // Regular gameplay action.
+    //         } else {
+
+    //             // Move on to the next round unless the game is over.
+    //             if (checkEndGame()) {
+    //                 A_LIMB[i].isSelected = false;
+    //                 paintGameBoard();
+    //                 dispalyEndGameScreen();
+    //             } else {
+
+    //                 if (checkMovePlayer.hasBeenCalled != 2) {
+    //                     checkMovePlayer(i, limb);
+    //                 }
+    //                 paintGameBoard(); 
+    //                 checkMovePlayer.hasBeenCalled = 0;  // Reset call flag.
+    //                 startGameAI();
+    //             }
+
+    //         }
+
+    //     } else {
+    //         var oldConc = A_LIMB[i].c;
+    //         A_LIMB[i].c = conc;
+
+    //         if (!inTutorial) {
+    //             checkMovePlayer(i, limb);
+    //         }
+
+    //         paintGameBoard();
+    //         window.setTimeout(function() {flow(i - 1, limb, oldConc)}, 500);
+    //     }
+
+    // }
+
+    var animation = window.setInterval(function() {
+
+        // Regular position.
+        D_LIMB.forEach(limb => {
+
+            if ((limb.x == limb.nextX) && (limb.y < limb.nextY)) {
+                limb.y += 5;
             }
-            paintGameBoard();
-            window.setTimeout(function() {flow(5, "alimb", oldConc)}, 500);
 
-        } else {
-            var oldConc = D_LIMB[i].c;
-            D_LIMB[i].c = conc;
+        });
 
-            if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
-                checkMovePlayer(i, limb);
-            }
-            paintGameBoard();
-            window.setTimeout(function() {flow(i + 1, limb, oldConc)}, 500);
+        A_LIMB.forEach(limb => {
 
-        }
-
-    }
-
-    // Flow in the ascending limb.
-    if (limb == "alimb") {
-        if (i == 0) {   // Base case.
-            A_LIMB[i].c = conc;
-
-            // This is the last step of the tutorial before proceeding to regular gameplay.
-            if (inTutorial) {
-
-                // Remove last pop up and its corresponding button.
-                PASSIVE_POP_UPS.pop();
-                CLICKABLE.pop();           
-                displayNowToRegularPlay();
-
-            // Regular gameplay action.
-            } else {
-
-                // Move on to the next round unless the game is over.
-                if (checkEndGame()) {
-                    A_LIMB[i].isSelected = false;
-                    paintGameBoard();
-                    dispalyEndGameScreen();
-                } else {
-
-                    if (checkMovePlayer.hasBeenCalled != 2) {
-                        checkMovePlayer(i, limb);
-                    }
-                    paintGameBoard(); 
-                    checkMovePlayer.hasBeenCalled = 0;  // Reset call flag.
-                    startGameAI();
-                }
-
+            if ((limb.x == limb.nextX) && (limb.y > limb.nextY)) {
+                limb.y -= 5;
             }
 
-        } else {
-            var oldConc = A_LIMB[i].c;
-            A_LIMB[i].c = conc;
+        });
+        paintGameBoard();
 
-            if (!inTutorial) {
-                checkMovePlayer(i, limb);
-            }
+    }, 50);
 
-            paintGameBoard();
-            window.setTimeout(function() {flow(i - 1, limb, oldConc)}, 500);
-        }
-
-    }
 
 }
 
