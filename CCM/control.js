@@ -407,7 +407,7 @@ var D_LIMB = [
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0,
                     LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0),
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0,
-                    0, 0)
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0)
              ];
 
 var A_LIMB = [
@@ -904,7 +904,7 @@ function flow(i=0, limb="dlimb", conc=300) {
 
     var animation = window.setInterval(function() {
 
-        // Regular position.
+        // Regular positions.
         D_LIMB.forEach(limb => {
 
             if ((limb.x == limb.nextX) && (limb.y < limb.nextY)) {
@@ -920,6 +920,40 @@ function flow(i=0, limb="dlimb", conc=300) {
             }
 
         });
+
+        // Cross Limb position.
+        if ((D_LIMB[5].x != D_LIMB[5].nextX) | (D_LIMB[5].y != D_LIMB[5].nextY)) {
+
+            if (D_LIMB[5].x == D_LIMB[5].startX) {
+
+                if (D_LIMB[5].y >= 630.0) {
+                    D_LIMB[5].x += 2;
+                    D_LIMB[5].y += 3;
+
+                } else {
+                    D_LIMB[5].y += 10;
+                }
+
+            } else if ((D_LIMB[5].y < 665.0) && (D_LIMB[5].x < D_LIMB[5].nextX - 22)) {
+                D_LIMB[5].x += 2;
+                D_LIMB[5].y += 3;
+
+            } else if ((D_LIMB[5].y >= 665.0) && (D_LIMB[5].x < D_LIMB[5].nextX - 22)) {
+                D_LIMB[5].x += 10;
+
+            } else if (D_LIMB[5].x < D_LIMB[5].nextX) {
+                D_LIMB[5].x += 2;
+                D_LIMB[5].y -= 3;
+
+            } else if ((D_LIMB[5].x >= D_LIMB[5].nextX) && (D_LIMB[5].y > D_LIMB[5].nextY)) {
+                D_LIMB[5].y -= 10;
+
+                if (D_LIMB[5].y <= D_LIMB[5].nextY) {
+                    D_LIMB[5].x = D_LIMB[5].nextX;
+                    D_LIMB[5].y = D_LIMB[5].nextY;
+                }
+            } 
+        }
         paintGameBoard();
 
     }, 50);
