@@ -169,6 +169,19 @@ class LimbPosition {
 
     }
 
+    move(xDiff, yDiff) {
+
+        // Move the limb position itself.
+        this.x += xDiff;
+        this.y += yDiff;
+
+        // Move its icons.
+        this.water.x += xDiff;
+        this.water.y += yDiff;
+        this.salt.x += xDiff;
+        this.salt.y += yDiff;
+    }
+
 }
 
 class InterPosition {
@@ -395,6 +408,9 @@ var LOOP_OF_HENLE = {
            }
 };
 
+var INCOMING = new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, -90, 
+    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0);
+
 var D_LIMB = [
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0,
                     LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),
@@ -412,7 +428,7 @@ var D_LIMB = [
 
 var A_LIMB = [
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0,
-                     0, 0),
+                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, -90),
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0, 
                     LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0),        
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0,
@@ -439,6 +455,7 @@ var MOVEABLE = [];
 var DROPPABLE = [];
 var STATE_BUTTONS = [];
 var PASSIVE_POP_UPS = [];
+var ADDITIONALS = [];
 
 var inTutorial = false;
 
@@ -902,13 +919,19 @@ function flow(i=0, limb="dlimb", conc=300) {
 
     // }
 
+    ADDITIONALS.push(INCOMING);
+
     var animation = window.setInterval(function() {
 
         // Regular positions.
+        if (INCOMING.y < INCOMING.nextY) {
+            INCOMING.move(0, 5);
+        }
+
         D_LIMB.forEach(limb => {
 
             if ((limb.x == limb.nextX) && (limb.y < limb.nextY)) {
-                limb.y += 5;
+                limb.move(0, 5);
             }
 
         });
@@ -916,7 +939,7 @@ function flow(i=0, limb="dlimb", conc=300) {
         A_LIMB.forEach(limb => {
 
             if ((limb.x == limb.nextX) && (limb.y > limb.nextY)) {
-                limb.y -= 5;
+                limb.move(0, -5);
             }
 
         });
@@ -927,26 +950,23 @@ function flow(i=0, limb="dlimb", conc=300) {
             if (D_LIMB[5].x == D_LIMB[5].startX) {
 
                 if (D_LIMB[5].y >= 630.0) {
-                    D_LIMB[5].x += 2;
-                    D_LIMB[5].y += 3;
+                    D_LIMB[5].move(2, 3);
 
                 } else {
-                    D_LIMB[5].y += 10;
+                    D_LIMB[5].move(0, 10);
                 }
 
             } else if ((D_LIMB[5].y < 665.0) && (D_LIMB[5].x < D_LIMB[5].nextX - 22)) {
-                D_LIMB[5].x += 2;
-                D_LIMB[5].y += 3;
+                D_LIMB[5].move(2, 3);
 
             } else if ((D_LIMB[5].y >= 665.0) && (D_LIMB[5].x < D_LIMB[5].nextX - 22)) {
-                D_LIMB[5].x += 10;
+                D_LIMB[5].move(10, 0);
 
             } else if (D_LIMB[5].x < D_LIMB[5].nextX) {
-                D_LIMB[5].x += 2;
-                D_LIMB[5].y -= 3;
+                D_LIMB[5].move(2, -3);
 
             } else if ((D_LIMB[5].x >= D_LIMB[5].nextX) && (D_LIMB[5].y > D_LIMB[5].nextY)) {
-                D_LIMB[5].y -= 10;
+                D_LIMB[5].move(0, -10);
 
                 if (D_LIMB[5].y <= D_LIMB[5].nextY) {
                     D_LIMB[5].x = D_LIMB[5].nextX;
@@ -954,6 +974,11 @@ function flow(i=0, limb="dlimb", conc=300) {
                 }
             } 
         }
+
+        // Incoming and outgoing animation.
+
+
+
         paintGameBoard();
 
     }, 50);
@@ -1351,6 +1376,14 @@ function drawPassivePopUps() {
 
 }
 
+function drawAdditionals() {
+
+    ADDITIONALS.forEach(adds => {
+        adds.paint();
+    });
+
+}
+
 function paintGameBoard() {
 
     // Clear the canvas.
@@ -1377,6 +1410,9 @@ function paintGameBoard() {
 
     // Draw any passive popups present.
     drawPassivePopUps();
+
+    // Draw any temporary additional elements.
+    drawAdditionals();
 
 }
 
