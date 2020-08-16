@@ -843,84 +843,11 @@ function validateEquilibrate() {
 
 }
 
-function flow(i=0, limb="dlimb", conc=300) {
+function flow() {
     console.log("Flowing...");
 
-    // // Flow in the descending limb.
-    // if (limb == "dlimb") {
-    //     if (i == 5) {
-    //         var oldConc = D_LIMB[i].c;
-    //         D_LIMB[i].c = conc;
-
-    //         if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
-    //             checkMovePlayer(i, limb);
-    //         }
-    //         paintGameBoard();
-    //         window.setTimeout(function() {flow(5, "alimb", oldConc)}, 500);
-
-    //     } else {
-    //         var oldConc = D_LIMB[i].c;
-    //         D_LIMB[i].c = conc;
-
-    //         if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
-    //             checkMovePlayer(i, limb);
-    //         }
-    //         paintGameBoard();
-    //         window.setTimeout(function() {flow(i + 1, limb, oldConc)}, 500);
-
-    //     }
-
-    // }
-
-    // // Flow in the ascending limb.
-    // if (limb == "alimb") {
-    //     if (i == 0) {   // Base case.
-    //         A_LIMB[i].c = conc;
-
-    //         // This is the last step of the tutorial before proceeding to regular gameplay.
-    //         if (inTutorial) {
-
-    //             // Remove last pop up and its corresponding button.
-    //             PASSIVE_POP_UPS.pop();
-    //             CLICKABLE.pop();           
-    //             displayNowToRegularPlay();
-
-    //         // Regular gameplay action.
-    //         } else {
-
-    //             // Move on to the next round unless the game is over.
-    //             if (checkEndGame()) {
-    //                 A_LIMB[i].isSelected = false;
-    //                 paintGameBoard();
-    //                 dispalyEndGameScreen();
-    //             } else {
-
-    //                 if (checkMovePlayer.hasBeenCalled != 2) {
-    //                     checkMovePlayer(i, limb);
-    //                 }
-    //                 paintGameBoard(); 
-    //                 checkMovePlayer.hasBeenCalled = 0;  // Reset call flag.
-    //                 startGameAI();
-    //             }
-
-    //         }
-
-    //     } else {
-    //         var oldConc = A_LIMB[i].c;
-    //         A_LIMB[i].c = conc;
-
-    //         if (!inTutorial) {
-    //             checkMovePlayer(i, limb);
-    //         }
-
-    //         paintGameBoard();
-    //         window.setTimeout(function() {flow(i - 1, limb, oldConc)}, 500);
-    //     }
-
-    // }
-
+    var flag = false;
     ADDITIONALS.push(INCOMING);
-
     var animation = window.setInterval(function() {
 
         // Regular positions.
@@ -949,17 +876,17 @@ function flow(i=0, limb="dlimb", conc=300) {
 
             if (D_LIMB[5].x == D_LIMB[5].startX) {
 
-                if (D_LIMB[5].y >= 630.0) {
+                if (D_LIMB[5].y >= 600.0) {
                     D_LIMB[5].move(2, 3);
 
                 } else {
                     D_LIMB[5].move(0, 10);
                 }
 
-            } else if ((D_LIMB[5].y < 665.0) && (D_LIMB[5].x < D_LIMB[5].nextX - 22)) {
+            } else if ((D_LIMB[5].y < 665.0) && (D_LIMB[5].x < D_LIMB[5].nextX - 42)) {
                 D_LIMB[5].move(2, 3);
 
-            } else if ((D_LIMB[5].y >= 665.0) && (D_LIMB[5].x < D_LIMB[5].nextX - 22)) {
+            } else if ((D_LIMB[5].y >= 665.0) && (D_LIMB[5].x < D_LIMB[5].nextX - 42)) {
                 D_LIMB[5].move(10, 0);
 
             } else if (D_LIMB[5].x < D_LIMB[5].nextX) {
@@ -971,19 +898,111 @@ function flow(i=0, limb="dlimb", conc=300) {
                 if (D_LIMB[5].y <= D_LIMB[5].nextY) {
                     D_LIMB[5].x = D_LIMB[5].nextX;
                     D_LIMB[5].y = D_LIMB[5].nextY;
+                    flag = true;
                 }
             } 
         }
-
-        // Incoming and outgoing animation.
-
-
-
         paintGameBoard();
+        if (flag) {
+            window.clearInterval(animation);
+            flowConcentration();
+        }
 
     }, 50);
 
+}
 
+function flowConcentration(i=0, limb="dlimb", conc=300) {
+
+    // Flow in the descending limb.
+    if (limb == "dlimb") {
+        if (i == 5) {
+            var oldConc = D_LIMB[i].c;
+            D_LIMB[i].c = conc;
+
+            if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
+                checkMovePlayer(i, limb);
+            }
+            flowConcentration(5, "alimb", oldConc);
+
+        } else {
+            var oldConc = D_LIMB[i].c;
+            D_LIMB[i].c = conc;
+
+            if (!inTutorial && checkMovePlayer.hasBeenCalled != 2) {
+                checkMovePlayer(i, limb);
+            }
+            flowConcentration(i + 1, limb, oldConc);
+
+        }
+
+    }
+
+    // Flow in the ascending limb.
+    if (limb == "alimb") {
+        if (i == 0) {   // Base case.
+            A_LIMB[i].c = conc;
+
+            // This is the last step of the tutorial before proceeding to regular gameplay.
+            if (inTutorial) {
+
+                // Remove last pop up and its corresponding button.
+                PASSIVE_POP_UPS.pop();
+                CLICKABLE.pop();   
+                resetAfterFlow();        
+                displayNowToRegularPlay();
+
+            // Regular gameplay action.
+            } else {
+
+                // Move on to the next round unless the game is over.
+                if (checkEndGame()) {
+                    A_LIMB[i].isSelected = false;
+                    resetAfterFlow();
+                    dispalyEndGameScreen();
+                } else {
+
+                    if (checkMovePlayer.hasBeenCalled != 2) {
+                        checkMovePlayer(i, limb);
+                    }
+                    checkMovePlayer.hasBeenCalled = 0;  // Reset call flag.
+                    resetAfterFlow();
+                    startGameAI();
+                }
+
+            }
+
+        } else {
+            var oldConc = A_LIMB[i].c;
+            A_LIMB[i].c = conc;
+
+            if (!inTutorial) {
+                checkMovePlayer(i, limb);
+            }
+
+            flowConcentration(i - 1, limb, oldConc);
+        }
+
+    }
+
+}
+
+function resetAfterFlow() {
+
+    // Handle the incoming position.
+    INCOMING.move(INCOMING.startX - INCOMING.x, INCOMING.startY - INCOMING.y);
+    ADDITIONALS.pop();
+
+    // Handle the regular limb positions.
+    D_LIMB.forEach(pos => {
+        pos.move(pos.startX - pos.x, pos.startY - pos.y);
+    });
+
+    A_LIMB.forEach(pos => {
+        pos.move(pos.startX - pos.x, pos.startY - pos.y);
+    });
+    paintGameBoard();
+    console.log("Sucessfully reset positions!");
 }
 
 // ---------------------------------------------- Methods to initialize different game states. ---------------------------------
