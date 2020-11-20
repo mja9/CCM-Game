@@ -4,32 +4,17 @@ const simState = {
     PUMP: simPUMP,
     EQUI: simEQUI,
     FLOW: simFLOW,
-    SWITCH: function() {
-        switch(this.currState) {
-
-            case(this.FLOW):
-                currState = simState.PUMP;
-                break;
-            
-            case(this.EQUI):
-                currState = simState.FLOW;
-                break;
-
-            default:
-                currState = simState.EQUI;
-                break;
-        }
-    }
 }
 let currState = simState.PUMP;
 let waveCoolDown = 1450; // ms
 let transitionCoolDown = 500; // ms
+let flowCoolDown = 3000; //ms
 
 /**
  * Method to initialize the simulation model.
  */
 function initSimModel() {
-    window.setTimeout(simStart, 1000);
+    window.setTimeout(simStart, 2500);
 }
 
 /**
@@ -57,9 +42,7 @@ function simPUMP() {
         for (i = 0; i < A_LIMB.length; i++) {
             if (!checkPump(i)) {
                 didChange = true;
-                async () => {
-                    animatePump(i);
-                } 
+                animatePump(i);
             }
         }
 
@@ -69,7 +52,7 @@ function simPUMP() {
 
         // Cooldown until switch happens.
         } else {
-            simState.SWITCH();
+            currState = simState.EQUI;
             window.setTimeout(currState, transitionCoolDown);
         }
 
@@ -86,9 +69,7 @@ function simEQUI() {
         for (i = 0; i < D_LIMB.length; i++) {
             if (!checkEqui(i)) {
                 didChange = true;
-                async () => {
-                    animateEquilibrate(i);
-                } 
+                animateEquilibrate(i);
             }
         }
 
@@ -98,7 +79,7 @@ function simEQUI() {
 
         // Cooldown until switch happens.
         } else {
-            simState.SWITCH();
+            currState = simState.FLOW;
             window.setTimeout(currState, transitionCoolDown);
         }
 
@@ -111,8 +92,10 @@ function simEQUI() {
  */
 function simFLOW() {
     if (isRunning) {
+
+        // FIXME: Using flow starts the gameAI and doubles up the animations
         flow();
-        simState.SWITCH();
-        window.setInterval(currState, transitionCoolDown);
+        currState = simState.PUMP;
+        // window.setInterval(currState, flowCoolDown);
     }
 }
