@@ -93,6 +93,7 @@ function initTitleScreen() {
 
                                         // Start the simulation.
                                         initSimView();
+                                        initSimModel();
                                     }, "start-button");
 
     // Paint the buttons on the canvas.
