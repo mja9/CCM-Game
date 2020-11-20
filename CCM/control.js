@@ -75,7 +75,7 @@ function initTitleScreen() {
     paintTitleScreen();
 
     // Create the title screen buttons.
-    var startButton = new Button(CANVAS.clientWidth / 2.0, (CANVAS.clientHeight / 2.0 + 3 * CANVAS.clientHeight / 4) / 2, 400, 100, 
+    let regPlayBtn = new Button(CANVAS.clientWidth / 2.0, CANVAS.clientHeight / 2.0, 400, 100, 
                                     function() {
                                         console.log("Clicked start button!");
 
@@ -86,11 +86,22 @@ function initTitleScreen() {
                                         initGameTutorial();
                                     }, "start-button");
 
+    let simPlayBtn = new Button(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * (3.0 / 4.0), 400, 100, 
+                                    function() {
+                                        console.log("Clicked simulation button!");
+                                        CLICKABLE = [];
+
+                                        // Start the simulation.
+                                        initSimView();
+                                    }, "start-button");
+
     // Paint the buttons on the canvas.
-    startButton.paint();
+    regPlayBtn.paint();
+    simPlayBtn.paint();
 
     // Regiter the button as clickable items on the GUI.
-    CLICKABLE = [startButton];
+    CLICKABLE.push(regPlayBtn);
+    CLICKABLE.push(simPlayBtn);
     addClickHandler();
 }
 
