@@ -85,3 +85,19 @@ class MenuButton {
 
 }
 
+class StateButton {
+
+    constructor(x, y, w, h, clickAction, color, label) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.onClick = clickAction;
+        this.color = color;
+        this.label = label;
+    }
+
+
+
+}
+
