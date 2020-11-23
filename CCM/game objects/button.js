@@ -21,3 +21,45 @@ class Button {
     }
 
 }
+
+class MenuButton {
+
+    constructor(x, y, w, h, clickAction, color, label) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.onClick = clickAction;
+        this.color = color;
+        this.label = label;
+    }
+
+    paint() {
+        let ratio = 0.0877;
+
+        // Draw the left traingle
+        CONTEXT.fillStyle = this.color;
+        CONTEXT.beginPath();
+        CONTEXT.moveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0));
+        CONTEXT.lineTo((this.x - (this.w / 2.0) - (this.w * ratio)), this.y);
+        CONTEXT.lineTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0));
+        CONTEXT.fill();
+
+        // Draw the right traingle
+        CONTEXT.fillStyle = this.color;
+        CONTEXT.beginPath();
+        CONTEXT.moveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0));
+        CONTEXT.lineTo((this.x + (this.w / 2.0) + (this.w * ratio)), this.y);
+        CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0));
+        CONTEXT.fill();
+
+        // Draw the words
+        CONTEXT.font = "30pt Courier New";
+        CONTEXT.textAlign = "center";
+        CONTEXT.textBaseline = "middle";
+        CONTEXT.fillText(this.label, this.x, this.y);
+
+    }
+
+}
+

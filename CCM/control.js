@@ -71,11 +71,8 @@ var inTutorial = false;
  */
 function initTitleScreen() {
 
-    // Draw title screen.
-    paintTitleScreen();
-
     // Create the title screen buttons.
-    let regPlayBtn = new Button(CANVAS.clientWidth / 2.0, CANVAS.clientHeight / 2.0, 400, 100, 
+    let regPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.63, 228, 25, 
                                     function() {
                                         console.log("Clicked start button!");
 
@@ -84,9 +81,9 @@ function initTitleScreen() {
 
                                         // Start the tutorial.
                                         initGameTutorial();
-                                    }, "start-button");
+                                    }, "#ffab04", "play");
 
-    let simPlayBtn = new Button(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * (3.0 / 4.0), 400, 100, 
+    let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.74, 228, 25, 
                                     function() {
                                         console.log("Clicked simulation button!");
                                         CLICKABLE = [];
@@ -94,29 +91,34 @@ function initTitleScreen() {
                                         // Start the simulation.
                                         initSimView();
                                         initSimModel();
-                                    }, "start-button");
-
-    // Paint the buttons on the canvas.
-    regPlayBtn.paint();
-    simPlayBtn.paint();
+                                    }, "#0ba1e7", "simulate");
 
     // Regiter the button as clickable items on the GUI.
     CLICKABLE.push(regPlayBtn);
     CLICKABLE.push(simPlayBtn);
     addClickHandler();
+    
+    window.setInterval(paintTitleScreen, 50);
+
 }
 
 function paintTitleScreen() {
 
-    // FIXME: Set the background.
-    console.log(document.getElementById("menu-bg"));
     CONTEXT.drawImage(document.getElementById("menu-bg"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-    // CONTEXT.fillStyle = "cornsilk";
-    // CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+    CLICKABLE.forEach(btn => btn.paint());
 
 }
 
 // ------------------------------------------------ Methods for handling user triggered events. ----------------------------------------------------------------------------
+
+/**
+ * Initialize scroll-over functionality for menu buttons.
+ */
+function addMenuScrollHandler() {
+
+    // CANVAS
+
+}
 
 /*
 * Initialize the click handler.
