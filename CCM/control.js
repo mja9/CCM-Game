@@ -5,17 +5,18 @@ let CANVAS = document.getElementById("game-canvas");
 let CONTEXT = CANVAS.getContext("2d");
 let titleScreenInterval;
 let LOOP_OF_HENLE = {
+
+    //FIXME: These aren't right anymore
     x: CANVAS.clientWidth / 2.0,
     y: CANVAS.clientHeight / 2.0,
     w: 650,
     h: 700,
-    // FIXME: Change this
+
     paint: function() {
                 // Draw the boxes at the top.
                 CONTEXT.fillStyle = "#0daaf2";
                 CONTEXT.fillRect(505, 0, 148, 30);
                 CONTEXT.fillRect(1005, 0, 148, 30);
-                // CONTEXT.drawImage(document.getElementById("loop-of-henle"), this.x - this.w / 2, this.y - this.h / 2);
            }
 };
 
@@ -1054,16 +1055,13 @@ function drawAdditionals() {
 
 }
 
-// TODO: Change this to the new design
 function paintGameBoard() {
 
     // Clear the canvas.
     CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Set new background color (must be behind other elements).
-    // FIXME: Use the new background
-    CONTEXT.fillStyle = "#e4f6ff";
-    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+    CONTEXT.drawImage(document.getElementById("loop-bkgd"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Draw the loop.
     drawLoopOfHenle();
