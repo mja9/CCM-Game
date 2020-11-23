@@ -259,7 +259,6 @@ function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
                             }, 
                             50);
 
-    // FIXME: Change the drag and drop handler to be relative to the limb position rather than the loop
     var drag = function(event) {
 
         // Get event location.

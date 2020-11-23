@@ -1,6 +1,6 @@
 class LimbPosition {
 
-    static colorGrad = ["#ffe7c7", "#ffbe4d", "#ffab04", "#ff8316", "#ff5f33", "#ff413b"];
+    static colorGrad = ["#ffd9a6", "#ffc868", "#ffb829", "#ff9539", "#ff7751", "#ff5d58"];
 
     constructor(xPos, yPos, nextX, nextY) {
         this.w = 152;
@@ -21,20 +21,11 @@ class LimbPosition {
         // Draw rectangular positions.
         this.colorFillMechanic();
 
-        // Draw highlight around limb position.
-        CONTEXT.lineWidth = 3;
-        if (this.isSelected) {
-            CONTEXT.strokeStyle = "yellow";
-        } else {
-            CONTEXT.strokeStyle = "#252525";
-        }
-        CONTEXT.strokeRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-
         // Draw numerical representation of concentration.
         CONTEXT.fillStyle = "#252525";
         CONTEXT.font = "30px Trebuchet MS";
         CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x - this.w / 2 + 58.0, this.y);
+        CONTEXT.fillText(this.c.toString(), this.x, this.y);
 
         // Draw water/salt icons.
         this.salt.paint();
@@ -43,59 +34,78 @@ class LimbPosition {
 
     colorFillMechanic() {
 
-        // Color change when concentration < 300 or > 1500.
-        if (this.c < 300 | this.c >= 1500) {
-            CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-            CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        let rad = 15.0;
 
-        // Handle color change when concentration > 300 and < 1500.
-        } else {
+        CONTEXT.fillStyle = LimbPosition.colorGrad[0];
+        CONTEXT.beginPath();
+        CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+        CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
+        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
+        this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+        CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
+        this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
+        CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
+        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
+        this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+        CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
+        this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+        CONTEXT.fill();
 
-            switch((this.c / 300.0 % 1).toFixed(2)) {
+        // // Color change when concentration < 300 or > 1500.
+        // if (this.c < 300 | this.c >= 1500) {
+        //     CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+        //     CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 
-                case (350.0 / 300.0 % 1).toFixed(2):
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (this.h / 6));
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (5 * this.h / 6), this.w, this.h / 6);
-                    break;
+        // // Handle color change when concentration > 300 and < 1500.
+        // } else {
 
-                case (400.0 / 300.0 % 1).toFixed(2):
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (2 * this.h / 6));
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (2 * this.h / 6)), this.w, 2 * this.h / 6);
-                    break;
+        //     switch((this.c / 300.0 % 1).toFixed(2)) {
 
-                case (450.0 / 300.0 % 1).toFixed(2):
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (3 * this.h / 6));
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (3 * this.h / 6)), this.w, 3 * this.h / 6);
-                    break;
+        //         case (350.0 / 300.0 % 1).toFixed(2):
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (this.h / 6));
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (5 * this.h / 6), this.w, this.h / 6);
+        //             break;
 
-                case (500.0 / 300.0 % 1).toFixed(2):
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (4 * this.h / 6));
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (4 * this.h / 6)), this.w, 4 * this.h / 6);
-                    break;
+        //         case (400.0 / 300.0 % 1).toFixed(2):
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (2 * this.h / 6));
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (2 * this.h / 6)), this.w, 2 * this.h / 6);
+        //             break;
 
-                case (550.0 / 300.0 % 1).toFixed(2):
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (5 * this.h / 6));
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-                    CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (5 * this.h / 6)), this.w, 5 * this.h / 6);
-                    break;
+        //         case (450.0 / 300.0 % 1).toFixed(2):
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (3 * this.h / 6));
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (3 * this.h / 6)), this.w, 3 * this.h / 6);
+        //             break;
 
-                case (600.0 / 300.0 % 1).toFixed(2): 
-                    CONTEXT.fillStyle = LimbPosition.colorGrad[this.c / 300];
-                    CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-                    break;
+        //         case (500.0 / 300.0 % 1).toFixed(2):
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (4 * this.h / 6));
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (4 * this.h / 6)), this.w, 4 * this.h / 6);
+        //             break;
 
-            }
+        //         case (550.0 / 300.0 % 1).toFixed(2):
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (5 * this.h / 6));
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
+        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (5 * this.h / 6)), this.w, 5 * this.h / 6);
+        //             break;
 
-        }
+        //         case (600.0 / 300.0 % 1).toFixed(2): 
+        //             CONTEXT.fillStyle = LimbPosition.colorGrad[this.c / 300];
+        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        //             break;
+
+        //     }
+
+        // }
 
     }
 
