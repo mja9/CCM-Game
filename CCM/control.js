@@ -5,13 +5,8 @@ let CANVAS = document.getElementById("game-canvas");
 let CONTEXT = CANVAS.getContext("2d");
 let titleScreenInterval;
 let LOOP_OF_HENLE = {
-
-    //FIXME: These aren't right anymore
-    x: CANVAS.clientWidth / 2.0,
-    y: CANVAS.clientHeight / 2.0,
-    w: 650,
-    h: 700,
-
+    x: 829,
+    y: 360.5,
     paint: function() {
                 // Draw the boxes at the top.
                 CONTEXT.fillStyle = "#0daaf2";
@@ -264,6 +259,7 @@ function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
                             }, 
                             50);
 
+    // FIXME: Change the drag and drop handler to be relative to the limb position rather than the loop
     var drag = function(event) {
 
         // Get event location.
@@ -278,9 +274,9 @@ function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
         if (moveable.id == "water" && moveable.limbPos.x > LOOP_OF_HENLE.x) {
 
             // Check if we are trying to move water past the wall of the ascending limb.
-            if (moveable.x - moveable.w / 2 <= LOOP_OF_HENLE.x + LOOP_OF_HENLE.w / 2 - 150) {
+            if (moveable.x - moveable.w / 2 <= moveable.limbPos.x - (moveable.limbPos.w / 2.0)) {
                 moveable.x = moveable.limbPos.x - moveable.limbPos.w / 2 + moveable.w / 2;
-            } else if (moveable.x + moveable.w / 2 >= LOOP_OF_HENLE.x + LOOP_OF_HENLE.w / 2) {
+            } else if (moveable.x + moveable.w / 2 >= moveable.limbPos.x + (moveable.limbPos.w / 2.0)) {
                 moveable.x = moveable.limbPos.x + moveable.limbPos.w / 2 - moveable.w / 2;
             }
         }
@@ -289,9 +285,9 @@ function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
         if (moveable.id == "salt" && moveable.limbPos.x < LOOP_OF_HENLE.x) {
 
             // Check if we are trying to move salt past the wall of the descending limb.
-            if (moveable.x - moveable.w / 2 <= LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2) {
+            if (moveable.x - moveable.w / 2 <= moveable.limbPos.x - (moveable.limbPos.w / 2.0)) {
                 moveable.x = moveable.limbPos.x - moveable.limbPos.w / 2 + moveable.w / 2;
-            } else if (moveable.x + moveable.w / 2 >= LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 150) {
+            } else if (moveable.x + moveable.w / 2 >= moveable.limbPos.x + (moveable.limbPos.w / 2.0)) {
                 moveable.x = moveable.limbPos.x + moveable.limbPos.w / 2 - moveable.w / 2;
             }
 
