@@ -98,10 +98,15 @@ function initTitleScreen() {
     CLICKABLE.push(simPlayBtn);
     addClickHandler();
     
-    window.setInterval(paintTitleScreen, 50);
+    // Start animation interval and add handler for button scroll over.
+    var titleScreenInterval = window.setInterval(paintTitleScreen, 50);
+    CANVAS.addEventListener("mouseover", menuScrollHandler);
 
 }
 
+/**
+ * Method to paint the menu screen.
+ */
 function paintTitleScreen() {
 
     CONTEXT.drawImage(document.getElementById("menu-bg"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
@@ -114,9 +119,42 @@ function paintTitleScreen() {
 /**
  * Initialize scroll-over functionality for menu buttons.
  */
-function addMenuScrollHandler() {
+function menuScrollHandler(event) {
 
-    // CANVAS
+    let x = event.offsetX;
+    let y = event.offsetY;
+
+    CLICKABLE.forEach(btn => {
+
+        // Check if we are hovering over a button.
+        if (x >= (btn.x - (btn.w / 2.0)) && x <= (btn.x + (btn.w / 2.0))) {
+
+            if (y >= (btn.y - (btn.h / 2.0)) && y <= (btn.y + (btn.h / 2.0))) {
+            
+                btn.color = "#ffab04";
+                btn.isHovering = true;
+
+            }
+
+        }
+
+        // Check if we have moved off of a button we were hovering over.
+        if (btn.isHovering) {
+
+            if (!(x >= (btn.x - (btn.w / 2.0)) && x <= (btn.x + (btn.w / 2.0)))) {
+
+                if (!(y >= (btn.y - (btn.h / 2.0)) && y <= (btn.y + (btn.h / 2.0)))) {
+                
+                    btn.color = "#0ba1e7";
+                    btn.isHovering = false;
+    
+                }
+    
+            }
+
+        }
+
+    });
 
 }
 
@@ -623,6 +661,10 @@ function resetAfterFlow() {
 // ---------------------------------------------- Methods to initialize different game states. ---------------------------------
 
 function initGameTutorial() {
+
+    // Remove animation interval and scroll over handler.
+    window.clearInterval(titleScreenInterval);
+    CANVAS.removeEventListener("mouseover", menuScrollHandler);
 
     // Initialize pump, equilibrate, flow buttons.
     initStateButtons();

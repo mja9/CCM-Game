@@ -32,6 +32,7 @@ class MenuButton {
         this.onClick = clickAction;
         this.color = color;
         this.label = label;
+        this.isHovering = false;
     }
 
     paint() {
