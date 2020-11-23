@@ -108,15 +108,11 @@ function initTitleScreen() {
 
 function paintTitleScreen() {
 
-    // Set the background.
-    CONTEXT.fillStyle = "cornsilk";
-    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-
-    // Set the game title.
-    CONTEXT.fillStyle = "darkslateblue";
-    CONTEXT.font = "100px Sylfaen";
-    CONTEXT.textAlign = "center";
-    CONTEXT.fillText("Countercurrent Multiplication", CANVAS.clientWidth / 2, CANVAS.clientHeight / 4);
+    // FIXME: Set the background.
+    console.log(document.getElementById("menu-bg"));
+    CONTEXT.drawImage(document.getElementById("menu-bg"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+    // CONTEXT.fillStyle = "cornsilk";
+    // CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
 }
 
