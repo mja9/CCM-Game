@@ -655,7 +655,6 @@ function initGameTutorial() {
     CANVAS.removeEventListener("mousemove", menuScrollHandler);
 
     // Initialize pump, equilibrate, flow buttons.
-    // FIXME: 
     initStateButtons();
 
     // Initialize the limbs.
@@ -1050,6 +1049,52 @@ function drawAdditionals() {
 
 }
 
+function drawSideBar() {
+
+    // Background
+    CONTEXT.fillStyle = "white";
+    CONTEXT.globalAlpha = 0.46;
+    CONTEXT.fillRect(45, 125, 373, 226);
+    CONTEXT.globalAlpha = 1.0;
+
+    // Pump decor
+    CONTEXT.fillStyle = "#ff5853";
+    CONTEXT.beginPath();
+    CONTEXT.moveTo(61, 200);
+    CONTEXT.lineTo(61, 150);
+    CONTEXT.quadraticCurveTo(61, 145, 66, 145);
+    CONTEXT.quadraticCurveTo(71, 145, 71, 150);
+    CONTEXT.lineTo(71, 200);
+    CONTEXT.quadraticCurveTo(71, 205, 66, 205);
+    CONTEXT.quadraticCurveTo(61, 205, 61, 200);
+    CONTEXT.fill();
+
+    // Equi decor
+    CONTEXT.fillStyle = "#ffb829";
+    CONTEXT.beginPath();
+    CONTEXT.moveTo(61, 265);
+    CONTEXT.lineTo(61, 215);
+    CONTEXT.quadraticCurveTo(61, 210, 66, 210);
+    CONTEXT.quadraticCurveTo(71, 210, 71, 215);
+    CONTEXT.lineTo(71, 265);
+    CONTEXT.quadraticCurveTo(71, 270, 66, 270);
+    CONTEXT.quadraticCurveTo(61, 270, 61, 265);
+    CONTEXT.fill();
+
+    // Flow decor
+    CONTEXT.fillStyle = "#31b1ee";
+    CONTEXT.beginPath();
+    CONTEXT.moveTo(61, 330);
+    CONTEXT.lineTo(61, 280);
+    CONTEXT.quadraticCurveTo(61, 275, 66, 275);
+    CONTEXT.quadraticCurveTo(71, 275, 71, 280);
+    CONTEXT.lineTo(71, 330);
+    CONTEXT.quadraticCurveTo(71, 335, 66, 335);
+    CONTEXT.quadraticCurveTo(61, 335, 61, 330);
+    CONTEXT.fill();
+    
+}
+
 function paintGameBoard() {
 
     // Clear the canvas.
@@ -1057,6 +1102,8 @@ function paintGameBoard() {
 
     // Set new background color (must be behind other elements).
     CONTEXT.drawImage(document.getElementById("loop-bkgd"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+
+    drawSideBar();
 
     // Draw the loop.
     drawLoopOfHenle();
