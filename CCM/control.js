@@ -9,51 +9,43 @@ let LOOP_OF_HENLE = {
     y: CANVAS.clientHeight / 2.0,
     w: 650,
     h: 700,
+    // FIXME: Change this
     paint: function() {
-                CONTEXT.drawImage(document.getElementById("loop-of-henle"), this.x - this.w / 2, this.y - this.h / 2);
+                // Draw the boxes at the top.
+                CONTEXT.fillStyle = "#0daaf2";
+                CONTEXT.fillRect(505, 0, 148, 30);
+                CONTEXT.fillRect(1005, 0, 148, 30);
+                // CONTEXT.drawImage(document.getElementById("loop-of-henle"), this.x - this.w / 2, this.y - this.h / 2);
            }
 };
 
-let INCOMING = new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, -90, 
-    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0);
+let INCOMING = new LimbPosition(579, -90, 579, 78);
 
 let D_LIMB = [
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0, 
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0, 
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0)
+                new LimbPosition(579, 78, 579, 167),
+                new LimbPosition(579, 167, 579, 256),
+                new LimbPosition(579, 256, 579, 345),
+                new LimbPosition(579, 345, 579, 434),
+                new LimbPosition(579, 434, 579, 523),
+                new LimbPosition(579, 523, 1079, 523)
              ];
 
 let A_LIMB = [
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, -90),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0, 
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0),        
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 193.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 283.0),
-                new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0,
-                    LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0)
+                new LimbPosition(1079, 78, 1079, -90),
+                new LimbPosition(1079, 167, 1079, 78),        
+                new LimbPosition(1079, 256, 1079, 167),
+                new LimbPosition(1079, 345, 1079, 256),
+                new LimbPosition(1079, 434, 1079, 345),
+                new LimbPosition(1079, 523, 1079, 434)
              ];
 
 let INTER_FLUID = [
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 16.0),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106.0),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 196.0),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 286.0),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 376.0),
-                    new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 466.0)
+                    new InterPosition(829, 78),
+                    new InterPosition(829, 167),
+                    new InterPosition(829, 256),
+                    new InterPosition(829, 345),
+                    new InterPosition(829, 434),
+                    new InterPosition(829, 523)
                   ];
 
 let CLICKABLE = [];
@@ -667,6 +659,7 @@ function initGameTutorial() {
     CANVAS.removeEventListener("mousemove", menuScrollHandler);
 
     // Initialize pump, equilibrate, flow buttons.
+    // FIXME: 
     initStateButtons();
 
     // Initialize the limbs.
@@ -712,22 +705,23 @@ function initInterstitialFluid() {
 
 }
 
+// TODO: Replace with new state buttons
 function initStateButtons() {
 
-    // Pump button.
-    var pumpButton = new Button(1137.0, 257.0, 170, 80, validatePump, "pump");
-    STATE_BUTTONS.push(pumpButton);
-    CLICKABLE.push(pumpButton);
+    // // Pump button.
+    // var pumpButton = new Button(1137.0, 257.0, 170, 80, validatePump, "pump");
+    // STATE_BUTTONS.push(pumpButton);
+    // CLICKABLE.push(pumpButton);
 
-    // Equilibrate button.
-    var equilibrateButton = new Button(163.0, 257.0, 170, 80, function() {}, "equi-disabled");
-    STATE_BUTTONS.push(equilibrateButton);
-    CLICKABLE.push(equilibrateButton);
+    // // Equilibrate button.
+    // var equilibrateButton = new Button(163.0, 257.0, 170, 80, function() {}, "equi-disabled");
+    // STATE_BUTTONS.push(equilibrateButton);
+    // CLICKABLE.push(equilibrateButton);
 
-    // Flow button.
-    var flowButton = new Button(CANVAS.clientWidth / 2.0, 665.0, 200, 60, function() {}, "flow-disabled");
-    STATE_BUTTONS.push(flowButton);
-    CLICKABLE.push(flowButton);
+    // // Flow button.
+    // var flowButton = new Button(CANVAS.clientWidth / 2.0, 665.0, 200, 60, function() {}, "flow-disabled");
+    // STATE_BUTTONS.push(flowButton);
+    // CLICKABLE.push(flowButton);
 
 }
 
@@ -1060,12 +1054,14 @@ function drawAdditionals() {
 
 }
 
+// TODO: Change this to the new design
 function paintGameBoard() {
 
     // Clear the canvas.
     CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
     // Set new background color (must be behind other elements).
+    // FIXME: Use the new background
     CONTEXT.fillStyle = "#e4f6ff";
     CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
@@ -1102,7 +1098,8 @@ function displayWelcomeTutorial() {
             CLICKABLE = oldClickable;
             paintGameBoard();
             addMoveableHandler();
-            displayHowToPump();
+            // FIXME: Change this once the new design has been implemented
+            // displayHowToPump();
         }, "ok-button"),
         "welcome-box");
 

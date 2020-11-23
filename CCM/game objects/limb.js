@@ -3,10 +3,10 @@ class LimbPosition {
     static colorGrad = ["#ffe7c7", "#ffbe4d", "#ffab04", "#ff8316", "#ff5f33", "#ff413b"];
 
     constructor(xPos, yPos, nextX, nextY) {
-        this.w = 147;
-        this.h = 90;
-        this.startX = xPos + this.w / 2;
-        this.startY = yPos + this.h / 2;
+        this.w = 152;
+        this.h = 82;
+        this.startX = xPos;
+        this.startY = yPos;
         this.x = this.startX;
         this.y = this.startY;
         this.salt = new SaltIcon(this.x + this.w / 2 - 7.0, this.y + this.h / 2 - 7.0, this);

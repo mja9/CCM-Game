@@ -3,10 +3,10 @@ class InterPosition {
     static colorGrad = ["#ffe7c7", "#ffbe4d", "#ffab04", "#ff8316", "#ff5f33", "#ff413b"];
 
     constructor(xPos, yPos) {
-        this.w = 323;
-        this.h = 85;
-        this.x = xPos + this.w / 2;
-        this.y = yPos + this.h / 2;
+        this.w = 322;
+        this.h = 82;
+        this.x = xPos;
+        this.y = yPos;
         this.c = 300;
     }   
 
