@@ -16,9 +16,9 @@ class InterPosition {
 
         // Draw numerical representation of concentration.
         CONTEXT.fillStyle = "#252525";
-        CONTEXT.font = "40px Trebuchet MS";
+        CONTEXT.font = "40px Courier New";
         CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x, this.y + 11.0);
+        CONTEXT.fillText(this.c.toString(), this.x, this.y);
     }
 
     colorFillMechanic() {

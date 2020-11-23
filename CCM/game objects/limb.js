@@ -23,9 +23,9 @@ class LimbPosition {
 
         // Draw numerical representation of concentration.
         CONTEXT.fillStyle = "#252525";
-        CONTEXT.font = "30px Trebuchet MS";
+        CONTEXT.font = "30px Courier New";
         CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x, this.y);
+        CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
 
         // Draw water/salt icons.
         this.salt.paint();
@@ -128,8 +128,8 @@ class WaterIcon {
 
     constructor(xPos, yPos, limbPos) {
         this.id = "water";
-        this.w = 26;
-        this.h = 38;
+        this.w = 28;
+        this.h = 40;
         this.startX = xPos + this.w / 2;
         this.startY = yPos - this.h / 2;
         this.x = this.startX;
@@ -192,8 +192,8 @@ class SaltIcon {
 
     constructor(xPos, yPos, limbPos) {
         this.id = "salt";
-        this.w = 30;
-        this.h = 34;
+        this.w = 33;
+        this.h = 37;
         this.startX = xPos - this.w / 2;
         this.startY = yPos - this.h / 2;
         this.x = this.startX;
