@@ -4,7 +4,7 @@ let i = 0;
 let CANVAS = document.getElementById("game-canvas");
 let CONTEXT = CANVAS.getContext("2d");
 let titleScreenInterval;
-var LOOP_OF_HENLE = {
+let LOOP_OF_HENLE = {
     x: CANVAS.clientWidth / 2.0,
     y: CANVAS.clientHeight / 2.0,
     w: 650,
@@ -14,10 +14,10 @@ var LOOP_OF_HENLE = {
            }
 };
 
-var INCOMING = new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, -90, 
+let INCOMING = new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, -90, 
     LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0);
 
-var D_LIMB = [
+let D_LIMB = [
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0,
                     LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0),
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 1.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0, 
@@ -32,7 +32,7 @@ var D_LIMB = [
                     LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 463.0)
              ];
 
-var A_LIMB = [
+let A_LIMB = [
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 13.0,
                     LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, -90),
                 new LimbPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 103.0, 
@@ -47,7 +47,7 @@ var A_LIMB = [
                     LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 501.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 373.0)
              ];
 
-var INTER_FLUID = [
+let INTER_FLUID = [
                     new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 16.0),
                     new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 106.0),
                     new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 196.0),
@@ -56,14 +56,14 @@ var INTER_FLUID = [
                     new InterPosition(LOOP_OF_HENLE.x - LOOP_OF_HENLE.w / 2 + 163.5, LOOP_OF_HENLE.y - LOOP_OF_HENLE.h / 2 + 466.0)
                   ];
 
-var CLICKABLE = [];
-var MOVEABLE = [];
-var DROPPABLE = [];
-var STATE_BUTTONS = [];
-var PASSIVE_POP_UPS = [];
-var ADDITIONALS = [];
+let CLICKABLE = [];
+let MOVEABLE = [];
+let DROPPABLE = [];
+let STATE_BUTTONS = [];
+let PASSIVE_POP_UPS = [];
+let ADDITIONALS = [];
 
-var inTutorial = false;
+let inTutorial = false;
 
 // ---------------------------------------------- Methods for the game title scene. ---------------------------------
 
@@ -134,6 +134,7 @@ function menuScrollHandler(event) {
             
                 btn.color = "#ffab04";
                 btn.isHovering = true;
+                btn.v = 1.5;
 
             }
 
@@ -147,6 +148,7 @@ function menuScrollHandler(event) {
                 
                     btn.color = "#0ba1e7";
                     btn.isHovering = false;
+                    btn.v = -1.5;
     
             }
 

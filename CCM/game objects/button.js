@@ -33,29 +33,50 @@ class MenuButton {
         this.color = color;
         this.label = label;
         this.isHovering = false;
+        this.offset = 0;
+        this.v = 0;
+    }
+
+    /**
+     * Method to animate the button triangles when scrolling over.
+     */
+    move() {
+        this.offset += this.v;
+
+        if (this.offset > 10) {
+            this.offset = 10;
+        }
+
+        if (this.offset < 0) {
+            this.offset = 0;
+        } 
     }
 
     paint() {
+
+        // Move for animation before painting.
+        this.move();
+
         let ratio = 0.0877;
 
         // Draw the left traingle
         CONTEXT.fillStyle = this.color;
         CONTEXT.beginPath();
-        CONTEXT.moveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0));
-        CONTEXT.lineTo((this.x - (this.w / 2.0) - (this.w * ratio)), this.y);
-        CONTEXT.lineTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0));
+        CONTEXT.moveTo(this.x - (this.w / 2.0) - this.offset, this.y - (this.h / 2.0));
+        CONTEXT.lineTo((this.x - (this.w / 2.0) - (this.w * ratio)) - this.offset, this.y);
+        CONTEXT.lineTo(this.x - (this.w / 2.0) - this.offset, this.y + (this.h / 2.0));
         CONTEXT.fill();
 
         // Draw the right traingle
         CONTEXT.fillStyle = this.color;
         CONTEXT.beginPath();
-        CONTEXT.moveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0));
-        CONTEXT.lineTo((this.x + (this.w / 2.0) + (this.w * ratio)), this.y);
-        CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0));
+        CONTEXT.moveTo(this.x + (this.w / 2.0) + this.offset, this.y - (this.h / 2.0));
+        CONTEXT.lineTo((this.x + (this.w / 2.0) + (this.w * ratio)) + this.offset, this.y);
+        CONTEXT.lineTo(this.x + (this.w / 2.0) + this.offset, this.y + (this.h / 2.0));
         CONTEXT.fill();
 
         // Draw the words
-        CONTEXT.font = "30pt Courier New";
+        CONTEXT.font = "25pt Courier New";
         CONTEXT.textAlign = "center";
         CONTEXT.textBaseline = "middle";
         CONTEXT.fillText(this.label, this.x, this.y);
