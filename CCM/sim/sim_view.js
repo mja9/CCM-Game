@@ -7,7 +7,7 @@ function initSimView() {
 
     // Clear menu intervals and listeners.
     window.clearInterval(titleScreenInterval);
-    CANVAS.removeEventListener("mouseover", menuScrollHandler);
+    CANVAS.removeEventListener("mousemove", menuScrollHandler);
 
     // Initialize loop game objects
     initStateButtons();

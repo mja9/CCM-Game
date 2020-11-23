@@ -3,6 +3,7 @@
 let i = 0;
 let CANVAS = document.getElementById("game-canvas");
 let CONTEXT = CANVAS.getContext("2d");
+let titleScreenInterval;
 var LOOP_OF_HENLE = {
     x: CANVAS.clientWidth / 2.0,
     y: CANVAS.clientHeight / 2.0,
@@ -81,7 +82,7 @@ function initTitleScreen() {
 
                                         // Start the tutorial.
                                         initGameTutorial();
-                                    }, "#ffab04", "play");
+                                    }, "#0ba1e7", "play");
 
     let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.74, 228, 25, 
                                     function() {
@@ -99,8 +100,8 @@ function initTitleScreen() {
     addClickHandler();
     
     // Start animation interval and add handler for button scroll over.
-    var titleScreenInterval = window.setInterval(paintTitleScreen, 50);
-    CANVAS.addEventListener("mouseover", menuScrollHandler);
+    titleScreenInterval = window.setInterval(paintTitleScreen, 50);
+    CANVAS.addEventListener("mousemove", menuScrollHandler);
 
 }
 
@@ -141,14 +142,11 @@ function menuScrollHandler(event) {
         // Check if we have moved off of a button we were hovering over.
         if (btn.isHovering) {
 
-            if (!(x >= (btn.x - (btn.w / 2.0)) && x <= (btn.x + (btn.w / 2.0)))) {
-
-                if (!(y >= (btn.y - (btn.h / 2.0)) && y <= (btn.y + (btn.h / 2.0)))) {
+            if (!(x >= (btn.x - (btn.w / 2.0)) && x <= (btn.x + (btn.w / 2.0))) ||
+                (!(y >= (btn.y - (btn.h / 2.0)) && y <= (btn.y + (btn.h / 2.0))))) {
                 
                     btn.color = "#0ba1e7";
                     btn.isHovering = false;
-    
-                }
     
             }
 
@@ -664,7 +662,7 @@ function initGameTutorial() {
 
     // Remove animation interval and scroll over handler.
     window.clearInterval(titleScreenInterval);
-    CANVAS.removeEventListener("mouseover", menuScrollHandler);
+    CANVAS.removeEventListener("mousemove", menuScrollHandler);
 
     // Initialize pump, equilibrate, flow buttons.
     initStateButtons();
