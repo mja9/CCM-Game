@@ -484,7 +484,7 @@ function validateEquilibrate() {
 
 }
 
-function flow() {
+function flow(inSim = false) {
     console.log("Flowing...");
 
     var flag = false;
@@ -546,7 +546,13 @@ function flow() {
         paintGameBoard();
         if (flag) {
             window.clearInterval(animation);
-            flowConcentration();
+
+            // FIXME: Here.
+            if (inSim) {
+                flowConcentrationSim();
+            } else {
+                flowConcentration();
+            }
         }
 
     }, 50);

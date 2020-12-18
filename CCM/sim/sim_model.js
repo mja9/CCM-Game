@@ -94,8 +94,40 @@ function simFLOW() {
     if (isRunning) {
 
         // FIXME: Using flow starts the gameAI and doubles up the animations
-        flow();
+        flow(true);
         currState = simState.PUMP;
-        // window.setInterval(currState, flowCoolDown);
     }
 }
+
+function flowConcentrationSim(i=0, limb="dlimb", conc=300) {
+
+    // Flow in the descending limb.
+    if (limb == "dlimb") {
+        if (i == 5) {
+            var oldConc = D_LIMB[i].c;
+            D_LIMB[i].c = conc;
+            flowConcentration(5, "alimb", oldConc);
+
+        } else {
+            var oldConc = D_LIMB[i].c;
+            D_LIMB[i].c = conc;
+            flowConcentration(i + 1, limb, oldConc);
+        }
+    }
+
+    // Flow in the ascending limb.
+    if (limb == "alimb") {
+        if (i == 0) {   // Base case.
+            A_LIMB[i].c = conc;
+            resetAfterFlow();
+
+        } else {
+            var oldConc = A_LIMB[i].c;
+            A_LIMB[i].c = conc;
+            flowConcentration(i - 1, limb, oldConc);
+        }
+
+    }
+
+}
+
