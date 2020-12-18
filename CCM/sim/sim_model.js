@@ -8,7 +8,7 @@ const simState = {
 let currState = simState.PUMP;
 let waveCoolDown = 1450; // ms
 let transitionCoolDown = 500; // ms
-let flowCoolDown = 3000; //ms
+let flowCoolDown = 6000; //ms
 
 /**
  * Method to initialize the simulation model.
@@ -92,10 +92,9 @@ function simEQUI() {
  */
 function simFLOW() {
     if (isRunning) {
-
-        // FIXME: Using flow starts the gameAI and doubles up the animations
         flow(true);
         currState = simState.PUMP;
+        window.setTimeout(currState, flowCoolDown);
     }
 }
 
@@ -106,12 +105,12 @@ function flowConcentrationSim(i=0, limb="dlimb", conc=300) {
         if (i == 5) {
             var oldConc = D_LIMB[i].c;
             D_LIMB[i].c = conc;
-            flowConcentration(5, "alimb", oldConc);
+            flowConcentrationSim(5, "alimb", oldConc);
 
         } else {
             var oldConc = D_LIMB[i].c;
             D_LIMB[i].c = conc;
-            flowConcentration(i + 1, limb, oldConc);
+            flowConcentrationSim(i + 1, limb, oldConc);
         }
     }
 
@@ -124,7 +123,7 @@ function flowConcentrationSim(i=0, limb="dlimb", conc=300) {
         } else {
             var oldConc = A_LIMB[i].c;
             A_LIMB[i].c = conc;
-            flowConcentration(i - 1, limb, oldConc);
+            flowConcentrationSim(i - 1, limb, oldConc);
         }
 
     }

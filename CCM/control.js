@@ -547,10 +547,11 @@ function flow(inSim = false) {
         if (flag) {
             window.clearInterval(animation);
 
-            // FIXME: Here.
             if (inSim) {
+                console.log("Sim version of flow was called!")
                 flowConcentrationSim();
             } else {
+                console.log("The non-sim version was called!");
                 flowConcentration();
             }
         }
