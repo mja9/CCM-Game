@@ -736,9 +736,9 @@ function initInterstitialFluid() {
 function initStateButtons() {
 
     // // Pump button.
-    // var pumpButton = new Button(1137.0, 257.0, 170, 80, validatePump, "pump");
-    // STATE_BUTTONS.push(pumpButton);
-    // CLICKABLE.push(pumpButton);
+    var pumpButton = new StateButton(194.0, 175.0, 256, 60, function(){}, "255, 88, 83");
+    STATE_BUTTONS.push(pumpButton);
+    CLICKABLE.push(pumpButton);
 
     // // Equilibrate button.
     // var equilibrateButton = new Button(163.0, 257.0, 170, 80, function() {}, "equi-disabled");
@@ -1135,12 +1135,11 @@ function paintGameBoard() {
     // Set new background color (must be behind other elements).
     CONTEXT.drawImage(document.getElementById("loop-bkgd"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
-    drawSideBar();
-
     // Draw the loop.
     drawLoopOfHenle();
 
     // Draw state controlling buttons.
+    drawSideBar();
     drawStateButtons();
 
     // Draw interstitial fluid.

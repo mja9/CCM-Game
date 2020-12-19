@@ -97,6 +97,14 @@ class StateButton {
         this.label = label;
     }
 
+    paint() {
+        let gradient = CONTEXT.createLinearGradient(this.x - (this.w / 2.0), this.y, this.x + (this.w / 2.0), this.y);
+        gradient.addColorStop(0, 'rgba(' + this.color + ', 0.5)');
+        gradient.addColorStop(1, 'rgba(' + this.color + ', 0.0)');
+        CONTEXT.fillStyle = gradient;
+        CONTEXT.fillRect(this.x - (this.w / 2.0), this.y - (this.h / 2.0), this.w, this.h);
+    }
+
 
 
 }
