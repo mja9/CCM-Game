@@ -96,7 +96,7 @@ class StateButton {
         this.color = color;
         this.label = label;
         this.gradWidth = this.w;
-        this.gradStop = 1;
+        this.gradStop = 0;
         this.v = 0;
         this.v2 = 0;
     }
@@ -136,12 +136,12 @@ class StateButton {
         // TODO: Clamp for testing.
         if (this.gradStop < 0.0) {
             this.gradStop = 0.0;
-            this.v2 = this.v2 * -1;
+            // this.v2 = this.v2 * -1;
         }
 
         if (this.gradStop > 1.0) {
             this.gradStop = 1.0;
-            this.v2 = this.v2 * -1;
+            // this.v2 = this.v2 * -1;
         }
 
 

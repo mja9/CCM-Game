@@ -36,6 +36,10 @@ function simStop() {
  * Method to simulate pumping. Only runs while the simulation is in play.
  */
 function simPUMP() {
+
+    // FIXME: Calling paint too many times -- throwing the timing off.
+    STATE_BUTTONS[0].v2 = 0.01;
+
     if (isRunning) {
 
         let didChange = false;
@@ -52,6 +56,9 @@ function simPUMP() {
 
         // Cooldown until switch happens.
         } else {
+
+            // FIXME: Calling paint too many times -- throwing the timing off.
+            STATE_BUTTONS[0].v2 = -0.01;
             currState = simState.EQUI;
             window.setTimeout(currState, transitionCoolDown);
         }
@@ -63,6 +70,10 @@ function simPUMP() {
  * Method to simulat equilibration. Only runs when simulation is in play.
  */
 function simEQUI() {
+
+    // FIXME:
+    STATE_BUTTONS[1].v2 = 0.01;
+
     if (isRunning) {
 
         let didChange = false;
@@ -79,6 +90,9 @@ function simEQUI() {
 
         // Cooldown until switch happens.
         } else {
+
+            // FIXME:
+            STATE_BUTTONS[1].v2 = -0.01;
             currState = simState.FLOW;
             window.setTimeout(currState, transitionCoolDown);
         }
@@ -91,10 +105,18 @@ function simEQUI() {
  * Only runs while the simulation is in play.
  */
 function simFLOW() {
+
+    // FIXME: 
+    STATE_BUTTONS[2].v2 = 0.01;
     if (isRunning) {
         flow(true);
         currState = simState.PUMP;
-        window.setTimeout(currState, flowCoolDown);
+        window.setTimeout(function() {
+            currState();
+
+            // FIXME:
+            STATE_BUTTONS[2].v2 = -0.01;
+        }, flowCoolDown);
     }
 }
 
