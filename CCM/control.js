@@ -44,6 +44,7 @@ let INTER_FLUID = [
                     new InterPosition(829, 523)
                   ];
 
+// TODO: Design paint loop to remove some of these!
 let CLICKABLE = [];
 let MOVEABLE = [];
 let DROPPABLE = [];
@@ -60,91 +61,16 @@ let inTutorial = false;
  */
 function initTitleScreen() {
 
-    // Create the title screen buttons.
-    let regPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.63, 228, 25, 
-                                    function() {
-                                        console.log("Clicked start button!");
+    titleView = new TitleView();
+    titleModel = new TitleModel();
 
-                                        // Lock user out of trigerring another click event.
-                                        CLICKABLE = [];
-
-                                        // Start the tutorial.
-                                        initGameTutorial();
-                                    }, "#0ba1e7", "play");
-
-    let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.74, 228, 25, 
-                                    function() {
-                                        console.log("Clicked simulation button!");
-                                        CLICKABLE = [];
-
-                                        // Start the simulation.
-                                        initSimView();
-                                        initSimModel();
-                                    }, "#0ba1e7", "simulate");
-
-    // Regiter the button as clickable items on the GUI.
-    CLICKABLE.push(regPlayBtn);
-    CLICKABLE.push(simPlayBtn);
-    addClickHandler();
-    
-    // Start animation interval and add handler for button scroll over.
-    titleScreenInterval = window.setInterval(paintTitleScreen, 50);
-    CANVAS.addEventListener("mousemove", menuScrollHandler);
-
-}
-
-/**
- * Method to paint the menu screen.
- */
-function paintTitleScreen() {
-
-    CONTEXT.drawImage(document.getElementById("menu-bg"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-    CLICKABLE.forEach(btn => btn.paint());
+    // Start paint loop for title screen.
+    // FIXME: Should not need this!
+    titleScreenInterval = window.setInterval(titleView.paint, 50);
 
 }
 
 // ------------------------------------------------ Methods for handling user triggered events. ----------------------------------------------------------------------------
-
-/**
- * Initialize scroll-over functionality for menu buttons.
- */
-function menuScrollHandler(event) {
-
-    let x = event.offsetX;
-    let y = event.offsetY;
-
-    CLICKABLE.forEach(btn => {
-
-        // Check if we are hovering over a button.
-        if (x >= (btn.x - (btn.w / 2.0)) && x <= (btn.x + (btn.w / 2.0))) {
-
-            if (y >= (btn.y - (btn.h / 2.0)) && y <= (btn.y + (btn.h / 2.0))) {
-            
-                btn.color = "#ffab04";
-                btn.isHovering = true;
-                btn.v = 1.5;
-
-            }
-
-        }
-
-        // Check if we have moved off of a button we were hovering over.
-        if (btn.isHovering) {
-
-            if (!(x >= (btn.x - (btn.w / 2.0)) && x <= (btn.x + (btn.w / 2.0))) ||
-                (!(y >= (btn.y - (btn.h / 2.0)) && y <= (btn.y + (btn.h / 2.0))))) {
-                
-                    btn.color = "#0ba1e7";
-                    btn.isHovering = false;
-                    btn.v = -1.5;
-    
-            }
-
-        }
-
-    });
-
-}
 
 /*
 * Initialize the click handler.
