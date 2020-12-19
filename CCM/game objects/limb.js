@@ -122,6 +122,22 @@ class LimbPosition {
         this.salt.y += yDiff;
     }
 
+    moveTo(x, y) {
+
+        // Delta to new position.
+        let xDiff = x - this.x;
+        let yDiff = y - this.y;
+
+        // Move limp pos and icons.
+        this.x += xDiff;
+        this.y += yDiff;
+        this.water.x += xDiff;
+        this.water.y += yDiff;
+        this.salt.x += xDiff;
+        this.salt.y += yDiff;
+        
+    }
+
 }
 
 class WaterIcon {

@@ -494,12 +494,22 @@ function flow(inSim = false) {
         // Regular positions.
         if (INCOMING.y < INCOMING.nextY) {
             INCOMING.move(0, 5);
+            
+            // Fix position.
+            if (INCOMING.y > INCOMING.nextY) {
+                INCOMING.moveTo(INCOMING.x, INCOMING.nextY);
+            }
         }
 
         D_LIMB.forEach(limb => {
 
             if ((limb.x == limb.nextX) && (limb.y < limb.nextY)) {
                 limb.move(0, 5);
+
+                // Fix the position.
+                if (limb.y > limb.nextY) {
+                    limb.moveTo(limb.x, limb.nextY);
+                }
             }
 
         });
@@ -508,6 +518,11 @@ function flow(inSim = false) {
 
             if ((limb.x == limb.nextX) && (limb.y > limb.nextY)) {
                 limb.move(0, -5);
+
+                // Fix the position.
+                if (limb.y < limb.nextY) {
+                    limb.moveTo(limb.x, limb.nextY);
+                }
             }
 
         });
@@ -537,8 +552,7 @@ function flow(inSim = false) {
                 D_LIMB[5].move(0, -10);
 
                 if (D_LIMB[5].y <= D_LIMB[5].nextY) {
-                    D_LIMB[5].x = D_LIMB[5].nextX;
-                    D_LIMB[5].y = D_LIMB[5].nextY;
+                    D_LIMB[5].moveTo(D_LIMB[5].nextX, D_LIMB[5].nextY);
                     flag = true;
                 }
             } 
@@ -640,7 +654,20 @@ function resetAfterFlow() {
     ADDITIONALS.pop();
 
     // Handle the regular limb positions.
+    let i = 0;
     D_LIMB.forEach(pos => {
+        i += 1;
+
+        if (i == 6) {
+            // console.log("Old X: " + pos.x);
+            // console.log("Old Y: " + pos.y);
+
+            // console.log("Diff X: " + (pos.startX - pos.x));
+            // console.log("Diff Y: " + (pos.startY - pos.y));
+            console.log("Old icon Y: " + pos.salt.y);
+            pos.move(pos.startX - pos.x, pos.startY - pos.y);
+            console.log("New icon Y: " + pos.salt.y);
+        }
         pos.move(pos.startX - pos.x, pos.startY - pos.y);
     });
 
