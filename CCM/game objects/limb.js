@@ -13,8 +13,8 @@ class LimbPosition {
         this.water = new WaterIcon(this.x - this.w / 2 + 7.0, this.y + this.h / 2 - 7.0, this);
         this.c = 300;
         this.isSelected = false;
-        this.nextX = nextX + this.w / 2;
-        this.nextY = nextY + this.h / 2;
+        this.nextX = nextX;
+        this.nextY = nextY;
     }   
 
     paint() {
