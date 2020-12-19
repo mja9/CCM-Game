@@ -23,7 +23,7 @@ class Dispatcher {
 
     /**
      * Removes observer from list of observer so it no longer recieves commands.
-     * @param {*} observer Assumed to share a method with all other observers.
+     * @param {Object} observer Assumed to share a method with all other observers.
      */
     remove(observer) {
         if (this.observers.includes(observer)) {
@@ -40,6 +40,5 @@ class Dispatcher {
             command(observer);
         });
     }
-
 
 }
