@@ -1170,6 +1170,14 @@ function displayWelcomeTutorial() {
             addMoveableHandler();
             // FIXME: Change this once the new design has been implemented
             // displayHowToPump();
+
+            // TODO: For testing
+            let test = window.setInterval(function() {
+                paintGameBoard();
+            }, 50);
+            STATE_BUTTONS[0].v = -7.5;
+            STATE_BUTTONS[1].v2 = -0.03;
+
         }, "ok-button"),
         "welcome-box");
 
