@@ -732,23 +732,22 @@ function initInterstitialFluid() {
 
 }
 
-// TODO: Replace with new state buttons
 function initStateButtons() {
 
-    // // Pump button.
+    // Pump button.
     var pumpButton = new StateButton(194.0, 175.0, 256, 60, function(){}, "255, 88, 83");
     STATE_BUTTONS.push(pumpButton);
     CLICKABLE.push(pumpButton);
 
-    // // Equilibrate button.
-    // var equilibrateButton = new Button(163.0, 257.0, 170, 80, function() {}, "equi-disabled");
-    // STATE_BUTTONS.push(equilibrateButton);
-    // CLICKABLE.push(equilibrateButton);
+    // Equilibrate button.
+    var equilibrateButton = new StateButton(194.0, 240.0, 256, 60, function() {}, "255, 184, 41");
+    STATE_BUTTONS.push(equilibrateButton);
+    CLICKABLE.push(equilibrateButton);
 
-    // // Flow button.
-    // var flowButton = new Button(CANVAS.clientWidth / 2.0, 665.0, 200, 60, function() {}, "flow-disabled");
-    // STATE_BUTTONS.push(flowButton);
-    // CLICKABLE.push(flowButton);
+    // Flow button.
+    var flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
+    STATE_BUTTONS.push(flowButton);
+    CLICKABLE.push(flowButton);
 
 }
 

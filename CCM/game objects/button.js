@@ -105,7 +105,14 @@ class StateButton {
         CONTEXT.fillRect(this.x - (this.w / 2.0), this.y - (this.h / 2.0), this.w, this.h);
     }
 
+    // TODO: Try both versions of the animation
+    animate() {
 
+    }
+
+    stopAnimation() {
+
+    }
 
 }
 
