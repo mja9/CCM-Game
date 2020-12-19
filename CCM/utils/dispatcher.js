@@ -31,5 +31,15 @@ class Dispatcher {
         }
     }
 
+    /**
+     * Dispatches command to each of the observers.
+     * @param {Function} command A function accepting an observer capable of handling command.
+     */
+    dispatchCommand(command) {
+        this.observers.forEach(observer => {
+            command(observer);
+        });
+    }
+
 
 }
