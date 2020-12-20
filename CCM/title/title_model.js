@@ -1,14 +1,14 @@
 class TitleModel {
 
     constructor() {
-        CANVAS.addEventListener("mousemove", this.menuScrollHandler);
+        CANVAS.addEventListener("mousemove", TitleModel.menuScrollHandler);
         addClickHandler();
     }
 
     /**
      * Initialize scroll-over functionality for menu buttons.
      */
-    menuScrollHandler(event) {
+    static menuScrollHandler(event) {
 
         let x = event.offsetX;
         let y = event.offsetY;

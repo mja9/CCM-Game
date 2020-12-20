@@ -1011,7 +1011,7 @@ function drawSideBar() {
     // Background
     CONTEXT.fillStyle = "white";
     CONTEXT.globalAlpha = 0.46;
-    CONTEXT.fillRect(45, 125, 373, 226);
+    CONTEXT.fillRect(45, 125, 404, 350);
     CONTEXT.globalAlpha = 1.0;
 
     // Pump decor
@@ -1049,6 +1049,9 @@ function drawSideBar() {
     CONTEXT.quadraticCurveTo(71, 335, 66, 335);
     CONTEXT.quadraticCurveTo(61, 335, 61, 330);
     CONTEXT.fill();
+
+    // Maxbar
+    CONTEXT.drawImage(document.getElementById("maxbar"), 400, 159, 23, 284);
     
 }
 
