@@ -610,7 +610,7 @@ function initGameTutorial() {
 
     // Remove animation interval and scroll over handler.
     window.clearInterval(titleScreenInterval);
-    CANVAS.removeEventListener("mousemove", menuScrollHandler);
+    CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);
 
     // Initialize pump, equilibrate, flow buttons.
     initStateButtons();
