@@ -54,67 +54,6 @@ let ADDITIONALS = [];
 
 let inTutorial = false;
 
-// TODO: Testing for the color gradient
-
-// Case 1
-console.log(Math.round((350.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((650.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((950.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1250.0 / 300.0 % 1) / 0.17));
-
-console.log("-----------------------");
-
-// Case 2
-console.log(Math.round((400.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((700.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1000.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1300.0 / 300.0 % 1) / 0.17));
-
-console.log("-----------------------");
-
-// Case 3
-console.log(Math.round((450.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((750.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1050.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1350.0 / 300.0 % 1) / 0.17));
-
-console.log("-----------------------");
-
-// Case 4
-console.log(Math.round((500.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((800.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1100.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1400.0 / 300.0 % 1) / 0.17));
-
-console.log("-----------------------");
-
-// Case 5
-console.log(Math.round((550.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((850.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1150.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1450.0 / 300.0 % 1) / 0.17));
-
-console.log("-----------------------");
-
-// Case 6
-console.log(Math.round((600.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((900.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1200.0 / 300.0 % 1) / 0.17));
-console.log(Math.round((1500.0 / 300.0 % 1) / 0.17));
-
-console.log("-----------------------");
-
-// Last tests
-console.log(Math.ceil(1 / 6));
-console.log(Math.ceil(2 / 6));
-console.log(Math.ceil(3 / 6));
-console.log(Math.ceil(4 / 6));
-console.log(Math.ceil(5 / 6));
-console.log(Math.ceil(0 / 6));
-
-
-
-
 // ---------------------------------------------- Methods for the game title scene. ---------------------------------
 
 /**

@@ -1,36 +1,14 @@
-class LimbPosition {
+class GradientPosition {
 
-    static colorGrad = ["#ffd9a6", "#ffc868", "#ffb829", "#ff9539", "#ff7751", "#ff5d58"];
-
-    constructor(xPos, yPos, nextX, nextY) {
-        this.w = 152;
-        this.h = 82;
-        this.startX = xPos;
-        this.startY = yPos;
-        this.x = this.startX;
-        this.y = this.startY;
-        this.salt = new SaltIcon(this.x + this.w / 2 - 7.0, this.y + this.h / 2 - 7.0, this);
-        this.water = new WaterIcon(this.x - this.w / 2 + 7.0, this.y + this.h / 2 - 7.0, this);
-        this.c = 300;
-        this.isSelected = false;
-        this.nextX = nextX;
-        this.nextY = nextY;
-    }   
-
-    paint() {
-        // Draw rectangular positions.
-        this.colorFillMechanic();
-
-        // Draw numerical representation of concentration.
-        CONTEXT.fillStyle = "#252525";
-        CONTEXT.font = "30px Courier New";
-        CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
-
-        // Draw water/salt icons.
-        this.salt.paint();
-        this.water.paint();
+    constructor(x, y, w, h, c) {
+        this.colorGrad = ["#ffd9a6", "#ffc868", "#ffb829", "#ff9539", "#ff7751", "#ff5d58"];
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.c = c;
     }
+
 
     colorFillMechanic() {
 
@@ -42,11 +20,11 @@ class LimbPosition {
 
             // Choose the single color according to the special cases.
             if (this.c < 300) {
-                CONTEXT.fillStyle = LimbPosition.colorGrad[0];
+                CONTEXT.fillStyle = this.colorGrad[0];
             } else if (this.c >= 1500) {
-                CONTEXT.fillStyle = LimbPosition.colorGrad[LimbPosition.colorGrad.length - 1];
+                CONTEXT.fillStyle = this.colorGrad[this.colorGrad.length - 1];
             } else {
-                CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+                CONTEXT.fillStyle = this.colorGrad[Math.trunc(this.c / 300)];
             }
 
             // Draw the rounded box.
@@ -70,8 +48,8 @@ class LimbPosition {
         } else {
 
             // Pick the two colors.
-            let topColor = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-            let bottomColor = LimbPosition.colorGrad[Math.trunc((this.c / 300) + Math.ceil(ratio / 6))];
+            let topColor = this.colorGrad[Math.trunc(this.c / 300)];
+            let bottomColor = this.colorGrad[Math.trunc((this.c / 300) + Math.ceil(ratio / 6))];
 
             // Top rounded box (prev color).
             CONTEXT.fillStyle = topColor;
@@ -98,9 +76,9 @@ class LimbPosition {
             CONTEXT.fillStyle = bottomColor;
             CONTEXT.beginPath();
             // Top left corner.
-            CONTEXT.moveTo(this.x - (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)));
+            CONTEXT.moveTo(this.x - (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)) - 1);
             // Top border.
-            CONTEXT.lineTo(this.x + (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)));
+            CONTEXT.lineTo(this.x + (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)) - 1);
             // Right Border.
             CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
             // Bottom right corner.
@@ -112,65 +90,39 @@ class LimbPosition {
             CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
             this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
             // Left border.
-            CONTEXT.lineTo(this.x - (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)));
+            CONTEXT.lineTo(this.x - (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)) - 1);
             CONTEXT.fill();
 
         }
+    }
+}
 
-        // // Color change when concentration < 300 or > 1500.
-        // if (this.c < 300 | this.c >= 1500) {
-        //     CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-        //     CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+class LimbPosition extends GradientPosition {
 
-        // // Handle color change when concentration > 300 and < 1500.
-        // } else {
+    constructor(xPos, yPos, nextX, nextY) {
+        super(xPos, yPos, 152, 82, 300);
+        this.startX = xPos;
+        this.startY = yPos;
+        this.salt = new SaltIcon(this.x + this.w / 2 - 7.0, this.y + this.h / 2 - 7.0, this);
+        this.water = new WaterIcon(this.x - this.w / 2 + 7.0, this.y + this.h / 2 - 7.0, this);
+        this.isSelected = false;
+        this.nextX = nextX;
+        this.nextY = nextY;
+    }   
 
-        //     switch((this.c / 300.0 % 1).toFixed(2)) {
+    paint() {
+        // Draw rectangular positions.
+        this.colorFillMechanic();
 
-        //         case (350.0 / 300.0 % 1).toFixed(2):
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (this.h / 6));
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (5 * this.h / 6), this.w, this.h / 6);
-        //             break;
+        // Draw numerical representation of concentration.
+        CONTEXT.fillStyle = "#252525";
+        CONTEXT.font = "30px Courier New";
+        CONTEXT.textAlign = "center";
+        CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
 
-        //         case (400.0 / 300.0 % 1).toFixed(2):
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (2 * this.h / 6));
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (2 * this.h / 6)), this.w, 2 * this.h / 6);
-        //             break;
-
-        //         case (450.0 / 300.0 % 1).toFixed(2):
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (3 * this.h / 6));
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (3 * this.h / 6)), this.w, 3 * this.h / 6);
-        //             break;
-
-        //         case (500.0 / 300.0 % 1).toFixed(2):
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (4 * this.h / 6));
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (4 * this.h / 6)), this.w, 4 * this.h / 6);
-        //             break;
-
-        //         case (550.0 / 300.0 % 1).toFixed(2):
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
-        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h - (5 * this.h / 6));
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300) + 1];
-        //             CONTEXT.fillRect(this.x - this.w / 2, (this.y - this.h / 2) + (this.h - (5 * this.h / 6)), this.w, 5 * this.h / 6);
-        //             break;
-
-        //         case (600.0 / 300.0 % 1).toFixed(2): 
-        //             CONTEXT.fillStyle = LimbPosition.colorGrad[this.c / 300];
-        //             CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-        //             break;
-
-        //     }
-
-        // }
-
+        // Draw water/salt icons.
+        this.salt.paint();
+        this.water.paint();
     }
 
     move(xDiff, yDiff) {
