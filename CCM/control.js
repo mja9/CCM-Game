@@ -1026,6 +1026,12 @@ function drawSideBar() {
     CONTEXT.quadraticCurveTo(61, 205, 61, 200);
     CONTEXT.fill();
 
+    // Pump letters
+    CONTEXT.font = "22pt Trebuchet MS";
+    CONTEXT.textAlign = "start";
+    CONTEXT.textBaseline = "middle";
+    CONTEXT.fillText("PUMP", 106.0, 175.0);
+
     // Equi decor
     CONTEXT.fillStyle = "#ffb829";
     CONTEXT.beginPath();
@@ -1037,6 +1043,12 @@ function drawSideBar() {
     CONTEXT.quadraticCurveTo(71, 270, 66, 270);
     CONTEXT.quadraticCurveTo(61, 270, 61, 265);
     CONTEXT.fill();
+
+    // EQUI Letters
+    CONTEXT.font = "22pt Trebuchet MS";
+    CONTEXT.textAlign = "start";
+    CONTEXT.textBaseline = "middle";
+    CONTEXT.fillText("EQUILIBRATE", 106.0, 240.0);
 
     // Flow decor
     CONTEXT.fillStyle = "#31b1ee";
@@ -1050,8 +1062,24 @@ function drawSideBar() {
     CONTEXT.quadraticCurveTo(61, 335, 61, 330);
     CONTEXT.fill();
 
+    // Flow letters
+    CONTEXT.font = "22pt Trebuchet MS";
+    CONTEXT.textAlign = "start";
+    CONTEXT.textBaseline = "middle";
+    CONTEXT.fillText("FLOW", 106.0, 305.0);
+
+
     // Maxbar
     CONTEXT.drawImage(document.getElementById("maxbar"), 400, 159, 23, 284);
+    
+    // 162 - 440 -> 278 / 18 = 15.5
+    CONTEXT.fillStyle = "#16a3e5";
+    CONTEXT.beginPath();
+    let midY = 440.0 - 15.5;
+    CONTEXT.moveTo(403, midY - 4.5);
+    CONTEXT.lineTo(412, midY);
+    CONTEXT.lineTo(403, midY + 4.5);
+    CONTEXT.fill();
     
 }
 
