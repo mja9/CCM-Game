@@ -35,23 +35,87 @@ class LimbPosition {
     colorFillMechanic() {
 
         let rad = 15.0;
+        let ratio = Math.round((this.c / 300.0 % 1) / 0.17);
 
-        CONTEXT.fillStyle = LimbPosition.colorGrad[0];
-        CONTEXT.beginPath();
-        CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
-        CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
-        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
-        this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
-        CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
-        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
-        this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
-        CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
-        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
-        this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
-        CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
-        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
-        this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
-        CONTEXT.fill();
+        // Single color case.
+        if (ratio == 0 | this.c < 300 | this.c >= 1500) {
+
+            // Choose the single color according to the special cases.
+            if (this.c < 300) {
+                CONTEXT.fillStyle = LimbPosition.colorGrad[0];
+            } else if (this.c >= 1500) {
+                CONTEXT.fillStyle = LimbPosition.colorGrad[LimbPosition.colorGrad.length - 1];
+            } else {
+                CONTEXT.fillStyle = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+            }
+
+            // Draw the rounded box.
+            CONTEXT.beginPath();
+            CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+            CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
+            CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
+            this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+            CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+            CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
+            this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
+            CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
+            CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
+            this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+            CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+            CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
+            this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+            CONTEXT.fill();
+
+        // Two color case.
+        } else {
+
+            // Pick the two colors.
+            let topColor = LimbPosition.colorGrad[Math.trunc(this.c / 300)];
+            let bottomColor = LimbPosition.colorGrad[Math.trunc((this.c / 300) + Math.ceil(ratio / 6))];
+
+            // Top rounded box (prev color).
+            CONTEXT.fillStyle = topColor;
+            CONTEXT.beginPath();
+            // Top left after curve.
+            CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+            // Top border.
+            CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
+            // Top right corner.
+            CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
+            this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+            // Right border.
+            CONTEXT.lineTo(this.x + (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)));
+            // Bottom border.
+            CONTEXT.lineTo(this.x - (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)));
+            // Left border.
+            CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+            // Top left corner.
+            CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
+            this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+            CONTEXT.fill();
+
+            // Bottom rounded box.
+            CONTEXT.fillStyle = bottomColor;
+            CONTEXT.beginPath();
+            // Top left corner.
+            CONTEXT.moveTo(this.x - (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)));
+            // Top border.
+            CONTEXT.lineTo(this.x + (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)));
+            // Right Border.
+            CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+            // Bottom right corner.
+            CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
+            this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
+            // Bottom border.
+            CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
+            // Bottom left corner.
+            CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
+            this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+            // Left border.
+            CONTEXT.lineTo(this.x - (this.w / 2), this.y - (this.h / 2) + (this.h - (ratio * this.h / 6)));
+            CONTEXT.fill();
+
+        }
 
         // // Color change when concentration < 300 or > 1500.
         // if (this.c < 300 | this.c >= 1500) {
