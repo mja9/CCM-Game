@@ -18,7 +18,10 @@ function initSimView() {
 
     // Paint the game board
     paintGameBoard();
-    window.setInterval(paintGameBoard, 50);
+
+    window.setInterval(function() {
+        paintGameBoard();
+    }, 50);
 }
 
 /**

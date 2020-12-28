@@ -1062,17 +1062,9 @@ function drawSideBar() {
 
 
     // Maxbar
-    CONTEXT.drawImage(document.getElementById("maxbar"), 400, 159, 23, 284);
-    
-    // 162 - 440 -> 278 / 18 = 15.5
-    CONTEXT.fillStyle = "#16a3e5";
-    CONTEXT.beginPath();
-    let midY = 440.0 - 15.5;
-    CONTEXT.moveTo(403, midY - 4.5);
-    CONTEXT.lineTo(412, midY);
-    CONTEXT.lineTo(403, midY + 4.5);
-    CONTEXT.fill();
-    
+    // maxbar = new MaxBar(400, 159, 23, 294);
+    maxbar.paint();
+
 }
 
 function paintGameBoard() {

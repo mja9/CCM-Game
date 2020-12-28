@@ -10,6 +10,11 @@ let waveCoolDown = 1450; // ms
 let transitionCoolDown = 500; // ms
 let flowCoolDown = 6000; //ms
 
+// TODO: Fix this!!
+let startConc = 300;
+let maxbar = new MaxBar(400, 159, 23, 294);
+;
+
 /**
  * Method to initialize the simulation model.
  */
@@ -61,6 +66,20 @@ function simPUMP() {
             STATE_BUTTONS[0].v2 = -0.01;
             currState = simState.EQUI;
             window.setTimeout(currState, transitionCoolDown);
+
+            // TODO: Fix this !!!
+            let max = 0;
+            INTER_FLUID.forEach(pos => {
+                if (pos.c > max) {
+                    max = pos.c;
+                }
+            });
+            console.log(max);
+            console.log(Math.round((max - startConc) / 50));
+            if (max > startConc) {
+                maxbar.moveArrow();
+                // maxbar.paint();
+            }
         }
 
     }
