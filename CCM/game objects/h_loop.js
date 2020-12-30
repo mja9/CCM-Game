@@ -58,9 +58,6 @@ class LoopOfHenle {
         //         STATE_BUTTONS[0].onClick = function() {};
         //         STATE_BUTTONS[0].image = "pump-disabled";
 
-        //         // Remove last pop up and its corresponding button.
-        //         CLICKABLE.pop();
-
         //         // FIXME:
         //         // displayHowToEquilibrate();
         //         console.log("Pump successful!");
@@ -81,7 +78,7 @@ class LoopOfHenle {
 
         // }
     
-        return improperPump;
+        return !improperPump;
     }
 
 }

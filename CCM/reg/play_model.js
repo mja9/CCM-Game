@@ -8,7 +8,7 @@ class PlayModel {
         this.flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
         mainDispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
         this.tutorial = new TutorialModel(this);
-        this.playView = playView;
+        this.view = playView;
     }
 
     init() {
@@ -256,10 +256,40 @@ class TutorialModel {
         this.playModel = playModel;
     }
 
+    // TODO: Fill out the proper actions for each state in the tutorial.
+    pumpState() {
+
+        if (this.playModel.view.loop.validatePump()) {
+            console.log("Successful pump!");
+
+            // Disable the pump state button.
+            this.playModel.pumpButton.onClick = function() {};
+
+            // Enable the equi state button.
+            this.playModel.equilibrateButton.onClick = function() {};
+
+            // Move onto the next part of the tutorial -- display equilibrate?
+
+        // FIXME: Add a useful error message here
+        } else {
+            console.log("Unsucessful pump!");
+        }
+
+    }
+
+    equiState() {
+
+    }
+
+    flowState() {
+        
+    }
+
     displayWelcomeTutorial() {
         let oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
         CLICKABLE = [];
-        let model = this.playModel;
+        const model = this.playModel;
+        const tutorial = this;
     
         let welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
             new Button(665.0, 556.0, 150, 70, function() {
@@ -268,11 +298,12 @@ class TutorialModel {
                 CLICKABLE = oldClickable;
                 mainDispatcher.remove(welcomePopUp);
                 CONTEXT.globalAlpha = 1.0;
+
+                // FIXME: Is this where I want to do this?
                 model.addMoveableHandler();
 
-                // FIXME: Change this once the new design has been implemented
-                this.playModel.pumpButton.onClick = validatePump;
-                // displayHowToPump();
+                // FIXME: Add the popup for the pump portion of the tutorial.
+                model.pumpButton.onClick = tutorial.pumpState;
     
             }, "ok-button"),
             "welcome-box");

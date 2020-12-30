@@ -39,9 +39,9 @@ class TitleView {
         CLICKABLE.push(simPlayBtn);
 
         // Add the buttons to the dispatcher.
-        dispatcher.add(this);
-        dispatcher.add(regPlayBtn);
-        dispatcher.add(simPlayBtn);
+        mainDispatcher.add(this);
+        mainDispatcher.add(regPlayBtn);
+        mainDispatcher.add(simPlayBtn);
     }
 
     /**
