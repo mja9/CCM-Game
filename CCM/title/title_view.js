@@ -1,6 +1,7 @@
 class TitleView {
     
-    constructor() {
+    constructor(dispatcher) {
+
         // Create the title screen buttons.
         let regPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.63, 228, 25, 
             function() {
@@ -8,6 +9,7 @@ class TitleView {
 
                 // Lock user out of trigerring another click event.
                 CLICKABLE = [];
+                dispatcher.removeAll();
 
                 // Start the tutorial.
                 initGameTutorial();
@@ -26,6 +28,11 @@ class TitleView {
         // Regiter the button as clickable items on the GUI.
         CLICKABLE.push(regPlayBtn);
         CLICKABLE.push(simPlayBtn);
+
+        // Add the buttons to the dispatcher.
+        dispatcher.add(this);
+        dispatcher.add(regPlayBtn);
+        dispatcher.add(simPlayBtn);
     }
 
     /**
@@ -34,9 +41,6 @@ class TitleView {
     paint() {
 
         CONTEXT.drawImage(document.getElementById("menu-bg"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-
-        // TODO: Create dispatcher so this is no longer necessary!
-        CLICKABLE.forEach(btn => btn.paint());
 
     }
 

@@ -5,7 +5,7 @@ class Dispatcher {
     }
 
     /**
-     * Adds observer to list of observers to be commanded in main loop.
+     * Adds observer to end of list of observers to be commanded in main loop.
      * @param {Object} observer Assumed to share a method with all other observers.
      */
     add(observer) {
@@ -29,6 +29,13 @@ class Dispatcher {
         if (this.observers.includes(observer)) {
             this.observers.splice(this.observers.indexOf(observer), 1);
         }
+    }
+
+    /**
+     * Empties the list of observers.
+     */
+    removeAll() {
+        this.observers = [];
     }
 
     /**

@@ -54,6 +54,13 @@ let ADDITIONALS = [];
 
 let inTutorial = false;
 
+let mainDispatcher = new Dispatcher();
+let mainLoop = window.setInterval(function() {
+    mainDispatcher.dispatchCommand(function(observer) {
+        observer.paint();
+    });
+}, 50);
+
 // ---------------------------------------------- Methods for the game title scene. ---------------------------------
 
 /**
@@ -61,13 +68,10 @@ let inTutorial = false;
  */
 function initTitleScreen() {
 
-    titleView = new TitleView();
+
+    titleView = new TitleView(mainDispatcher);
     titleModel = new TitleModel();
-
-    // Start paint loop for title screen.
-    // FIXME: Should not need this!
-    titleScreenInterval = window.setInterval(titleView.paint, 50);
-
+    
 }
 
 // ------------------------------------------------ Methods for handling user triggered events. ----------------------------------------------------------------------------
