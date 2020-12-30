@@ -249,12 +249,16 @@ class PlayModel {
     displayWelcomeTutorial() {
         let oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
         CLICKABLE = [];
+        let model = this;
     
         let welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
             new Button(665.0, 556.0, 150, 70, function() {
+
+                // Reset state before pop up was added.
                 CLICKABLE = oldClickable;
                 mainDispatcher.remove(welcomePopUp);
-                this.addMoveableHandler();
+                CONTEXT.globalAlpha = 1.0;
+                model.addMoveableHandler();
 
                 // FIXME: Change this once the new design has been implemented
                 // displayHowToPump();
@@ -262,7 +266,8 @@ class PlayModel {
             }, "ok-button"),
             "welcome-box");
             
-        mainDispatcher.addAt(welcomePopUp, 0);
+        CONTEXT.globalAlpha = 0.35;
+        mainDispatcher.add(welcomePopUp);
     }
 
 }
