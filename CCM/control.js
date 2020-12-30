@@ -106,6 +106,7 @@ function addClickHandler() {
    
 }
 
+// TODO: Next item to change to get tutorial and regular play working.
 function validatePump() {
 
     var improperPump = false;
@@ -692,115 +693,6 @@ function dispalyEndGameScreen() {
     DROPPABLE = [];
     STATE_BUTTONS = [];
     PASSIVE_POP_UPS = [];    
-
-}
-
-// -------------------------------------- Methods for handling dialogue pop-ups. -----------------------
-
-function displayHowToPump() {
-
-    // highlightLimb("alimb");
-
-    var pumpPopUp = new PopUp(1158.5, 506.0, 321, 370, [], 
-        new Button(1288.0, 658.0, 19, 22, function() {
-
-            // Lock player out of retriggering this click action.
-            CLICKABLE.pop();
-
-            // End the water highlight and highlight the salt icon.
-            // A_LIMB[2].water.stopAnimation();
-            // A_LIMB[2].salt.animateHighlight();
-
-            // Display second popUp
-            var pumpPopUp2 = new PopUp(1158.5, 506.0, 321, 370, [], new Button(1288.0, 658.0, 19, 22, 
-                function() {
-                    CLICKABLE.pop();    // Lock player out of retriggering button 2.
-                    PASSIVE_POP_UPS.pop();  // Remove pop up 2.
-                    // A_LIMB[2].salt.stopAnimation(); // End salt highlight.
-                    displayHowToPump();
-            }, "invert-tri"), "pump-box2");
-
-            PASSIVE_POP_UPS.pop();  // Remove pop up 1.
-            pumpPopUp2.paint();
-            PASSIVE_POP_UPS.push(pumpPopUp2);
-
-        }, "tri"), "pump-box1");
-
-    pumpPopUp.paint();
-    PASSIVE_POP_UPS.push(pumpPopUp);
-
-    // Highlight the water icon.
-    // A_LIMB[2].water.animateHighlight();
-
-}
-
-function displayHowToEquilibrate() {
-
-    var equiPopUp = new PopUp(171.5, 526.0, 321, 330, [], 
-        new Button(282.0, 658.0, 19, 22, 
-            function() {
-
-                CLICKABLE.pop();    // Lock player out of rettriggering button 1.
-
-                var equiPopUp2 = new PopUp(171.5, 526.0, 321, 330, [], new Button(282.0, 658.0, 19, 22, 
-                    function() {
-                        CLICKABLE.pop();    // Lock player out of retriggering button 2.
-                        PASSIVE_POP_UPS.pop();  // Remove pop up 2.
-                        displayHowToEquilibrate();
-                    }, "invert-tri"), "equi-box2");
-
-                PASSIVE_POP_UPS.pop();  // Remove pop up 1.
-                equiPopUp2.paint();
-                PASSIVE_POP_UPS.push(equiPopUp2);
-                
-            }, "tri"), "equi-box1");
-    equiPopUp.paint();
-    PASSIVE_POP_UPS.push(equiPopUp);
-
-}
-
-function displayHowToFlow() {
-
-    var flowPopUp = new PopUp(665.0, 447.5, 330, 321, [], new Button(803.0, 556.0, 19, 22, 
-        function() {
-
-            CLICKABLE.pop();    // Lock player out of retriggering button 1.
-
-            var flowPopUp2 = new PopUp(665.0, 447.5, 330, 321, [], new Button(803.0, 556.0, 19, 22, 
-                function(){
-
-                    CLICKABLE.pop();    // Lock player out of retrigerring button 2.
-                    PASSIVE_POP_UPS.pop();  // Remove pop up 2.
-                    displayHowToFlow();
-
-                }, "invert-tri"), "flow-box2");
-
-            PASSIVE_POP_UPS.pop();  // Remove pop up 1.
-            flowPopUp2.paint();
-            PASSIVE_POP_UPS.push(flowPopUp2);
-
-        }, "tri"), "flow-box1");
-
-    flowPopUp.paint();
-    PASSIVE_POP_UPS.push(flowPopUp);
-
-}
-
-function displayNowToRegularPlay() {
-    var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
-    CLICKABLE = [];
-
-    var regularPlayPopUp = new PopUp(665.0, 328.0, 700, 300, [], 
-    new Button(665.0, 404.0, 150, 70, 
-        function() {
-            initRegularGame();
-            CLICKABLE = oldClickable;
-            paintGameBoard();
-        }, "ok-button"), "end-tutorial");
-
-    CONTEXT.globalAlpha = 0.35;
-    paintGameBoard();
-    regularPlayPopUp.paint();
 
 }
 
