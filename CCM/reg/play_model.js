@@ -1,9 +1,10 @@
 class PlayModel {
 
-    constructor() {
+    constructor(dispatcher) {
         this.pumpButton = new StateButton(194.0, 175.0, 256, 60, function(){}, "255, 88, 83");
         this.equilibrateButton = new StateButton(194.0, 240.0, 256, 60, function() {}, "255, 184, 41");
         this.flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
+        dispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
     }
 
     initStateButtons() {

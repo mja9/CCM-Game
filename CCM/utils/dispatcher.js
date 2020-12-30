@@ -12,6 +12,10 @@ class Dispatcher {
         this.observers.push(observer);
     }
 
+    addAll(observers) {
+        Array.prototype.push.apply(this.observers, observers);
+    }
+
     /**
      * Adds observer to list pf observers at specified position to be commanded in main loop.
      * @param {Object} observer Assumed to share a method with all other observers.

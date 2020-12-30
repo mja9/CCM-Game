@@ -530,17 +530,11 @@ function resetAfterFlow() {
 // TODO: Begin the conversion starting here!
 function initGameTutorial() {
 
-    // Initialize the interstitial fluid.
-    initInterstitialFluid()
-
-    // Paint the intitialized elements.
-    paintGameBoard();
+    let playModel = new PlayModel(mainDispatcher);
+    let playView = new PlayView(mainDispatcher);
 
     // Tell system we are in the tutorial.
     inTutorial = true;
-    
-    // Display welcome popup.
-    displayWelcomeTutorial();
 }
 
 function initInterstitialFluid() {
