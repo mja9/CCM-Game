@@ -416,6 +416,7 @@ function initGameTutorial() {
     let playView = new PlayView(mainDispatcher);
 
     // Tell system we are in the tutorial.
+    playModel.init();
     inTutorial = true;
 }
 
@@ -695,32 +696,6 @@ function dispalyEndGameScreen() {
 }
 
 // -------------------------------------- Methods for handling dialogue pop-ups. -----------------------
-function displayWelcomeTutorial() {
-    var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
-    CLICKABLE = [];
-
-    var welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
-        new Button(665.0, 556.0, 150, 70, function() {
-            CLICKABLE = oldClickable;
-            paintGameBoard();
-            addMoveableHandler();
-            // FIXME: Change this once the new design has been implemented
-            // displayHowToPump();
-
-            // TODO: For testing
-            let test = window.setInterval(function() {
-                paintGameBoard();
-            }, 50);
-            STATE_BUTTONS[0].v = -7.5;
-            STATE_BUTTONS[1].v2 = -0.03;
-
-        }, "ok-button"),
-        "welcome-box");
-
-    CONTEXT.globalAlpha = 0.35;
-    paintGameBoard();
-    welcomePopUp.paint();
-}
 
 function displayHowToPump() {
 

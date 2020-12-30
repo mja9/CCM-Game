@@ -32,10 +32,11 @@ class SideBar {
     
     paint() {
         // Background
+        let oldAlpha = CONTEXT.globalAlpha;
         CONTEXT.fillStyle = "white";
-        CONTEXT.globalAlpha = 0.46;
+        CONTEXT.globalAlpha = oldAlpha * 0.46;
         CONTEXT.fillRect(45, 125, 404, 350);
-        CONTEXT.globalAlpha = 1.0;
+        CONTEXT.globalAlpha = oldAlpha;
 
         // Pump decor
         CONTEXT.fillStyle = "#ff5853";

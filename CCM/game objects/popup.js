@@ -45,6 +45,8 @@ class PopUp {
 
         this.closeButton.paint();
 
+        // Fade background out.
+        CONTEXT.globalAlpha = 0.35;
     }
 
 }

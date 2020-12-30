@@ -7,14 +7,17 @@ class PlayModel {
         this.equilibrateButton = new StateButton(194.0, 240.0, 256, 60, function() {}, "255, 184, 41");
         this.flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
         dispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
-        console.log(dispatcher);
+    }
 
+    init() {
         // Initialize click, moveable, and drag n' drop handlers.
         this.initStateButtons();
         this.initAscendingLimb();
         this.initDescendingLimb();
         this.initInterstitialFluid();
-        this.addMoveableHandler();
+
+        // Initialize the tutorial.
+        this.displayWelcomeTutorial();
     }
 
     initStateButtons() {
@@ -241,6 +244,25 @@ class PlayModel {
         // Remove drop event.
         CANVAS.removeEventListener("mouseup", drop);
     
+    }
+
+    displayWelcomeTutorial() {
+        let oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
+        CLICKABLE = [];
+    
+        let welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
+            new Button(665.0, 556.0, 150, 70, function() {
+                CLICKABLE = oldClickable;
+                mainDispatcher.remove(welcomePopUp);
+                this.addMoveableHandler();
+
+                // FIXME: Change this once the new design has been implemented
+                // displayHowToPump();
+    
+            }, "ok-button"),
+            "welcome-box");
+            
+        mainDispatcher.addAt(welcomePopUp, 0);
     }
 
 }
