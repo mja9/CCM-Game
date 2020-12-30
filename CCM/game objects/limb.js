@@ -119,10 +119,6 @@ class LimbPosition extends GradientPosition {
         CONTEXT.font = "30px Courier New";
         CONTEXT.textAlign = "center";
         CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
-
-        // Draw water/salt icons.
-        this.salt.paint();
-        this.water.paint();
     }
 
     move(xDiff, yDiff) {

@@ -85,6 +85,10 @@ class PlayModel {
                 // Check y-position.
                 if (yPos >= moveable.y - moveable.h / 2 && yPos <= moveable.y + moveable.h / 2) {
 
+                    // Prioritize the painting of this icon.
+                    mainDispatcher.remove(moveable);
+                    mainDispatcher.add(moveable);
+
                     if (inTutorial) {   // Moveable handler for tutorial only.
 
                         // Highlight selected limb position.

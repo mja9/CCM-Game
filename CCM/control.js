@@ -696,57 +696,57 @@ function dispalyEndGameScreen() {
 
 // ---------------------------------------------- Methods for drawing the game scene. ---------------------------------
 
-function drawLoopOfHenle() {
-    LOOP_OF_HENLE.paint();
-}
+// function drawLoopOfHenle() {
+//     LOOP_OF_HENLE.paint();
+// }
 
-function drawDescendingLimb() {
+// function drawDescendingLimb() {
 
-    D_LIMB.forEach(pos => {
-        pos.paint();
-    });
+//     D_LIMB.forEach(pos => {
+//         pos.paint();
+//     });
 
-}
+// }
 
-function drawAscendingLimb() {
+// function drawAscendingLimb() {
 
-    A_LIMB.forEach(pos => {
-        pos.paint();
-    });
+//     A_LIMB.forEach(pos => {
+//         pos.paint();
+//     });
 
-}
+// }
 
-function drawInterstitialFluid() {
+// function drawInterstitialFluid() {
 
-    INTER_FLUID.forEach(pos => {
-        pos.paint();
-    });
+//     INTER_FLUID.forEach(pos => {
+//         pos.paint();
+//     });
 
-}
+// }
 
-function drawStateButtons() {
+// function drawStateButtons() {
 
-    STATE_BUTTONS.forEach(button => {
-        button.paint();
-    });
+//     STATE_BUTTONS.forEach(button => {
+//         button.paint();
+//     });
 
-}
+// }
 
-function drawPassivePopUps() {
+// function drawPassivePopUps() {
 
-    PASSIVE_POP_UPS.forEach(popUp => {
-        popUp.paint();
-    });
+//     PASSIVE_POP_UPS.forEach(popUp => {
+//         popUp.paint();
+//     });
 
-}
+// }
 
-function drawAdditionals() {
+// function drawAdditionals() {
 
-    ADDITIONALS.forEach(adds => {
-        adds.paint();
-    });
+//     ADDITIONALS.forEach(adds => {
+//         adds.paint();
+//     });
 
-}
+// }
 
 function drawSideBar() {
 
@@ -817,38 +817,37 @@ function drawSideBar() {
 
 }
 
-// TODO: Implement this with the new dispatcher
-function paintGameBoard() {
+// function paintGameBoard() {
 
-    // Clear the canvas.
-    CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+//     // Clear the canvas.
+//     CONTEXT.clearRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
-    // Set new background color (must be behind other elements).
-    CONTEXT.drawImage(document.getElementById("loop-bkgd"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+//     // Set new background color (must be behind other elements).
+//     CONTEXT.drawImage(document.getElementById("loop-bkgd"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
 
-    // Draw the loop.
-    drawLoopOfHenle();
+//     // Draw the loop.
+//     drawLoopOfHenle();
 
-    // Draw state controlling buttons.
-    drawSideBar();
-    drawStateButtons();
+//     // Draw state controlling buttons.
+//     drawSideBar();
+//     drawStateButtons();
 
-    // Draw interstitial fluid.
-    drawInterstitialFluid();
+//     // Draw interstitial fluid.
+//     drawInterstitialFluid();
 
-    // Draw descending limb.
-    drawDescendingLimb();
+//     // Draw descending limb.
+//     drawDescendingLimb();
 
-    // Draw ascending limb.
-    drawAscendingLimb();
+//     // Draw ascending limb.
+//     drawAscendingLimb();
 
-    // Draw any passive popups present.
-    drawPassivePopUps();
+//     // Draw any passive popups present.
+//     drawPassivePopUps();
 
-    // Draw any temporary additional elements.
-    drawAdditionals();
+//     // Draw any temporary additional elements.
+//     drawAdditionals();
 
-}
+// }
 
 // -------------------------------------- Methods for handling dialogue pop-ups. -----------------------
 function displayWelcomeTutorial() {

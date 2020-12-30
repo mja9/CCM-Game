@@ -22,16 +22,16 @@ class TitleView {
         let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.74, 228, 25, 
                 function() {
 
-                    // Lock user out of trigerring another click event.
-                    CLICKABLE = [];
-                    dispatcher.removeAll();
+                    // // Lock user out of trigerring another click event.
+                    // CLICKABLE = [];
+                    // dispatcher.removeAll();
 
-                    // Lock user out from triggering scroll over event.
-                    CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);
+                    // // Lock user out from triggering scroll over event.
+                    // CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);
 
-                    // Start the simulation.
-                    initSimView();
-                    initSimModel();
+                    // // Start the simulation.
+                    // initSimView();
+                    // initSimModel();
                 }, "#0ba1e7", "simulate");
 
         // Regiter the button as clickable items on the GUI.
