@@ -257,16 +257,16 @@ class TutorialModel {
     }
 
     // TODO: Fill out the proper actions for each state in the tutorial.
-    pumpState() {
+    pumpState(model) {
 
-        if (this.playModel.view.loop.validatePump()) {
+        if (model.view.loop.validatePump()) {
             console.log("Successful pump!");
 
             // Disable the pump state button.
-            this.playModel.pumpButton.onClick = function() {};
+            model.pumpButton.onClick = function() {};
 
             // Enable the equi state button.
-            this.playModel.equilibrateButton.onClick = function() {};
+            model.equilibrateButton.onClick = function() {};
 
             // Move onto the next part of the tutorial -- display equilibrate?
 
@@ -303,7 +303,9 @@ class TutorialModel {
                 model.addMoveableHandler();
 
                 // FIXME: Add the popup for the pump portion of the tutorial.
-                model.pumpButton.onClick = tutorial.pumpState;
+                model.pumpButton.onClick = function() {
+                    tutorial.pumpState(model);
+                };
     
             }, "ok-button"),
             "welcome-box");
