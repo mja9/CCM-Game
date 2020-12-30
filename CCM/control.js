@@ -68,7 +68,7 @@ let mainLoop = window.setInterval(function() {
  */
 function initTitleScreen() {
 
-    titleView = new TitleView(mainDispatcher);
+    titleView = new TitleView();
     titleModel = new TitleModel();
     
 }
@@ -104,63 +104,6 @@ function addClickHandler() {
         }
     });
    
-}
-
-// TODO: Next item to change to get tutorial and regular play working.
-function validatePump() {
-
-    var improperPump = false;
-
-    for (i = 0; i < A_LIMB.length; i++) {
-
-        if (!checkPump(i)) {
-            improperPump = true;
-        }
-
-    }
-
-    if (improperPump) {
-
-        console.log("Pump failed!");
-
-    } else {
-
-        // One time action taken during tutorial.
-        if (inTutorial) {
-
-            // Enable the next button.
-            STATE_BUTTONS[1].onClick = validateEquilibrate;
-            STATE_BUTTONS[1].image = "equi";
-
-            // Disable this button.
-            STATE_BUTTONS[0].onClick = function() {};
-            STATE_BUTTONS[0].image = "pump-disabled";
-
-            // Remove last pop up and its corresponding button.
-            PASSIVE_POP_UPS.pop();
-            CLICKABLE.pop();
-            paintGameBoard();
-            displayHowToEquilibrate();
-            console.log("Pump successful!");
-            return improperPump;
-
-        // Regular game action.
-        } else {
-
-            // Disable this button.
-            STATE_BUTTONS[0].onClick = function() {};
-            STATE_BUTTONS[0].image = "pump-disabled";
-            paintGameBoard();
-            console.log("Pump successful!");
-
-            // Continue the AI.
-            startGameAI("dlimb");
-        }
-
-    }
-   
-    return improperPump;
-
 }
 
 function validateEquilibrate() {
@@ -410,17 +353,17 @@ function resetAfterFlow() {
 
 // ---------------------------------------------- Methods to initialize different game states. ---------------------------------
 
-// TODO: Begin the conversion starting here!
 function initGameTutorial() {
 
-    let playModel = new PlayModel(mainDispatcher);
-    let playView = new PlayView(mainDispatcher);
+    let playView = new PlayView();
+    let playModel = new PlayModel(playView);
 
     // Tell system we are in the tutorial.
     playModel.init();
     inTutorial = true;
 }
 
+// TODO:
 function initRegularGame() {
 
     // Tell system we are out of the tutorial.

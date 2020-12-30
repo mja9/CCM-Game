@@ -1,6 +1,6 @@
 class PlayModel {
 
-    constructor() {
+    constructor(playView) {
 
         // Create state buttons.
         this.pumpButton = new StateButton(194.0, 175.0, 256, 60, function(){}, "255, 88, 83");
@@ -8,6 +8,7 @@ class PlayModel {
         this.flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
         mainDispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
         this.tutorial = new TutorialModel(this);
+        this.playView = playView;
     }
 
     init() {
@@ -270,6 +271,7 @@ class TutorialModel {
                 model.addMoveableHandler();
 
                 // FIXME: Change this once the new design has been implemented
+                this.playModel.pumpButton.onClick = validatePump;
                 // displayHowToPump();
     
             }, "ok-button"),

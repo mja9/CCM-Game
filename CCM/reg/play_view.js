@@ -1,8 +1,8 @@
 class PlayView {
 
-    constructor(dispatcher) {
-        dispatcher.add(this);
-        this.loop = new LoopOfHenle(dispatcher);
+    constructor() {
+        mainDispatcher.add(this);
+        this.loop = new LoopOfHenle();
     }
 
     paint() {

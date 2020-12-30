@@ -1,6 +1,6 @@
 class TitleView {
     
-    constructor(dispatcher) {
+    constructor() {
 
         // Create the title screen buttons.
         let regPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.63, 228, 25, 
@@ -9,7 +9,7 @@ class TitleView {
 
                 // Lock user out of trigerring another click event.
                 CLICKABLE = [];
-                dispatcher.removeAll();
+                mainDispatcher.removeAll();
 
                 // Lock user out from triggering scroll over event.
                 CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);

@@ -1,31 +1,89 @@
 class LoopOfHenle {
 
-    constructor(dispatcher) {
+    constructor() {
         this.sidebar = new SideBar();
-        dispatcher.add(this.sidebar);
-        dispatcher.add(LOOP_OF_HENLE);
+        mainDispatcher.add(this.sidebar);
+        mainDispatcher.add(LOOP_OF_HENLE);
 
         // Add the positions.
         D_LIMB.forEach(pos => {
-            dispatcher.add(pos);
+            mainDispatcher.add(pos);
         });
         A_LIMB.forEach(pos => {
-            dispatcher.add(pos);
+            mainDispatcher.add(pos);
         });
         INTER_FLUID.forEach(pos => {
-            dispatcher.add(pos);
+            mainDispatcher.add(pos);
         });
 
         // Add the icons.
         D_LIMB.forEach(pos => {
-            dispatcher.add(pos.salt);
-            dispatcher.add(pos.water);
+            mainDispatcher.add(pos.salt);
+            mainDispatcher.add(pos.water);
         });
         A_LIMB.forEach(pos => {
-            dispatcher.add(pos.salt);
-            dispatcher.add(pos.water);        
+            mainDispatcher.add(pos.salt);
+            mainDispatcher.add(pos.water);        
         });
     }
+
+    // TODO: Next item to change to get tutorial and regular play working.
+    validatePump() {
+
+        var improperPump = false;
+
+        for (i = 0; i < A_LIMB.length; i++) {
+
+            if (!checkPump(i)) {
+                improperPump = true;
+            }
+
+        }
+
+        // if (improperPump) {
+
+        //     // FIXME: Add useful error message here!
+        //     console.log("Pump failed!");
+
+        // } else {
+
+        //     // One time action taken during tutorial.
+        //     if (inTutorial) {
+
+        //         // Enable the next button.
+        //         STATE_BUTTONS[1].onClick = validateEquilibrate;
+        //         STATE_BUTTONS[1].image = "equi";
+
+        //         // Disable this button.
+        //         STATE_BUTTONS[0].onClick = function() {};
+        //         STATE_BUTTONS[0].image = "pump-disabled";
+
+        //         // Remove last pop up and its corresponding button.
+        //         CLICKABLE.pop();
+
+        //         // FIXME:
+        //         // displayHowToEquilibrate();
+        //         console.log("Pump successful!");
+        //         return improperPump;
+
+        //     // Regular game action.
+        //     } else {
+
+        //         // Disable this button.
+        //         STATE_BUTTONS[0].onClick = function() {};
+        //         STATE_BUTTONS[0].image = "pump-disabled";
+        //         paintGameBoard();
+        //         console.log("Pump successful!");
+
+        //         // Continue the AI.
+        //         startGameAI("dlimb");
+        //     }
+
+        // }
+    
+        return improperPump;
+    }
+
 }
 
 class SideBar {
