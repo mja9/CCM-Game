@@ -54,7 +54,7 @@ let ADDITIONALS = [];
 
 let inTutorial = false;
 
-let mainDispatcher = new Dispatcher();
+const mainDispatcher = new Dispatcher();
 let mainLoop = window.setInterval(function() {
     mainDispatcher.dispatchCommand(function(observer) {
         observer.paint();

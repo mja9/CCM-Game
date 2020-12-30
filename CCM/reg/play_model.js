@@ -1,12 +1,13 @@
 class PlayModel {
 
-    constructor(dispatcher) {
+    constructor() {
 
         // Create state buttons.
         this.pumpButton = new StateButton(194.0, 175.0, 256, 60, function(){}, "255, 88, 83");
         this.equilibrateButton = new StateButton(194.0, 240.0, 256, 60, function() {}, "255, 184, 41");
         this.flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
-        dispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
+        mainDispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
+        this.tutorial = new TutorialModel(this);
     }
 
     init() {
@@ -17,7 +18,7 @@ class PlayModel {
         this.initInterstitialFluid();
 
         // Initialize the tutorial.
-        this.displayWelcomeTutorial();
+        this.tutorial.displayWelcomeTutorial();
     }
 
     initStateButtons() {
@@ -246,10 +247,18 @@ class PlayModel {
     
     }
 
+}
+
+class TutorialModel {
+
+    constructor(playModel) {
+        this.playModel = playModel;
+    }
+
     displayWelcomeTutorial() {
         let oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
         CLICKABLE = [];
-        let model = this;
+        let model = this.playModel;
     
         let welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
             new Button(665.0, 556.0, 150, 70, function() {
