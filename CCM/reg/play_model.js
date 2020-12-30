@@ -303,6 +303,7 @@ class TutorialModel {
                 model.addMoveableHandler();
 
                 // FIXME: Add the popup for the pump portion of the tutorial.
+                model.pumpButton.v = 12.25;
                 model.pumpButton.onClick = function() {
                     tutorial.pumpState(model);
                 };

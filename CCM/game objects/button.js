@@ -95,56 +95,35 @@ class StateButton {
         this.onClick = clickAction;
         this.color = color;
         this.label = label;
-        this.gradWidth = this.w;
-        this.gradStop = 0;
+        this.gradWidth = 0;
         this.v = 0;
-        this.v2 = 0;
+        this.animationDecorator = function() {};
     }
 
     paint() {
 
         this.move();
-        this.move2();
 
         let gradient = CONTEXT.createLinearGradient(this.x - (this.w / 2.0), this.y, this.x - (this.w / 2.0) + this.gradWidth, this.y);
         gradient.addColorStop(0, 'rgba(' + this.color + ', 0.5)');
-        gradient.addColorStop(this.gradStop, 'rgba(' + this.color + ', 0.0)');
+        gradient.addColorStop(1.0, 'rgba(' + this.color + ', 0.0)');
         CONTEXT.fillStyle = gradient;
         CONTEXT.fillRect(this.x - (this.w / 2.0), this.y - (this.h / 2.0), this.w, this.h);
     }
 
     move() {
         this.gradWidth += this.v;
-
-
-        // TODO: Clamp for testing.
+        
+        // Clamp.
         if (this.gradWidth < 0) {
             this.gradWidth = 0;
-            this.v = this.v * -1;
+            this.animationDecorator();
         }
 
         if (this.gradWidth > this.w) {
             this.gradWidth = this.w;
-            this.v = this.v * -1;
+            this.animationDecorator();
         }
-    }
-
-    move2() {
-
-        this.gradStop += this.v2;
-
-        // TODO: Clamp for testing.
-        if (this.gradStop < 0.0) {
-            this.gradStop = 0.0;
-            // this.v2 = this.v2 * -1;
-        }
-
-        if (this.gradStop > 1.0) {
-            this.gradStop = 1.0;
-            // this.v2 = this.v2 * -1;
-        }
-
-
     }
 
 }
