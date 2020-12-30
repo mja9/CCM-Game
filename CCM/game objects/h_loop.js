@@ -27,7 +27,6 @@ class LoopOfHenle {
         });
     }
 
-    // TODO: Next item to change to get tutorial and regular play working.
     validatePump() {
 
         var improperPump = false;
@@ -39,44 +38,6 @@ class LoopOfHenle {
             }
 
         }
-
-        // if (improperPump) {
-
-        //     // FIXME: Add useful error message here!
-        //     console.log("Pump failed!");
-
-        // } else {
-
-        //     // One time action taken during tutorial.
-        //     if (inTutorial) {
-
-        //         // Enable the next button.
-        //         STATE_BUTTONS[1].onClick = validateEquilibrate;
-        //         STATE_BUTTONS[1].image = "equi";
-
-        //         // Disable this button.
-        //         STATE_BUTTONS[0].onClick = function() {};
-        //         STATE_BUTTONS[0].image = "pump-disabled";
-
-        //         // FIXME:
-        //         // displayHowToEquilibrate();
-        //         console.log("Pump successful!");
-        //         return improperPump;
-
-        //     // Regular game action.
-        //     } else {
-
-        //         // Disable this button.
-        //         STATE_BUTTONS[0].onClick = function() {};
-        //         STATE_BUTTONS[0].image = "pump-disabled";
-        //         paintGameBoard();
-        //         console.log("Pump successful!");
-
-        //         // Continue the AI.
-        //         startGameAI("dlimb");
-        //     }
-
-        // }
     
         return !improperPump;
     }

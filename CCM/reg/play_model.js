@@ -302,10 +302,14 @@ class TutorialModel {
                 // FIXME: Is this where I want to do this?
                 model.addMoveableHandler();
 
-                // FIXME: Add the popup for the pump portion of the tutorial.
+                // Animate the state button to indicate what part of the system we are on.
                 model.pumpButton.v = 12.25;
-                model.pumpButton.onClick = function() {
-                    tutorial.pumpState(model);
+                model.pumpButton.animationDecorator = function() {
+
+                    // FIXME: Add the popup for the pump portion of the tutorial.
+                    model.pumpButton.onClick = function() {
+                        tutorial.pumpState(model);
+                    };
                 };
     
             }, "ok-button"),
