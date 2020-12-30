@@ -50,3 +50,22 @@ function createSimButtons() {
     ADDITIONALS.push(simFFBtn);
 
 }
+
+function initStateButtons() {
+
+    // Pump button.
+    var pumpButton = new StateButton(194.0, 175.0, 256, 60, function(){}, "255, 88, 83");
+    STATE_BUTTONS.push(pumpButton);
+    CLICKABLE.push(pumpButton);
+
+    // Equilibrate button.
+    var equilibrateButton = new StateButton(194.0, 240.0, 256, 60, function() {}, "255, 184, 41");
+    STATE_BUTTONS.push(equilibrateButton);
+    CLICKABLE.push(equilibrateButton);
+
+    // Flow button.
+    var flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
+    STATE_BUTTONS.push(flowButton);
+    CLICKABLE.push(flowButton);
+
+}

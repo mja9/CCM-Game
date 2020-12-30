@@ -11,14 +11,23 @@ class TitleView {
                 CLICKABLE = [];
                 dispatcher.removeAll();
 
+                // Lock user out from triggering scroll over event.
+                CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);
+
                 // Start the tutorial.
                 initGameTutorial();
             }, "#0ba1e7", "play");
 
+        // TODO:
         let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.74, 228, 25, 
                 function() {
-                    console.log("Clicked simulation button!");
+
+                    // Lock user out of trigerring another click event.
                     CLICKABLE = [];
+                    dispatcher.removeAll();
+
+                    // Lock user out from triggering scroll over event.
+                    CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);
 
                     // Start the simulation.
                     initSimView();

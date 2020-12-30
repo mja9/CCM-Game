@@ -11,7 +11,6 @@
   <body>
 
     <!-- A canvas for graphics painting and animating purposes. See javascript for behaviour. -->
-    <!-- Note: Set the width and height of the canvas here and not in CSS. Can lead to strange scaling errors. -->
     <canvas class="game-board" id="game-canvas" width="1330px" height="730px"></canvas>
 
     <!-- Hidden images for use in the game. -->
@@ -75,11 +74,14 @@
 
     <!-- Link to js control file. -->
     <script src="./utils/dispatcher.js"></script>
+    <script src="./game objects/h_loop.js"></script>
     <script src="./game objects/button.js"></script>
     <script src="./game objects/popup.js"></script>
     <script src="./game objects/limb.js"></script>
     <script src="./title/title_view.js"></script>
     <script src="./title/title_model.js"></script>
+    <script src="./reg/play_view.js"></script>
+    <script src="./reg/play_model.js"></script>
     <script src="./sim/sim_view.js"></script>
     <script src="./sim/sim_model.js"></script>
     <script src="control.js" type="text/javascript" onload="initTitleScreen()"></script>
