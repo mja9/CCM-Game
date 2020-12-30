@@ -308,6 +308,7 @@ class TutorialModel {
 
                     // FIXME: Add the popup for the pump portion of the tutorial.
                     model.pumpButton.onClick = function() {
+                        // tutorial.displayHowToPump();
                         tutorial.pumpState(model);
                     };
                 };
@@ -319,10 +320,12 @@ class TutorialModel {
         mainDispatcher.add(welcomePopUp);
     }
 
+    // TODO: Next step is to fix this one!
     displayHowToPump() {
 
         // highlightLimb("alimb");
     
+        // FIXME: Need to have a distinction between an obtrusive and unobtrusive pop up.
         var pumpPopUp = new PopUp(1158.5, 506.0, 321, 370, [], 
             new Button(1288.0, 658.0, 19, 22, function() {
     
