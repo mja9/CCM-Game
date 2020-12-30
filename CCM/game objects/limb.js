@@ -298,35 +298,3 @@ class InterPosition extends GradientPosition{
         CONTEXT.fillText(this.c.toString(), this.x, this.y);
     }
 }
-
-class MaxBar {
-
-    constructor(x, y, w, h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.arrowMid = this.y + this.h - (3 * 16 + 3);
-    }
-
-    paint() {
-        CONTEXT.drawImage(document.getElementById("maxbar"), this.x, this.y, this.w, this.h);
-        
-        // 162 - 440 -> 278 / 18 = 15.5
-        CONTEXT.fillStyle = "#16a3e5";
-        CONTEXT.beginPath();
-        CONTEXT.moveTo(this.x + 3, this.arrowMid - 4.5);
-        CONTEXT.lineTo(this.x + 12, this.arrowMid);
-        CONTEXT.lineTo(this.x + 3, this.arrowMid + 4.5);
-        CONTEXT.fill();
-    }
-
-    moveArrow() {
-        this.arrowMid = this.arrowMid - 16;
-        if (this.arrowMid < this.y + 19) {
-            this.arrowMid = this.y + 19;
-        }
-    }
-
-
-}
