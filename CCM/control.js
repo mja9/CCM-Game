@@ -106,124 +106,6 @@ function addClickHandler() {
    
 }
 
-function addDragNDropHandler(moveable, dragOffsetX, dragOffsetY) {
-
-    // Create interval for painting the box moving.
-    var animateInterval = window.setInterval(function() {
-                            paintGameBoard();
-                            }, 
-                            50);
-
-    var drag = function(event) {
-
-        // Get event location.
-        xPos = event.offsetX;
-        yPos = event.offsetY;
-
-        // Change location of moveable item.
-        moveable.x = xPos + dragOffsetX;
-        moveable.y = yPos + dragOffsetY;
-
-        // Block water movement if in the ascending limb.
-        if (moveable.id == "water" && moveable.limbPos.x > LOOP_OF_HENLE.x) {
-
-            // Check if we are trying to move water past the wall of the ascending limb.
-            if (moveable.x - moveable.w / 2 <= moveable.limbPos.x - (moveable.limbPos.w / 2.0)) {
-                moveable.x = moveable.limbPos.x - moveable.limbPos.w / 2 + moveable.w / 2;
-            } else if (moveable.x + moveable.w / 2 >= moveable.limbPos.x + (moveable.limbPos.w / 2.0)) {
-                moveable.x = moveable.limbPos.x + moveable.limbPos.w / 2 - moveable.w / 2;
-            }
-        }
-
-        // Block salt movement in the descending limb.
-        if (moveable.id == "salt" && moveable.limbPos.x < LOOP_OF_HENLE.x) {
-
-            // Check if we are trying to move salt past the wall of the descending limb.
-            if (moveable.x - moveable.w / 2 <= moveable.limbPos.x - (moveable.limbPos.w / 2.0)) {
-                moveable.x = moveable.limbPos.x - moveable.limbPos.w / 2 + moveable.w / 2;
-            } else if (moveable.x + moveable.w / 2 >= moveable.limbPos.x + (moveable.limbPos.w / 2.0)) {
-                moveable.x = moveable.limbPos.x + moveable.limbPos.w / 2 - moveable.w / 2;
-            }
-
-        }
-
-   };
-
-   var drop = function() {
-
-        window.clearInterval(animateInterval);
-
-        // Get event location.
-        xPos = moveable.x;
-        yPos = moveable.y;
-
-        // Check if item was dropped in a droppable.
-        var canDrop = false;
-        DROPPABLE.forEach(droppable => {
-
-            // Check x position.
-            if (xPos >= droppable.x - droppable.w / 2 && xPos <= droppable.x + droppable.w / 2) {
-
-                if (yPos >= droppable.y - droppable.h / 2 && yPos <= droppable.y + droppable.h / 2) {
-
-                    // Can only change concentration of fluid adjacent to limb position.
-                    if ((moveable.limbPos.y > droppable.y - droppable.h / 2) && (moveable.limbPos.y < droppable.y + droppable.h / 2)) {
-                        canDrop = true;
-
-                        // Interstitial fluid concentration only changes with the addition of salt.
-                        if (moveable.id == "salt") {
-                            droppable.c += 50;
-                        }
-                    }
-                    
-                }
-
-            }
-
-    });
-
-     // If item dropped elsewhere, reset concentration of limb position.
-     if (!canDrop) {
-        if (moveable.id == "salt") {
-            moveable.limbPos.c += 50;
-        } else {
-            moveable.limbPos.c -= 50;
-        }
-    }
-
-    // Reset position.
-    moveable.x = moveable.startX;
-    moveable.y = moveable.startY;
-
-    // Remove highlight from selected position in tutorial version.
-    if (inTutorial) {
-        moveable.limbPos.isSelected = false;
-    }
-
-    paintGameBoard();
-    removeDragHandler(drag, drop);
-    
-    };
-
-
-    // Add dragging event.
-    CANVAS.addEventListener("mousemove", drag);
-
-    // Add drop event.
-    CANVAS.addEventListener("mouseup", drop);
-
-}
-
-function removeDragHandler(drag, drop) {
-    
-    // Remove dragging event.
-    CANVAS.removeEventListener("mousemove", drag);
-
-    // Remove drop event.
-    CANVAS.removeEventListener("mouseup", drop);
-
-}
-
 function validatePump() {
 
     var improperPump = false;
@@ -535,14 +417,6 @@ function initGameTutorial() {
 
     // Tell system we are in the tutorial.
     inTutorial = true;
-}
-
-function initInterstitialFluid() {
-
-    INTER_FLUID.forEach(pos => {
-        DROPPABLE.push(pos);
-    });
-
 }
 
 function initRegularGame() {
