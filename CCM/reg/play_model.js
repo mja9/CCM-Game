@@ -258,22 +258,24 @@ class TutorialModel {
 
     pumpState(tutorial) {
 
-        if (tutorial.playModel.view.loop.validatePump()) {
+        const model = tutorial.playModel;
+
+        if (model.view.loop.validatePump()) {
             console.log("Successful pump!");
 
             // Disable the pump state button.
-            tutorial.playModel.pumpButton.onClick = function() {};
+            model.pumpButton.onClick = function() {};
 
             // Animate and then enable the equi state button.
-            tutorial.playModel.equilibrateButton.animationDecorator = function() {
-                tutorial.playModel.equilibrateButton.onClick = function() {
-                    tutorial.equiState(tutorial);
+            model.pumpButton.v = -12.25;
+            model.pumpButton.animationDecorator = function() {
+                model.equilibrateButton.v = 12.25;
+                model.equilibrateButton.animationDecorator = function() {
+                    model.equilibrateButton.onClick = function() {
+                        tutorial.equiState(tutorial);
+                    };
                 };
             };
-            tutorial.playModel.pumpButton.animationDecorator = function() {
-                tutorial.playModel.equilibrateButton.v = 12.25;
-            };
-            tutorial.playModel.pumpButton.v = -12.25;
 
             // FIXME: Show pop up for equilibrate
 
@@ -284,8 +286,33 @@ class TutorialModel {
 
     }
 
-    // TODO: Fill out the proper actions for each state in the tutorial.
     equiState(tutorial) {
+
+        const model = tutorial.playModel;
+
+        if (model.view.loop.validateEquilibrate()) {
+            console.log("Successful equilibration!");
+
+            // Disable the equi button.
+            model.equilibrateButton.onClick = function() {};
+
+            // Animate and enable the flow button
+            model.equilibrateButton.v = -12.25;
+            model.equilibrateButton.animationDecorator = function() {
+                model.flowButton.v = 12.25;
+                model.flowButton.animationDecorator = function() {
+                    model.flowButton.onClick = function() {
+                        tutorial.flowState(tutorial);
+                    };
+                };
+            };
+
+            // FIXME: Show pop up for flow
+        
+        // FIXME: Add a useful error message
+        } else {
+            console.log("Unsuccessful equilibration!")
+        }
 
     }
 
