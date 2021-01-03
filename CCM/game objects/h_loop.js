@@ -42,6 +42,36 @@ class LoopOfHenle {
         return !improperPump;
     }
 
+    validateEquilibrate() {
+
+        var improperEquil = false;
+    
+        for (i = 0; i < D_LIMB.length; i++) {
+    
+            // Flag any descending limb positions that fail the equilibrate criteria.
+            if (!checkEqui(i)) {
+                improperEquil = true;
+            }
+        }
+        
+        return !improperEquil;
+        //     // Regular game action.
+        //     } else {
+    
+        //          // Disable this button.
+        //          STATE_BUTTONS[1].onClick = function() {};
+        //          STATE_BUTTONS[1].image = "equi-disabled";
+        //         paintGameBoard();
+        //         console.log("Equilibrate successful!");
+    
+        //         // Continue to flow paused game state.
+        //         pauseGameAI("player flow");
+        //     }
+    
+        // }
+    
+    }
+
 }
 
 class SideBar {

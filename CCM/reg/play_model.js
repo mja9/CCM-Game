@@ -256,19 +256,26 @@ class TutorialModel {
         this.playModel = playModel;
     }
 
-    // TODO: Fill out the proper actions for each state in the tutorial.
-    pumpState(model) {
+    pumpState(tutorial) {
 
-        if (model.view.loop.validatePump()) {
+        if (tutorial.playModel.view.loop.validatePump()) {
             console.log("Successful pump!");
 
             // Disable the pump state button.
-            model.pumpButton.onClick = function() {};
+            tutorial.playModel.pumpButton.onClick = function() {};
 
-            // Enable the equi state button.
-            model.equilibrateButton.onClick = function() {};
+            // Animate and then enable the equi state button.
+            tutorial.playModel.equilibrateButton.animationDecorator = function() {
+                tutorial.playModel.equilibrateButton.onClick = function() {
+                    tutorial.equiState(tutorial);
+                };
+            };
+            tutorial.playModel.pumpButton.animationDecorator = function() {
+                tutorial.playModel.equilibrateButton.v = 12.25;
+            };
+            tutorial.playModel.pumpButton.v = -12.25;
 
-            // Move onto the next part of the tutorial -- display equilibrate?
+            // FIXME: Show pop up for equilibrate
 
         // FIXME: Add a useful error message here
         } else {
@@ -277,11 +284,13 @@ class TutorialModel {
 
     }
 
-    equiState() {
+    // TODO: Fill out the proper actions for each state in the tutorial.
+    equiState(tutorial) {
 
     }
 
-    flowState() {
+    // TODO: Fill out the proper actions for each state in the tutorial.
+    flowState(tutorial) {
         
     }
 
@@ -303,15 +312,15 @@ class TutorialModel {
                 model.addMoveableHandler();
 
                 // Animate the state button to indicate what part of the system we are on.
-                model.pumpButton.v = 12.25;
                 model.pumpButton.animationDecorator = function() {
 
                     // FIXME: Add the popup for the pump portion of the tutorial.
                     model.pumpButton.onClick = function() {
                         // tutorial.displayHowToPump();
-                        tutorial.pumpState(model);
+                        tutorial.pumpState(tutorial);
                     };
                 };
+                model.pumpButton.v = 12.25;
     
             }, "ok-button"),
             "welcome-box");

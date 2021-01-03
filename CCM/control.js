@@ -106,65 +106,6 @@ function addClickHandler() {
    
 }
 
-function validateEquilibrate() {
-
-    var improperEquil = false;
-
-    for (i = 0; i < D_LIMB.length; i++) {
-
-        // Flag any descending limb positions that fail the equilibrate criteria.
-        if (!checkEqui(i)) {
-            improperEquil = true;
-        }
-    }
-
-    if (improperEquil) {
-        console.log("Equilibrate failed!");
-
-    } else {
-
-        // One time action taken during tutorial.
-        if (inTutorial) {
-
-            // Enable the next button.
-            STATE_BUTTONS[2].onClick = 
-                function() {
-                    STATE_BUTTONS[2].onClick = function() {};
-                    STATE_BUTTONS[2].image = "flow-disabled";
-                    flow();
-                };
-            STATE_BUTTONS[2].image = "flow";
-
-            // Disable this button.
-            STATE_BUTTONS[1].onClick = function() {};
-            STATE_BUTTONS[1].image = "equi-disabled";
-
-            // Remove last pop up and its corresponding button.
-            PASSIVE_POP_UPS.pop();
-            CLICKABLE.pop();           
-            paintGameBoard();
-            displayHowToFlow();
-            console.log("Equilibrate successful!");
-            return improperEquil;
-      
-        // Regular game action.
-        } else {
-
-             // Disable this button.
-             STATE_BUTTONS[1].onClick = function() {};
-             STATE_BUTTONS[1].image = "equi-disabled";
-            paintGameBoard();
-            console.log("Equilibrate successful!");
-
-            // Continue to flow paused game state.
-            pauseGameAI("player flow");
-        }
-
-    }
-    return true;
-
-}
-
 function flow(inSim = false) {
     console.log("Flowing...");
 
