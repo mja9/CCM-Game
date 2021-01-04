@@ -316,8 +316,12 @@ class TutorialModel {
 
     }
 
-    // TODO: Fill out the proper actions for each state in the tutorial.
     flowState(tutorial) {
+
+        let animationDecorator = function() {
+            tutorial.displayNowToRegularPlay();
+        };
+        tutorial.playModel.view.loop.flow(animationDecorator);
         
     }
 
@@ -456,12 +460,10 @@ class TutorialModel {
             function() {
                 initRegularGame();
                 CLICKABLE = oldClickable;
-                paintGameBoard();
             }, "ok-button"), "end-tutorial");
     
         CONTEXT.globalAlpha = 0.35;
-        paintGameBoard();
-        regularPlayPopUp.paint();
+        mainDispatcher.add(regularPlayPopUp);
     
     }
 

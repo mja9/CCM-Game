@@ -72,7 +72,7 @@ class LoopOfHenle {
     
     }
 
-    flow(animationDecorator) {
+    flow(animationDecorator = function() {}) {
         INCOMING.velY = 5;
         D_LIMB.forEach(pos => pos.setVelocity(0, 5));
         A_LIMB.forEach(pos => pos.setVelocity(0, -5));
