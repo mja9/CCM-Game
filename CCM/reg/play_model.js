@@ -303,6 +303,7 @@ class TutorialModel {
                 model.flowButton.v = 12.25;
                 model.flowButton.animationDecorator = function() {
                     model.flowButton.onClick = function() {
+                        console.log("Called the flow button's onCLick!");
                         tutorial.flowState(tutorial);
                     };
                 };

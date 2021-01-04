@@ -120,6 +120,7 @@ class LimbPosition extends GradientPosition {
 
     paint() {
         // Draw rectangular positions.
+        this.move();
         this.colorFillMechanic();
 
         // Draw numerical representation of concentration.
@@ -144,8 +145,8 @@ class LimbPosition extends GradientPosition {
         // Clamp movement.
         if ((this.startY < this.nextY && this.y > this.nextY) || (this.startY > this.nextY && this.y < this.nextY)) {
             this.y = this.nextY;
-            this.water.y = this.y + this.h / 2 - 7.0;
-            this.salt.y = this.y + this.h / 2 - 7.0;
+            this.water.moveTopLeftTo(this.nextX - this.w / 2 + 7.0, this.nextY + this.h / 2 - 7.0);
+            this.salt.moveTopLeftTo(this.nextX + this.w / 2 - 7.0, this.nextY + this.h / 2 - 7.0);
         }
     }
 
@@ -178,7 +179,7 @@ class CrossingPosition extends LimbPosition {
     }
 
     move() {
-        
+
     }
 
 }
@@ -194,6 +195,11 @@ class WaterIcon {
         this.x = this.startX;
         this.y = this.startY;
         this.limbPos = limbPos;
+    }
+
+    moveTopLeftTo(x, y) {
+        this.x = x + this.w / 2.0;
+        this.y = y - this.h / 2.0;
     }
 
     paint() {
@@ -258,6 +264,11 @@ class SaltIcon {
         this.x = this.startX;
         this.y = this.startY;
         this.limbPos = limbPos;
+    }
+
+    moveTopLeftTo(x, y) {
+        this.x = x - this.w / 2.0;
+        this.y = y - this.h / 2.0;
     }
 
     paint() {

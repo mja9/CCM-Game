@@ -73,9 +73,12 @@ class LoopOfHenle {
     }
 
     flow(animationDecorator = function() {}) {
+        console.log("Flow was called!")
         INCOMING.velY = 5;
         D_LIMB.forEach(pos => pos.setVelocity(0, 5));
         A_LIMB.forEach(pos => pos.setVelocity(0, -5));
+
+        console.log(D_LIMB);
 
         // Set the animation decorator for the special positon.
         D_LIMB[D_LIMB.length - 1].animationDecorator = animationDecorator;
