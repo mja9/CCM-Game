@@ -118,11 +118,13 @@ class StateButton {
         if (this.gradWidth < 0) {
             this.gradWidth = 0;
             this.animationDecorator();
+            this.animationDecorator = function() {};    // One-time use decorator.
         }
 
         if (this.gradWidth > this.w) {
             this.gradWidth = this.w;
             this.animationDecorator();
+            this.animationDecorator = function() {};    // One-time use decorator.
         }
     }
 

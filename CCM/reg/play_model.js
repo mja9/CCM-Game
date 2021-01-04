@@ -269,6 +269,7 @@ class TutorialModel {
             // Animate and then enable the equi state button.
             model.pumpButton.v = -12.25;
             model.pumpButton.animationDecorator = function() {
+                console.log("This was called!")
                 model.equilibrateButton.v = 12.25;
                 model.equilibrateButton.animationDecorator = function() {
                     model.equilibrateButton.onClick = function() {
