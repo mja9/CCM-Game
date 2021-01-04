@@ -72,6 +72,15 @@ class LoopOfHenle {
     
     }
 
+    flow(animationDecorator) {
+        INCOMING.velY = 5;
+        D_LIMB.forEach(pos => pos.setVelocity(0, 5));
+        A_LIMB.forEach(pos => pos.setVelocity(0, -5));
+
+        // Set the animation decorator for the special positon.
+        D_LIMB[D_LIMB.length - 1].animationDecorator = animationDecorator;
+    }
+
 }
 
 class SideBar {

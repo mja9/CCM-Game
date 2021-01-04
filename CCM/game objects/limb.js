@@ -108,7 +108,15 @@ class LimbPosition extends GradientPosition {
         this.isSelected = false;
         this.nextX = nextX;
         this.nextY = nextY;
-    }   
+        this.velY = 0;
+        this.velX = 0;
+        this.animationDecorator = function() {};
+    }  
+    
+    setVelocity(velX, velY) {
+        this.velX = velX;
+        this.velY = velY;
+    }
 
     paint() {
         // Draw rectangular positions.
@@ -121,17 +129,24 @@ class LimbPosition extends GradientPosition {
         CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
     }
 
-    move(xDiff, yDiff) {
+    move() {
 
         // Move the limb position itself.
-        this.x += xDiff;
-        this.y += yDiff;
+        this.x += this.velX;
+        this.y += this.velY;
 
         // Move its icons.
-        this.water.x += xDiff;
-        this.water.y += yDiff;
-        this.salt.x += xDiff;
-        this.salt.y += yDiff;
+        this.water.x += this.velX;
+        this.water.y += this.velY;
+        this.salt.x += this.velX;
+        this.salt.y += this.velY;
+
+        // Clamp movement.
+        if ((this.startY < this.nextY && this.y > this.nextY) || (this.startY > this.nextY && this.y < this.nextY)) {
+            this.y = this.nextY;
+            this.water.y = this.y + this.h / 2 - 7.0;
+            this.salt.y = this.y + this.h / 2 - 7.0;
+        }
     }
 
     moveTo(x, y) {
@@ -147,6 +162,22 @@ class LimbPosition extends GradientPosition {
         this.water.y += yDiff;
         this.salt.x += xDiff;
         this.salt.y += yDiff;
+        
+    }
+
+}
+
+class CrossingPosition extends LimbPosition {
+
+    constructor(xPos, yPos, nextX, nextY) {
+        super(xPos, yPos, nextX, nextY);
+    }
+
+    setVelocity(velX, velY) {
+
+    }
+
+    move() {
         
     }
 
