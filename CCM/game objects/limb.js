@@ -188,7 +188,11 @@ class CrossingPosition extends LimbPosition {
         this.y += this.velY;
         this.velY += this.accelY;
 
-        // console.log(this.velY);
+        // Move its icons.
+        this.water.x += this.velX;
+        this.water.y += this.velY;
+        this.salt.x += this.velX;
+        this.salt.y += this.velY;
 
         switch(this.phase) {
 
