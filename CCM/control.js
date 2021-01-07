@@ -23,7 +23,7 @@ let D_LIMB = [
                 new LimbPosition(579, 256, 579, 345),
                 new LimbPosition(579, 345, 579, 434),
                 new LimbPosition(579, 434, 579, 523),
-                new LimbPosition(579, 523, 1079, 523)
+                new CrossingPosition(579, 523, 1079, 523)
              ];
 
 let A_LIMB = [

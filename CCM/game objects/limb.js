@@ -178,7 +178,7 @@ class CrossingPosition extends LimbPosition {
 
     setVelocity(velX, velY) {
         this.velX = 14;
-        this.velY = 30;
+        this.velY = 62.33;
         this.accelY = -10;
     }
 
@@ -188,13 +188,16 @@ class CrossingPosition extends LimbPosition {
         this.y += this.velY;
         this.velY += this.accelY;
 
+        // console.log(this.velY);
+
         switch(this.phase) {
 
             case 1:
                 if (this.x >= 621 && this.y >= 665) {
+                    console.log("Phase 1 was triggered!");
                     this.accelY = 0;
                     this.velY = 0;
-                    this.velX = 139.33;
+                    this.velX = 31.43;
                     this.y = 665;
                     this.phase = 2;
                 }
@@ -202,8 +205,9 @@ class CrossingPosition extends LimbPosition {
 
             case 2:
                 if (this.x >= 1039) {
+                    console.log("Phase 2 was triggered!")
                     this.velX = 14;
-                    this.velY = -30;
+                    this.velY = -62.33;
                     this.accelY = 10;
                     this.x = 1039;
                     this.phase = 3;
@@ -211,6 +215,7 @@ class CrossingPosition extends LimbPosition {
 
             case 3:
                 if (this.x >= 1079 && this.y <= 523) {
+                    console.log("Phase 3 was triggered!")
                     this.x = 1079;
                     this.y = 523;
                     this.accelY = 0;
@@ -218,6 +223,7 @@ class CrossingPosition extends LimbPosition {
                     this.velX = 0;
                     this.animationDecorator();
                     this.animationDecorator = function() {};
+                    this.phase = 1;
                 }
         }
 
