@@ -216,20 +216,6 @@ function initGameTutorial() {
     inTutorial = true;
 }
 
-// TODO:
-function initRegularGame() {
-
-    // Tell system we are out of the tutorial.
-    inTutorial = false;
-
-    // Choose starting limb position.
-    D_LIMB[2].isSelected = true;
-
-    // Begin AI control of other positions.
-    startGameAI();
-
-}
-
 // ------------------------------------------ Methods for regular gameplay. ----------------------------------------
 
 
@@ -321,6 +307,7 @@ function movePlayer() {
 
 }
 
+// TODO: 
 function startGameAI(currentLimb = "alimb") {
 
     var playerFlag = false;
@@ -489,45 +476,6 @@ function dispalyEndGameScreen() {
     DROPPABLE = [];
     STATE_BUTTONS = [];
     PASSIVE_POP_UPS = [];    
-
-}
-
-// ---------------------------------------- Helpers used in both tutorial and regular play ----------------------
-
-/**
- * Checks if the position in currentPos of the ascending limb
- * has a valid concentration according to the pump 
- * criteria.
- * @param {Number} currentPos The current position in the ascending limb.
- */
-function checkPump(currentPos) {
-
-    // Check that the difference is not greater than 200.
-    if (Math.abs(A_LIMB[currentPos].c - INTER_FLUID[currentPos].c) > 200) {
-        return false;
-    }
-
-    // Check that max amount of salt was removed.
-    if (200 - Math.abs(A_LIMB[currentPos].c - INTER_FLUID[currentPos].c) >= 100) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * Checks if the position in currentPos of the descending limb
- * has a valid concentration according to the equilibrate 
- * criteria.
- * @param {Number} currentPos The current position in the descending limb.
- */
-function checkEqui(currentPos) {
-
-    if (D_LIMB[currentPos].c == INTER_FLUID[currentPos].c) {
-        return true;
-    }
-
-    return false;
 
 }
 

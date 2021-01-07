@@ -214,6 +214,7 @@ class CrossingPosition extends LimbPosition {
                     this.x = 1039;
                     this.phase = 3;
                 }
+                break;
 
             case 3:
                 if (this.x >= 1079 && this.y <= 523) {
@@ -228,6 +229,7 @@ class CrossingPosition extends LimbPosition {
                     this.animationDecorator = function() {};
                     this.phase = 1;
                 }
+                break;
         }
 
     }
@@ -245,11 +247,18 @@ class WaterIcon {
         this.x = this.startX;
         this.y = this.startY;
         this.limbPos = limbPos;
+        this.v = 0;
+        this.animationDecorator = function() {};
     }
 
     moveTopLeftTo(x, y) {
         this.x = x + this.w / 2.0;
         this.y = y - this.h / 2.0;
+    }
+
+    move() {
+        this.x += this.v;
+
     }
 
     paint() {
@@ -314,11 +323,17 @@ class SaltIcon {
         this.x = this.startX;
         this.y = this.startY;
         this.limbPos = limbPos;
+        this.v = 0;
+        this.animationDecorator = function() {};
     }
 
     moveTopLeftTo(x, y) {
         this.x = x - this.w / 2.0;
         this.y = y - this.h / 2.0;
+    }
+
+    move() {
+        this.x += this.v;
     }
 
     paint() {

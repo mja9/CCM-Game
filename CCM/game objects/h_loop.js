@@ -33,13 +33,33 @@ class LoopOfHenle {
 
         for (i = 0; i < A_LIMB.length; i++) {
 
-            if (!checkPump(i)) {
+            if (!this.checkPump(i)) {
                 improperPump = true;
             }
 
         }
     
         return !improperPump;
+    }
+    /**
+     * Checks if the position in currentPos of the ascending limb
+     * has a valid concentration according to the pump 
+     * criteria.
+     * @param {Number} currentPos The current position in the ascending limb.
+     */
+    checkPump(currentPos) {
+
+        // Check that the difference is not greater than 200.
+        if (Math.abs(A_LIMB[currentPos].c - INTER_FLUID[currentPos].c) > 200) {
+            return false;
+        }
+
+        // Check that max amount of salt was removed.
+        if (200 - Math.abs(A_LIMB[currentPos].c - INTER_FLUID[currentPos].c) >= 100) {
+            return false;
+        }
+
+        return true;
     }
 
     validateEquilibrate() {
@@ -49,27 +69,28 @@ class LoopOfHenle {
         for (i = 0; i < D_LIMB.length; i++) {
     
             // Flag any descending limb positions that fail the equilibrate criteria.
-            if (!checkEqui(i)) {
+            if (!this.checkEqui(i)) {
                 improperEquil = true;
             }
         }
         
         return !improperEquil;
-        //     // Regular game action.
-        //     } else {
-    
-        //          // Disable this button.
-        //          STATE_BUTTONS[1].onClick = function() {};
-        //          STATE_BUTTONS[1].image = "equi-disabled";
-        //         paintGameBoard();
-        //         console.log("Equilibrate successful!");
-    
-        //         // Continue to flow paused game state.
-        //         pauseGameAI("player flow");
-        //     }
-    
-        // }
-    
+    }
+
+    /**
+     * Checks if the position in currentPos of the descending limb
+     * has a valid concentration according to the equilibrate 
+     * criteria.
+     * @param {Number} currentPos The current position in the descending limb.
+     */
+    checkEqui(currentPos) {
+
+        if (D_LIMB[currentPos].c == INTER_FLUID[currentPos].c) {
+            return true;
+        }
+
+        return false;
+
     }
 
     flow(animationDecorator = function() {}) {

@@ -248,6 +248,43 @@ class PlayModel {
     
     }
 
+    initRegularGame() {
+        // Choose starting limb position.
+        D_LIMB[2].isSelected = true;
+
+        // Begin AI control of other positions.
+        this.state = "Pump";
+        this.startGameAI();
+    }
+
+    startGameAI() {
+
+        switch(this.state) {
+
+            case "Pump":
+                break;
+
+            case "Equilibrate":
+                break;
+
+            case "Flow":
+                break;
+
+        }
+    }
+
+    animatePump() {
+
+        for (let i = 0; i < A_LIMB.length; i++) {
+
+            if (!A_LIMB[i].isSelected && this.view.loop.checkPump(i)) {
+                break;
+            }
+
+        }
+
+    }
+
 }
 
 class TutorialModel {
