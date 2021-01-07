@@ -236,19 +236,38 @@ class CrossingPosition extends LimbPosition {
 
 }
 
-class WaterIcon {
+class Icon {
 
-    constructor(xPos, yPos, limbPos) {
-        this.id = "water";
-        this.w = 28;
-        this.h = 40;
-        this.startX = xPos + this.w / 2;
-        this.startY = yPos - this.h / 2;
-        this.x = this.startX;
-        this.y = this.startY;
+    constructor(xPos, yPos, w, h, limbPos) {
+        this.w = w;
+        this.h = h;
+        this.x = xPos + this.w / 2;
+        this.y = yPos - this.h / 2;
         this.limbPos = limbPos;
         this.v = 0;
         this.animationDecorator = function() {};
+        this.terminationCriteria = function(icon) {};
+    }
+
+    move() {
+        this.x += this.v;
+
+        // Termination criteria.
+        if (this.terminationCriteria(this)) {
+                this.v = 0;
+                this.animationDecorator();
+        }
+    }
+
+}
+
+class WaterIcon extends Icon {
+
+    constructor(xPos, yPos, limbPos) {
+        super(xPos, yPos, 28, 40, limbPos);
+        this.id = "water";
+        this.startX = this.x;
+        this.startY = this.y;
     }
 
     moveTopLeftTo(x, y) {
@@ -256,12 +275,8 @@ class WaterIcon {
         this.y = y - this.h / 2.0;
     }
 
-    move() {
-        this.x += this.v;
-
-    }
-
     paint() {
+        this.move();
         CONTEXT.drawImage(document.getElementById("water-icon"), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
@@ -312,19 +327,13 @@ class WaterIcon {
 
 }
 
-class SaltIcon {
+class SaltIcon extends Icon {
 
     constructor(xPos, yPos, limbPos) {
+        super(xPos, yPos, 33, 37, limbPos);
         this.id = "salt";
-        this.w = 33;
-        this.h = 37;
-        this.startX = xPos - this.w / 2;
-        this.startY = yPos - this.h / 2;
-        this.x = this.startX;
-        this.y = this.startY;
-        this.limbPos = limbPos;
-        this.v = 0;
-        this.animationDecorator = function() {};
+        this.startX = this.x;
+        this.startY = this.y;
     }
 
     moveTopLeftTo(x, y) {
@@ -332,11 +341,8 @@ class SaltIcon {
         this.y = y - this.h / 2.0;
     }
 
-    move() {
-        this.x += this.v;
-    }
-
     paint() {
+        this.move();
         CONTEXT.drawImage(document.getElementById("salt-icon"), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
