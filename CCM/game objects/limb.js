@@ -172,13 +172,54 @@ class CrossingPosition extends LimbPosition {
 
     constructor(xPos, yPos, nextX, nextY) {
         super(xPos, yPos, nextX, nextY);
+        this.accelY = 0;
+        this.phase = 1;
     }
 
     setVelocity(velX, velY) {
-
+        this.velX = 14;
+        this.velY = 30;
+        this.accelY = -10;
     }
 
     move() {
+
+        this.x += this.velX;
+        this.y += this.velY;
+        this.velY += this.accelY;
+
+        switch(this.phase) {
+
+            case 1:
+                if (this.x >= 621 && this.y >= 665) {
+                    this.accelY = 0;
+                    this.velY = 0;
+                    this.velX = 139.33;
+                    this.y = 665;
+                    this.phase = 2;
+                }
+                break;
+
+            case 2:
+                if (this.x >= 1039) {
+                    this.velX = 14;
+                    this.velY = -30;
+                    this.accelY = 10;
+                    this.x = 1039;
+                    this.phase = 3;
+                }
+
+            case 3:
+                if (this.x >= 1079 && this.y <= 523) {
+                    this.x = 1079;
+                    this.y = 523;
+                    this.accelY = 0;
+                    this.velY = 0;
+                    this.velX = 0;
+                    this.animationDecorator();
+                    this.animationDecorator = function() {};
+                }
+        }
 
     }
 
