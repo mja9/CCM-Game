@@ -198,7 +198,6 @@ class CrossingPosition extends LimbPosition {
 
             case 1:
                 if (this.x >= 621 && this.y >= 665) {
-                    console.log("Phase 1 was triggered!");
                     this.accelY = 0;
                     this.velY = 0;
                     this.velX = 31.43;
@@ -209,7 +208,6 @@ class CrossingPosition extends LimbPosition {
 
             case 2:
                 if (this.x >= 1039) {
-                    console.log("Phase 2 was triggered!")
                     this.velX = 14;
                     this.velY = -62.33;
                     this.accelY = 10;
@@ -219,9 +217,10 @@ class CrossingPosition extends LimbPosition {
 
             case 3:
                 if (this.x >= 1079 && this.y <= 523) {
-                    console.log("Phase 3 was triggered!")
                     this.x = 1079;
                     this.y = 523;
+                    this.water.moveTopLeftTo(this.nextX - this.w / 2 + 7.0, this.nextY + this.h / 2 - 7.0);
+                    this.salt.moveTopLeftTo(this.nextX + this.w / 2 - 7.0, this.nextY + this.h / 2 - 7.0);
                     this.accelY = 0;
                     this.velY = 0;
                     this.velX = 0;

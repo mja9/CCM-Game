@@ -74,7 +74,8 @@ class LoopOfHenle {
 
     flow(animationDecorator = function() {}) {
         console.log("Flow was called!")
-        INCOMING.velY = 5;
+        mainDispatcher.addAll([INCOMING, INCOMING.salt, INCOMING.water]);
+        INCOMING.setVelocity(0, 14.165);
         D_LIMB.forEach(pos => pos.setVelocity(0, 7.5));
         A_LIMB.forEach(pos => pos.setVelocity(0, -7.5));
 
