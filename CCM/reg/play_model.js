@@ -95,6 +95,7 @@ class PlayModel {
                     mainDispatcher.remove(moveable);
                     mainDispatcher.add(moveable);
 
+                    // TODO: Need to maintain a notion of this.
                     if (inTutorial) {   // Moveable handler for tutorial only.
 
                         // Highlight selected limb position.
@@ -257,19 +258,64 @@ class PlayModel {
         this.startGameAI();
     }
 
+    transitionState() {
+        switch(this.state) {
+
+            case "Pump":
+                this.state = "Equilibrate";    
+                this.pumpButton.animationDecorator = function() {
+                    this.equilibrateButton.animationDecorator = function() {
+                        this.startGameAI();
+                    };
+                    this.equilibrateButton.v = 12.25;
+                };
+                this.pumpButton.v = -12.25;
+                break;
+
+            case "Equilibrate":
+                this.state = "Flow";
+                this.equilibrateButton.animationDecorator = function() {
+                    this.flowButton.animationDecorator = function() {
+                        this.startGameAI();
+                    }
+                    this.flowButton.v = 12.25;
+                };
+                this.equilibrateButton.v = -12.25;
+                break;
+
+            default:
+                this.state = "Pump";
+                this.flowButton.animationDecorator = function() {
+                    this.pumpButton.animationDecorator = function() {
+                        this.startGameAI();
+                    }
+                    this.pumpButton.v = 12.25;
+                };
+                this.flowButton.v = -12.25;
+                break;
+
+        }
+    }
+
+    // TODO:
     startGameAI() {
 
         switch(this.state) {
 
             case "Pump":
                 if (!this.view.loop.validatePump()) {
-                    animatePump();
+                    this.animatePump();
                 } else {
-                    pauseGameAI();
+                    this.pauseGameAI();
                 }
                 break;
 
             case "Equilibrate":
+                if (!this.view.loop.validateEquilibrate()) {
+                    this.animateEquilibrate();
+                } else {
+                    this.pauseGameAI();
+                }
                 break;
 
             case "Flow":
@@ -278,6 +324,7 @@ class PlayModel {
         }
     }
 
+    // TODO:
     pauseGameAI() {
 
     }
