@@ -350,7 +350,8 @@ class PlayModel {
 
         // Ascending limb case.
         if (this.playerPosition > 6) {
-            // A_LIMB[]
+            A_LIMB[A_LIMB.length - (this.playerPosition % 6)].isSelected = false;
+            A_LIMB[A_LIMB.length - (this.playerPosition % 6) - 1].isSelected = true;
         }
 
     }
