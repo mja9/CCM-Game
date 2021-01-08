@@ -131,19 +131,19 @@ class LoopOfHenle {
         // Handle the incoming position.
         INCOMING.velX = 0;
         INCOMING.velY = 0;
-        INCOMING.moveTo(INCOMING.startX - INCOMING.x, INCOMING.startY - INCOMING.y);
+        INCOMING.moveTo(INCOMING.startX, INCOMING.startY);
 
         // Handle the regular limb positions.
         D_LIMB.forEach(pos => {
             pos.velX = 0;
             pos.velY = 0;
-            pos.moveTo(pos.startX - pos.x, pos.startY - pos.y);
+            pos.moveTo(pos.startX, pos.startY);
         });
 
         A_LIMB.forEach(pos => {
             pos.velX = 0;
             pos.velY = 0;
-            pos.moveTo(pos.startX - pos.x, pos.startY - pos.y);
+            pos.moveTo(pos.startX, pos.startY);
         });
     }
 
