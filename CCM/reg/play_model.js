@@ -253,9 +253,8 @@ class PlayModel {
         // Choose starting limb position.
         D_LIMB[2].isSelected = true;
 
-        // Begin AI control of other positions.
-        this.state = "Pump";
-        this.startGameAI();
+        // Transition to pump and begin AI.
+        this.transitionState();
     }
 
     transitionState() {
@@ -265,7 +264,7 @@ class PlayModel {
                 this.state = "Equilibrate";    
                 this.pumpButton.animationDecorator = function() {
                     this.equilibrateButton.animationDecorator = function() {
-                        this.startGameAI();
+                        this.startAI();
                     };
                     this.equilibrateButton.v = 12.25;
                 };
@@ -276,7 +275,7 @@ class PlayModel {
                 this.state = "Flow";
                 this.equilibrateButton.animationDecorator = function() {
                     this.flowButton.animationDecorator = function() {
-                        this.startGameAI();
+                        this.startAI();
                     }
                     this.flowButton.v = 12.25;
                 };
@@ -287,7 +286,7 @@ class PlayModel {
                 this.state = "Pump";
                 this.flowButton.animationDecorator = function() {
                     this.pumpButton.animationDecorator = function() {
-                        this.startGameAI();
+                        this.startAI();
                     }
                     this.pumpButton.v = 12.25;
                 };
@@ -297,8 +296,7 @@ class PlayModel {
         }
     }
 
-    // TODO:
-    startGameAI() {
+    startAI() {
 
         switch(this.state) {
 
@@ -306,7 +304,7 @@ class PlayModel {
                 if (!this.view.loop.validatePump()) {
                     this.animatePump();
                 } else {
-                    this.pauseGameAI();
+                    this.pauseAI();
                 }
                 break;
 
@@ -314,18 +312,26 @@ class PlayModel {
                 if (!this.view.loop.validateEquilibrate()) {
                     this.animateEquilibrate();
                 } else {
-                    this.pauseGameAI();
+                    this.pauseAI();
                 }
                 break;
 
             case "Flow":
+                this.view.loop.flow(function() {
+                    this.movePlayer();
+                    transitionState();
+                });
                 break;
 
         }
     }
 
+    movePlayer() {
+
+    }
+
     // TODO:
-    pauseGameAI() {
+    pauseAI() {
 
     }
 
@@ -372,7 +378,7 @@ class PlayModel {
             INTER_FLUID[lastOccurence].c += 50;
             A_LIMB[lastOccurence].salt.x =  A_LIMB[lastOccurence].salt.startX;
             A_LIMB[lastOccurence].salt.y =  A_LIMB[lastOccurence].salt.startY;
-            this.startGameAI();     // Continue the engine AI.
+            this.startAI();     // Continue the engine AI.
         }
 
         A_LIMB[lastOccurence].salt.v = -10;
@@ -420,7 +426,7 @@ class PlayModel {
         D_LIMB[lastOccurence].water.animationDecorator = function() {
             D_LIMB[lastOccurence].water.x =  D_LIMB[lastOccurence].water.startX;
             D_LIMB[lastOccurence].water.y =  D_LIMB[lastOccurence].water.startY;
-            this.startGameAI();     // Continue the engine AI.
+            this.startAI();     // Continue the engine AI.
         }
 
         D_LIMB[lastOccurence].water.v = 10;
