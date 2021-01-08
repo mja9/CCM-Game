@@ -106,29 +106,6 @@ function addClickHandler() {
    
 }
 
-function resetAfterFlow() {
-
-    // Handle the incoming position.
-    INCOMING.move(INCOMING.startX - INCOMING.x, INCOMING.startY - INCOMING.y);
-    ADDITIONALS.pop();
-
-    // Handle the regular limb positions.
-    let i = 0;
-    D_LIMB.forEach(pos => {
-        i += 1;
-
-        if (i == 6) {
-            pos.move(pos.startX - pos.x, pos.startY - pos.y);
-        }
-        pos.move(pos.startX - pos.x, pos.startY - pos.y);
-    });
-
-    A_LIMB.forEach(pos => {
-        pos.move(pos.startX - pos.x, pos.startY - pos.y);
-    });
-    paintGameBoard();
-}
-
 // ---------------------------------------------- Methods to initialize different game states. ---------------------------------
 
 function initGameTutorial() {
