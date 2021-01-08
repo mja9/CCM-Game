@@ -600,7 +600,6 @@ class TutorialModel {
         mainDispatcher.add(welcomePopUp);
     }
 
-    // TODO: Next step is to fix this one!
     displayHowToPump() {
 
         // highlightLimb("alimb");
@@ -691,6 +690,7 @@ class TutorialModel {
     
     }
     
+    // TODO: Fix this transition!
     displayNowToRegularPlay() {
         var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
         CLICKABLE = [];
@@ -699,8 +699,11 @@ class TutorialModel {
         var regularPlayPopUp = new PopUp(665.0, 328.0, 700, 300, [], 
         new Button(665.0, 404.0, 150, 70, 
             function() {
-                model.initRegularGame();
                 CLICKABLE = oldClickable;
+                mainDispatcher.remove(regularPlayPopUp);
+                CONTEXT.globalAlpha = 1.0;
+                
+                model.initRegularGame();
             }, "ok-button"), "end-tutorial");
     
         CONTEXT.globalAlpha = 0.35;
