@@ -361,7 +361,7 @@ class PlayModel {
     }
 
     pauseAI() {
-
+        const model = this;
         if (this.state == "Equilibrate" && this.playerPosition <= 6) {
 
             // Player equilibrates.
