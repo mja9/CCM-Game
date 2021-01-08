@@ -329,6 +329,30 @@ class PlayModel {
 
     movePlayer() {
 
+        // Crossing limbs case.
+        if (this.playerPosition == 6) {
+            D_LIMB[D_LIMB.length - 1].isSelected = false;
+            A_LIMB[A_LIMB.length - 1].isSelected = true;
+            this.playerPosition += 1;
+        }
+
+        // End of regular play case.
+        if (this.playerPosition == 12) {
+            this.gameOver();
+        }
+
+        // Descending limb case.
+        if (this.playerPosition < 6) {
+            D_LIMB[this.playerPosition - 1].isSelected = false;
+            D_LIMB[this.playerPosition].isSelected = true;
+            this.playerPosition += 1;
+        }
+
+        // Ascending limb case.
+        if (this.playerPosition > 6) {
+            // A_LIMB[]
+        }
+
     }
 
     pauseAI() {
@@ -454,6 +478,10 @@ class PlayModel {
 
         D_LIMB[lastOccurence].water.v = 10;
         D_LIMB[lastOccurence].c += 50;
+    }
+
+    gameOver() {
+
     }
 
 }
