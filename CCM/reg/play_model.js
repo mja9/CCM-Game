@@ -482,6 +482,7 @@ class PlayModel {
         D_LIMB[lastOccurence].c += 50;
     }
 
+    // TODO:
     gameOver() {
 
     }
@@ -702,7 +703,7 @@ class TutorialModel {
                 CLICKABLE = oldClickable;
                 mainDispatcher.remove(regularPlayPopUp);
                 CONTEXT.globalAlpha = 1.0;
-                
+
                 model.initRegularGame();
             }, "ok-button"), "end-tutorial");
     

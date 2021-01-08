@@ -94,14 +94,57 @@ class LoopOfHenle {
     }
 
     flow(animationDecorator = function() {}) {
-        console.log("Flow was called!")
         mainDispatcher.addAll([INCOMING, INCOMING.salt, INCOMING.water]);
         INCOMING.setVelocity(0, 14.165);
         D_LIMB.forEach(pos => pos.setVelocity(0, 7.5));
         A_LIMB.forEach(pos => pos.setVelocity(0, -7.5));
 
         // Set the animation decorator for the special positon.
-        D_LIMB[D_LIMB.length - 1].animationDecorator = animationDecorator;
+        const loop = this;
+        D_LIMB[D_LIMB.length - 1].animationDecorator = function() {
+            loop.flowConcentration();
+            loop.resetAfterFlow();
+            animationDecorator();
+        }
+    }
+
+    flowConcentration() {
+
+        let prevC = INCOMING.c;
+
+        // First down the descending limb.
+        for (let i = 0; i < D_LIMB.length; i++) {
+            let newC  = prevC;
+            prevC = D_LIMB[i].c;
+            D_LIMB[i].c = newC;
+        }
+
+        // Then up the ascending limb.
+        for (let i = A_LIMB.length - 1; i > -1; i--) {
+            let newC = prevC;
+            prevC = A_LIMB[i].c;
+            A_LIMB[i].c = newC;
+        }
+    }
+
+    resetAfterFlow() {
+        // Handle the incoming position.
+        INCOMING.velX = 0;
+        INCOMING.velY = 0;
+        INCOMING.moveTo(INCOMING.startX - INCOMING.x, INCOMING.startY - INCOMING.y);
+
+        // Handle the regular limb positions.
+        D_LIMB.forEach(pos => {
+            pos.velX = 0;
+            pos.velY = 0;
+            pos.moveTo(pos.startX - pos.x, pos.startY - pos.y);
+        });
+
+        A_LIMB.forEach(pos => {
+            pos.velX = 0;
+            pos.velY = 0;
+            pos.moveTo(pos.startX - pos.x, pos.startY - pos.y);
+        });
     }
 
 }

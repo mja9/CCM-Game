@@ -147,6 +147,8 @@ class LimbPosition extends GradientPosition {
             this.y = this.nextY;
             this.water.moveTopLeftTo(this.nextX - this.w / 2 + 7.0, this.nextY + this.h / 2 - 7.0);
             this.salt.moveTopLeftTo(this.nextX + this.w / 2 - 7.0, this.nextY + this.h / 2 - 7.0);
+            this.animationDecorator();
+            this.animationDecorator = function() {};    // One-time use decorator.
         }
     }
 
