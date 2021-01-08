@@ -412,30 +412,30 @@ function pauseGameAI(pauseID) {
 
 }
 
-function animatePump(currentPos) {
+// function animatePump(currentPos) {
 
-        A_LIMB[currentPos].c -= 50;
+//         A_LIMB[currentPos].c -= 50;
 
-        var iconAnimation = window.setInterval(function() {
+//         var iconAnimation = window.setInterval(function() {
 
-            if (A_LIMB[currentPos].salt.x <= INTER_FLUID[currentPos].x + INTER_FLUID[currentPos].w / 4) {
-                INTER_FLUID[currentPos].c += 50;
-                A_LIMB[currentPos].salt.x = A_LIMB[currentPos].salt.startX;
+//             if (A_LIMB[currentPos].salt.x <= INTER_FLUID[currentPos].x + INTER_FLUID[currentPos].w / 4) {
+//                 INTER_FLUID[currentPos].c += 50;
+//                 A_LIMB[currentPos].salt.x = A_LIMB[currentPos].salt.startX;
 
-                paintGameBoard();
-                window.clearInterval(iconAnimation);
+//                 paintGameBoard();
+//                 window.clearInterval(iconAnimation);
 
-            // Move salt icon.
-            } else {
+//             // Move salt icon.
+//             } else {
 
-                A_LIMB[currentPos].salt.x -= 10;
-                paintGameBoard();
+//                 A_LIMB[currentPos].salt.x -= 10;
+//                 paintGameBoard();
 
-            }
+//             }
 
-        }, 50);
+//         }, 50);
 
-}
+// }
 
 function animateEquilibrate(currentPos) {
 

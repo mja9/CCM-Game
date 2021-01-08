@@ -262,6 +262,11 @@ class PlayModel {
         switch(this.state) {
 
             case "Pump":
+                if (!this.view.loop.validatePump()) {
+                    animatePump();
+                } else {
+                    pauseGameAI();
+                }
                 break;
 
             case "Equilibrate":
@@ -273,16 +278,58 @@ class PlayModel {
         }
     }
 
+    pauseGameAI() {
+
+    }
+
     animatePump() {
 
-        for (let i = 0; i < A_LIMB.length; i++) {
+        let needPump = A_LIMB.map(function(pos, i) {
+            return !this.view.loop.checkPump(i) && !pos.isSelected;
+        });
+        let lastOccurence = needPump.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
+        needPump[lastOccurence] = false;
+        
+        for (let i = 0; i < needPump.length; i++) {
 
-            if (!A_LIMB[i].isSelected && this.view.loop.checkPump(i)) {
-                break;
+            if (needPump[i]) {
+
+                A_LIMB[i].salt.terminationCriteria = function(icon) {
+                    if (icon.x <= INTER_FLUID[i].x + (INTER_FLUID[i].w / 4.0)) {
+                        return true;
+                    }
+                    return false;
+                } 
+                A_LIMB[i].salt.animationDecorator = function() {
+                    INTER_FLUID[i].c += 50;
+                    A_LIMB[i].salt.x =  A_LIMB[i].salt.startX;
+                    A_LIMB[i].salt.y =  A_LIMB[i].salt.startY;
+                }
+
+                // Set the velocity and alter limb concentration.
+                A_LIMB[i].salt.v = -10;
+                A_LIMB[i].c -= 50;
+
             }
 
         }
+        
+        // Do the same for the last occurence.
+        A_LIMB[lastOccurence].salt.terminationCriteria = function(icon) {
+            if (icon.x <= INTER_FLUID[lastOccurence].x + (INTER_FLUID[lastOccurence].w / 4.0)) {
+                return true;
+            }
+            return false;
+        } 
+        A_LIMB[lastOccurence].salt.animationDecorator = function() {
+            INTER_FLUID[lastOccurence].c += 50;
+            A_LIMB[lastOccurence].salt.x =  A_LIMB[lastOccurence].salt.startX;
+            A_LIMB[lastOccurence].salt.y =  A_LIMB[lastOccurence].salt.startY;
+            this.startGameAI();     // Continue the engine AI.
+        }
 
+        A_LIMB[lastOccurence].salt.v = -10;
+        A_LIMB[lastOccurence].c -= 50;        
     }
 
 }
