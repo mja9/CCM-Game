@@ -259,15 +259,16 @@ class PlayModel {
     }
 
     transitionState() {
+        const model = this;
         switch(this.state) {
 
             case "Pump":
                 this.state = "Equilibrate";    
                 this.pumpButton.animationDecorator = function() {
-                    this.equilibrateButton.animationDecorator = function() {
-                        this.startAI();
+                    model.equilibrateButton.animationDecorator = function() {
+                        model.startAI();
                     };
-                    this.equilibrateButton.v = 12.25;
+                    model.equilibrateButton.v = 12.25;
                 };
                 this.pumpButton.v = -12.25;
                 break;
@@ -275,10 +276,10 @@ class PlayModel {
             case "Equilibrate":
                 this.state = "Flow";
                 this.equilibrateButton.animationDecorator = function() {
-                    this.flowButton.animationDecorator = function() {
-                        this.startAI();
+                    model.flowButton.animationDecorator = function() {
+                        model.startAI();
                     }
-                    this.flowButton.v = 12.25;
+                    model.flowButton.v = 12.25;
                 };
                 this.equilibrateButton.v = -12.25;
                 break;
@@ -286,10 +287,10 @@ class PlayModel {
             default:
                 this.state = "Pump";
                 this.flowButton.animationDecorator = function() {
-                    this.pumpButton.animationDecorator = function() {
-                        this.startAI();
+                    model.pumpButton.animationDecorator = function() {
+                        model.startAI();
                     }
-                    this.pumpButton.v = 12.25;
+                    model.pumpButton.v = 12.25;
                 };
                 this.flowButton.v = -12.25;
                 break;
@@ -693,11 +694,12 @@ class TutorialModel {
     displayNowToRegularPlay() {
         var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
         CLICKABLE = [];
+        const model = this.playModel;
     
         var regularPlayPopUp = new PopUp(665.0, 328.0, 700, 300, [], 
         new Button(665.0, 404.0, 150, 70, 
             function() {
-                initRegularGame();
+                model.initRegularGame();
                 CLICKABLE = oldClickable;
             }, "ok-button"), "end-tutorial");
     
