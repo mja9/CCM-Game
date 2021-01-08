@@ -303,9 +303,12 @@ class PlayModel {
         switch(this.state) {
 
             case "Pump":
+                console.log("Reached pump case...");
                 if (!this.view.loop.validatePump()) {
+                    console.log("Pumping...");
                     this.animatePump();
                 } else {
+                    console.log("Nothing else to pump")
                     this.pauseAI();
                 }
                 break;
@@ -379,15 +382,16 @@ class PlayModel {
         }
 
         else {
+            console.log("Transitioning states instead...");
             this.transitionState();
         }
 
     }
 
     animatePump() {
-
+        const model = this;
         let needPump = A_LIMB.map(function(pos, i) {
-            return !this.view.loop.checkPump(i) && !pos.isSelected;
+            return !model.view.loop.checkPump(i) && !pos.isSelected;
         });
         let lastOccurence = needPump.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
         needPump[lastOccurence] = false;
@@ -435,9 +439,9 @@ class PlayModel {
     }
 
     animateEquilibrate() {
-        
+        const model = this;
         let needEquilibrate = D_LIMB.map(function(pos, i) {
-            return !this.view.loop.checkEqui(i) && !pos.isSelected;
+            return !model.view.loop.checkEqui(i) && !pos.isSelected;
         });
         let lastOccurence = needEquilibrate.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
         needEquilibrate[lastOccurence] = false;
