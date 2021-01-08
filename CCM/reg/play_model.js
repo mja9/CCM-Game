@@ -332,6 +332,54 @@ class PlayModel {
         A_LIMB[lastOccurence].c -= 50;        
     }
 
+    animateEquilibrate() {
+        
+        let needEquilibrate = D_LIMB.map(function(pos, i) {
+            return !this.view.loop.checkEqui(i) && !pos.isSelected;
+        });
+        let lastOccurence = needEquilibrate.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
+        needEquilibrate[lastOccurence] = false;
+        
+        for (let i = 0; i < needEquilibrate.length; i++) {
+
+            if (needEquilibrate[i]) {
+
+                D_LIMB[i].water.terminationCriteria = function(icon) {
+                    if (icon.x >= INTER_FLUID[i].x - (INTER_FLUID[i].w / 4.0)) {
+                        return true;
+                    }
+                    return false;
+                } 
+                D_LIMB[i].water.animationDecorator = function() {
+                    D_LIMB[i].water.x =  D_LIMB[i].water.startX;
+                    D_LIMB[i].water.y =  D_LIMB[i].water.startY;
+                }
+
+                // Set the velocity and alter limb concentration.
+                D_LIMB[i].water.v = 10;
+                D_LIMB[i].c += 50;
+
+            }
+
+        }
+        
+        // Do the same for the last occurence.
+        D_LIMB[lastOccurence].water.terminationCriteria = function(icon) {
+            if (icon.x >= INTER_FLUID[lastOccurence].x - (INTER_FLUID[lastOccurence].w / 4.0)) {
+                return true;
+            }
+            return false;
+        } 
+        D_LIMB[lastOccurence].water.animationDecorator = function() {
+            D_LIMB[lastOccurence].water.x =  D_LIMB[lastOccurence].water.startX;
+            D_LIMB[lastOccurence].water.y =  D_LIMB[lastOccurence].water.startY;
+            this.startGameAI();     // Continue the engine AI.
+        }
+
+        D_LIMB[lastOccurence].water.v = 10;
+        D_LIMB[lastOccurence].c += 50;
+    }
+
 }
 
 class TutorialModel {

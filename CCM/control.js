@@ -412,57 +412,6 @@ function pauseGameAI(pauseID) {
 
 }
 
-// function animatePump(currentPos) {
-
-//         A_LIMB[currentPos].c -= 50;
-
-//         var iconAnimation = window.setInterval(function() {
-
-//             if (A_LIMB[currentPos].salt.x <= INTER_FLUID[currentPos].x + INTER_FLUID[currentPos].w / 4) {
-//                 INTER_FLUID[currentPos].c += 50;
-//                 A_LIMB[currentPos].salt.x = A_LIMB[currentPos].salt.startX;
-
-//                 paintGameBoard();
-//                 window.clearInterval(iconAnimation);
-
-//             // Move salt icon.
-//             } else {
-
-//                 A_LIMB[currentPos].salt.x -= 10;
-//                 paintGameBoard();
-
-//             }
-
-//         }, 50);
-
-// }
-
-function animateEquilibrate(currentPos) {
-
-    D_LIMB[currentPos].c += 50;
-
-    var waterAnimation = window.setInterval(function() {
-
-        // Drop effect.
-        if (D_LIMB[currentPos].water.x >= INTER_FLUID[currentPos].x - INTER_FLUID[currentPos].w / 4) {
-            D_LIMB[currentPos].water.x = D_LIMB[currentPos].water.startX;
-
-             // Paint board and recursively call function.
-            paintGameBoard();
-            window.clearInterval(waterAnimation);
-        
-        // Move water icon.
-        } else {
-
-            D_LIMB[currentPos].water.x += 10;
-            paintGameBoard();
-
-        }
-
-    }, 50);
-
-}
-
 // ----------------------------------- Methods for handling end game ------------------------------------------------
 
 function dispalyEndGameScreen() {
