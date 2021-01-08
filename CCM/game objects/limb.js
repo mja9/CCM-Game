@@ -238,10 +238,15 @@ class CrossingPosition extends LimbPosition {
 
 class Icon {
 
-    constructor(xPos, yPos, w, h, limbPos) {
+    constructor(xPos, yPos, w, h, limbPos, id) {
         this.w = w;
         this.h = h;
-        this.x = xPos + this.w / 2;
+        this.id = id;
+        if (this.id == "water") {
+            this.x = xPos + this.w / 2;
+        } else {
+            this.x = xPos - this.w / 2;            
+        }
         this.y = yPos - this.h / 2;
         this.limbPos = limbPos;
         this.v = 0;
@@ -264,8 +269,7 @@ class Icon {
 class WaterIcon extends Icon {
 
     constructor(xPos, yPos, limbPos) {
-        super(xPos, yPos, 28, 40, limbPos);
-        this.id = "water";
+        super(xPos, yPos, 28, 40, limbPos, "water");
         this.startX = this.x;
         this.startY = this.y;
     }
@@ -330,8 +334,7 @@ class WaterIcon extends Icon {
 class SaltIcon extends Icon {
 
     constructor(xPos, yPos, limbPos) {
-        super(xPos, yPos, 33, 37, limbPos);
-        this.id = "salt";
+        super(xPos, yPos, 33, 37, limbPos, "salt");
         this.startX = this.x;
         this.startY = this.y;
     }

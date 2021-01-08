@@ -252,6 +252,7 @@ class PlayModel {
     initRegularGame() {
         // Choose starting limb position.
         D_LIMB[2].isSelected = true;
+        this.playerPosition = 3;
 
         // Transition to pump and begin AI.
         this.transitionState();
@@ -330,8 +331,30 @@ class PlayModel {
 
     }
 
-    // TODO:
     pauseAI() {
+
+        if (this.state == "Equilibrate" && this.playerPosition <= 6) {
+
+            // Player equilibrates.
+            this.equilibrateButton.onClick = function() {
+                if (this.view.loop.validateEquilibrate()) {
+                    this.transitionState();
+                }
+            };
+
+        } else if (this.state == "Pump" && this.playerPosition > 6) {
+
+            // PLayer pumps.
+            this.pumpButton.onClick = function() {
+                if (this.view.loop.validatePump()) {
+                    this.transitionState();
+                }
+            }
+        }
+
+        else {
+            this.transitionState();
+        }
 
     }
 
