@@ -329,6 +329,7 @@ class PlayModel {
 
             case "Flow":
                 console.log("Flow AI starting...");
+                this.clearDecorators();
                 this.view.loop.flow(function() {
                     console.log("Flow animation should have terminated!");
                     model.movePlayer();
@@ -337,6 +338,15 @@ class PlayModel {
                 break;
 
         }
+    }
+
+    clearDecorators() {
+        A_LIMB.forEach(pos => {
+            pos.salt.animationDecorator = function() {};
+        });
+        D_LIMB.forEach(pos => {
+            pos.water.animationDecorator = function() {};
+        });
     }
 
     movePlayer() {
