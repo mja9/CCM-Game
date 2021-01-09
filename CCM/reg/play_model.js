@@ -299,7 +299,7 @@ class PlayModel {
     }
 
     startAI() {
-
+        const model = this;
         switch(this.state) {
 
             case "Pump":
@@ -323,8 +323,8 @@ class PlayModel {
 
             case "Flow":
                 this.view.loop.flow(function() {
-                    this.movePlayer();
-                    transitionState();
+                    model.movePlayer();
+                    model.transitionState();
                 });
                 break;
 
@@ -366,8 +366,8 @@ class PlayModel {
 
             // Player equilibrates.
             this.equilibrateButton.onClick = function() {
-                if (this.view.loop.validateEquilibrate()) {
-                    this.transitionState();
+                if (model.view.loop.validateEquilibrate()) {
+                    model.transitionState();
                 }
             };
 
@@ -375,8 +375,8 @@ class PlayModel {
 
             // PLayer pumps.
             this.pumpButton.onClick = function() {
-                if (this.view.loop.validatePump()) {
-                    this.transitionState();
+                if (model.view.loop.validatePump()) {
+                    model.transitionState();
                 }
             }
         }
