@@ -122,12 +122,39 @@ class LimbPosition extends GradientPosition {
         // Draw rectangular positions.
         this.move();
         this.colorFillMechanic();
+        if (this.isSelected) {
+            this.selectionIndicator();
+        }
 
         // Draw numerical representation of concentration.
         CONTEXT.fillStyle = "#252525";
         CONTEXT.font = "30px Courier New";
         CONTEXT.textAlign = "center";
         CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
+    }
+
+    selectionIndicator() {
+        let rad = 15.0;
+
+        // Choose the proper color
+        CONTEXT.strokeStyle = "green";
+
+        // Draw the rounded box.
+        CONTEXT.beginPath();
+        CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+        CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
+        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
+        this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+        CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
+        this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
+        CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
+        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
+        this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+        CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
+        this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+        CONTEXT.stroke();
     }
 
     move() {
