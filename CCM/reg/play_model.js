@@ -263,6 +263,7 @@ class PlayModel {
         switch(this.state) {
 
             case "Pump":
+                console.log("Pump to equilibrate transition was called!");
                 this.state = "Equilibrate";    
                 this.pumpButton.animationDecorator = function() {
                     model.equilibrateButton.animationDecorator = function() {
@@ -274,9 +275,11 @@ class PlayModel {
                 break;
 
             case "Equilibrate":
+                console.log("Equilibrate to flow transition was called!");
                 this.state = "Flow";
                 this.equilibrateButton.animationDecorator = function() {
                     model.flowButton.animationDecorator = function() {
+                        console.log("The flow state button decorator was called!");
                         model.startAI();
                     }
                     model.flowButton.v = 12.25;
@@ -285,6 +288,7 @@ class PlayModel {
                 break;
 
             default:
+                console.log("Default transition was called!");
                 this.state = "Pump";
                 this.flowButton.animationDecorator = function() {
                     model.pumpButton.animationDecorator = function() {
@@ -303,7 +307,7 @@ class PlayModel {
         switch(this.state) {
 
             case "Pump":
-                console.log("Reached pump case...");
+                console.log("Pump AI starting...");
                 if (!this.view.loop.validatePump()) {
                     console.log("Pumping...");
                     this.animatePump();
@@ -314,15 +318,19 @@ class PlayModel {
                 break;
 
             case "Equilibrate":
+                console.log("Equilibrate AI starting...");
                 if (!this.view.loop.validateEquilibrate()) {
                     this.animateEquilibrate();
                 } else {
+                    console.log("Nothing else to equilibrate!");
                     this.pauseAI();
                 }
                 break;
 
             case "Flow":
+                console.log("Flow AI starting...");
                 this.view.loop.flow(function() {
+                    console.log("Flow animation should have terminated!");
                     model.movePlayer();
                     model.transitionState();
                 });
@@ -479,6 +487,8 @@ class PlayModel {
         D_LIMB[lastOccurence].water.animationDecorator = function() {
             D_LIMB[lastOccurence].water.x =  D_LIMB[lastOccurence].water.startX;
             D_LIMB[lastOccurence].water.y =  D_LIMB[lastOccurence].water.startY;
+            // TODO: FIXME: This is the source of the flow bug.
+            console.log("This icons decorator was called!");
             model.startAI();     // Continue the engine AI.
         }
 
