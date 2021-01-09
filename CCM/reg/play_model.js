@@ -403,7 +403,7 @@ class PlayModel {
         });
         let lastOccurence = needPump.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
         needPump[lastOccurence] = false;
-        
+
         for (let i = 0; i < needPump.length; i++) {
 
             if (needPump[i]) {
@@ -439,6 +439,7 @@ class PlayModel {
             INTER_FLUID[lastOccurence].c += 50;
             A_LIMB[lastOccurence].salt.x =  A_LIMB[lastOccurence].salt.startX;
             A_LIMB[lastOccurence].salt.y =  A_LIMB[lastOccurence].salt.startY;
+            A_LIMB[lastOccurence].salt.animationDecorator = function() {};  // One-time use.
             model.startAI();     // Continue the engine AI.
         }
 
@@ -487,6 +488,7 @@ class PlayModel {
         D_LIMB[lastOccurence].water.animationDecorator = function() {
             D_LIMB[lastOccurence].water.x =  D_LIMB[lastOccurence].water.startX;
             D_LIMB[lastOccurence].water.y =  D_LIMB[lastOccurence].water.startY;
+            A_LIMB[lastOccurence].salt.animationDecorator = function() {};  // One-time use.
             // TODO: FIXME: This is the source of the flow bug.
             console.log("This icons decorator was called!");
             model.startAI();     // Continue the engine AI.

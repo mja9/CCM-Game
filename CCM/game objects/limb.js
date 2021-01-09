@@ -260,12 +260,10 @@ class Icon {
         this.x += this.v;
 
         // Termination criteria.
-        if (this.terminationCriteria(this)) {
-                this.v = 0;
-                this.animationDecorator();
-                // FIXME: This doesn't seem to be working.
-                this.animationDecorator = function() {};    // One-time use decorator and termination criteria.
-                this.terminationCriteria = function(object) { return false };
+        if (this.terminationCriteria(this) === true) {
+            console.log("The termination criteria was passed!");
+            this.v = 0;
+            this.animationDecorator();
         }
     }
 
