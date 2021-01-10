@@ -130,7 +130,11 @@ class LimbPosition extends GradientPosition {
         CONTEXT.fillStyle = "#252525";
         CONTEXT.font = "30px Courier New";
         CONTEXT.textAlign = "center";
+        // CONTEXT.shadowColor = "white";
+        // CONTEXT.shadowBlur = 4;
         CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
+
+        // CONTEXT.shadowBlur = 0;
     }
 
     selectionIndicator() {

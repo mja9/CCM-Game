@@ -3,6 +3,8 @@ class PlayView {
     constructor() {
         mainDispatcher.add(this);
         this.loop = new LoopOfHenle();
+        this.sidebar = new SideBar();
+        mainDispatcher.add(this.sidebar);
     }
 
     paint() {

@@ -1,8 +1,6 @@
 class LoopOfHenle {
 
     constructor() {
-        this.sidebar = new SideBar();
-        mainDispatcher.add(this.sidebar);
         mainDispatcher.add(LOOP_OF_HENLE);
 
         // Add the positions.
