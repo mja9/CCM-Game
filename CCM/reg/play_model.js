@@ -359,19 +359,19 @@ class PlayModel {
         }
 
         // End of regular play case.
-        if (this.playerPosition == 12) {
+        else if (this.playerPosition == 12) {
             this.gameOver();
         }
 
         // Descending limb case.
-        if (this.playerPosition < 6) {
+        else if (this.playerPosition < 6) {
             D_LIMB[this.playerPosition - 1].isSelected = false;
             D_LIMB[this.playerPosition].isSelected = true;
             this.playerPosition += 1;
         }
 
         // Ascending limb case.
-        if (this.playerPosition > 6) {
+        else {
             A_LIMB[A_LIMB.length - (this.playerPosition % 6)].isSelected = false;
             A_LIMB[A_LIMB.length - (this.playerPosition % 6) - 1].isSelected = true;
         }
