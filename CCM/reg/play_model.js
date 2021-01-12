@@ -302,53 +302,6 @@ class PlayModel {
         }
     }
 
-    startAI() {
-        const model = this;
-        switch(this.state) {
-
-            case "Pump":
-                console.log("Pump AI starting...");
-                if (!this.view.loop.validatePump()) {
-                    console.log("Pumping...");
-                    this.animatePump();
-                } else {
-                    console.log("Nothing else to pump")
-                    this.pauseAI();
-                }
-                break;
-
-            case "Equilibrate":
-                console.log("Equilibrate AI starting...");
-                if (!this.view.loop.validateEquilibrate()) {
-                    this.animateEquilibrate();
-                } else {
-                    console.log("Nothing else to equilibrate!");
-                    this.pauseAI();
-                }
-                break;
-
-            case "Flow":
-                console.log("Flow AI starting...");
-                this.clearDecorators();
-                this.view.loop.flow(function() {
-                    console.log("Flow animation should have terminated!");
-                    model.movePlayer();
-                    model.transitionState();
-                });
-                break;
-
-        }
-    }
-
-    clearDecorators() {
-        A_LIMB.forEach(pos => {
-            pos.salt.animationDecorator = function() {};
-        });
-        D_LIMB.forEach(pos => {
-            pos.water.animationDecorator = function() {};
-        });
-    }
-
     movePlayer() {
 
         // Crossing limbs case.
@@ -376,6 +329,92 @@ class PlayModel {
             A_LIMB[A_LIMB.length - (this.playerPosition % 6) - 1].isSelected = true;
         }
 
+    }
+
+    clearDecorators() {
+        A_LIMB.forEach(pos => {
+            pos.salt.animationDecorator = function() {};
+        });
+        D_LIMB.forEach(pos => {
+            pos.water.animationDecorator = function() {};
+        });
+    }
+
+    startAI() {
+        const model = this;
+        switch(this.state) {
+
+            case "Pump":
+                console.log("Pump AI starting...");
+                if (!this.view.loop.validatePump()) {
+
+                    // Check for the player's turn.
+                    let isPlayer = false;
+                    let sum = 0;
+                    for (let i = 0; i < A_LIMB.length; i++) {
+                        if (!this.view.loop.checkPump(i)) {
+                            sum++;
+                            if (A_LIMB[i].isSelected) {
+                                isPlayer = true;
+                            }
+                        }
+                    }
+
+                    if (isPlayer && sum === 1) {
+                        console.log("Nothing else to pump")
+                        this.pauseAI();
+                    } else {
+                        console.log("Pumping...");
+                        this.animatePump();
+                    }
+
+                } else {
+                    console.log("Nothing else to pump")
+                    this.pauseAI();
+                }
+                break;
+
+            case "Equilibrate":
+                console.log("Equilibrate AI starting...");
+                if (!this.view.loop.validateEquilibrate()) {
+
+                    // Check for the player's turn.
+                    let isPlayer = false;
+                    let sum = 0;
+                    for (let i = 0; i < D_LIMB.length; i++) {
+                        if (!this.view.loop.checkEqui(i)) {
+                            sum++;
+                            if (D_LIMB[i].isSelected) {
+                                isPlayer = true;
+                            }
+                        }
+                    }
+                    
+                    if (isPlayer && sum === 1) {
+                        console.log("Nothing else to equilibrate")
+                        this.pauseAI();
+                    } else {
+                        console.log("Equilibrating...");
+                        this.animateEquilibrate();
+                    }
+                    
+                } else {
+                    console.log("Nothing else to equilibrate!");
+                    this.pauseAI();
+                }
+                break;
+
+            case "Flow":
+                console.log("Flow AI starting...");
+                this.clearDecorators();
+                this.view.loop.flow(function() {
+                    console.log("Flow animation should have terminated!");
+                    model.movePlayer();
+                    model.transitionState();
+                });
+                break;
+
+        }
     }
 
     pauseAI() {
@@ -499,8 +538,6 @@ class PlayModel {
             D_LIMB[lastOccurence].water.x =  D_LIMB[lastOccurence].water.startX;
             D_LIMB[lastOccurence].water.y =  D_LIMB[lastOccurence].water.startY;
             A_LIMB[lastOccurence].salt.animationDecorator = function() {};  // One-time use.
-            // TODO: FIXME: This is the source of the flow bug.
-            console.log("This icons decorator was called!");
             model.startAI();     // Continue the engine AI.
         }
 
