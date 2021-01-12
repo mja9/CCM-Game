@@ -9,7 +9,7 @@ class TitleView {
 
                 // Lock user out of trigerring another click event.
                 CLICKABLE = [];
-                mainDispatcher.removeAll();
+                mainDispatcher.clear();
 
                 // Lock user out from triggering scroll over event.
                 CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);

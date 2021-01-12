@@ -92,7 +92,6 @@ class LoopOfHenle {
     }
 
     flow(animationDecorator = function() {}) {
-        // TODO: Need to remove these after the flow animation has concluded.
         mainDispatcher.addAll([INCOMING, INCOMING.salt, INCOMING.water]);
         INCOMING.setVelocity(0, 14.165);
         D_LIMB.forEach(pos => pos.setVelocity(0, 7.5));
@@ -103,6 +102,7 @@ class LoopOfHenle {
         D_LIMB[D_LIMB.length - 1].animationDecorator = function() {
             loop.flowConcentration();
             loop.resetAfterFlow();
+            mainDispatcher.removeAll([INCOMING, INCOMING.salt, INCOMING.water]);
             animationDecorator();
         }
     }

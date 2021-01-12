@@ -36,9 +36,18 @@ class Dispatcher {
     }
 
     /**
+     * Removes the list of observers from the internal list of observers maintained by the dispatcher.
+     * @param {Array} observers An array of observer objects.
+     */
+    removeAll(observers) {
+        const dispatcher = this;
+        observers.forEach(observer => dispatcher.remove(observer));
+    }
+
+    /**
      * Empties the list of observers.
      */
-    removeAll() {
+    clear() {
         this.observers = [];
     }
 
