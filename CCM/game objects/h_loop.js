@@ -14,7 +14,7 @@ class LoopOfHenle {
             mainDispatcher.add(pos);
         });
 
-        // Add the icons.
+        // Add the icons after so they always appear on top.
         D_LIMB.forEach(pos => {
             mainDispatcher.add(pos.salt);
             mainDispatcher.add(pos.water);
@@ -102,7 +102,6 @@ class LoopOfHenle {
         D_LIMB[D_LIMB.length - 1].animationDecorator = function() {
             loop.flowConcentration();
             loop.resetAfterFlow();
-            mainDispatcher.removeAll([INCOMING, INCOMING.salt, INCOMING.water]);
             animationDecorator();
         }
     }
@@ -127,11 +126,7 @@ class LoopOfHenle {
     }
 
     resetAfterFlow() {
-        // Handle the incoming position.
-        INCOMING.velX = 0;
-        INCOMING.velY = 0;
-        INCOMING.moveTo(INCOMING.startX, INCOMING.startY);
-
+        
         // Handle the regular limb positions.
         D_LIMB.forEach(pos => {
             pos.velX = 0;
@@ -144,6 +139,13 @@ class LoopOfHenle {
             pos.velY = 0;
             pos.moveTo(pos.startX, pos.startY);
         });
+
+        // Handle the incoming position.
+        INCOMING.velX = 0;
+        INCOMING.velY = 0;
+        INCOMING.moveTo(INCOMING.startX, INCOMING.startY);
+        mainDispatcher.removeAll([INCOMING, INCOMING.salt, INCOMING.water]);
+
     }
 
 }
