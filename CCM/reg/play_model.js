@@ -546,9 +546,20 @@ class PlayModel {
         D_LIMB[lastOccurence].c += 50;
     }
 
-    // TODO:
     gameOver() {
+        // Don't let the player interact with anything else.
+        CLICKABLE = [];
+        MOVEABLE = [];
+        DROPPABLE = [];  
 
+        // Display goodbye box.
+        const goodbye = 
+        {
+            paint() {
+                CONTEXT.drawImage(document.getElementById("goodbye-box"), 215, 75, 900, 580);
+            }
+        }
+        mainDispatcher.add(goodbye);
     }
 
 }

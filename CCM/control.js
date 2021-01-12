@@ -113,19 +113,6 @@ function initGameTutorial() {
     inTutorial = true;
 }
 
-// ----------------------------------- Methods for handling end game ------------------------------------------------
-
-function dispalyEndGameScreen() {
-
-    // Display goodbye box.
-    CONTEXT.drawImage(document.getElementById("goodbye-box"), 215, 75, 900, 580);
-
-    // Don't let the player interact with anything else.
-    CLICKABLE = [];
-    MOVEABLE = [];
-    DROPPABLE = [];  
-}
-
 // ------------------------------------------------------------------- Methods for animating --------------------------------------------------------------------
  
 function highlightLimb(limb) {
