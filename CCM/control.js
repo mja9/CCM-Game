@@ -44,14 +44,9 @@ let INTER_FLUID = [
                     new InterPosition(829, 523)
                   ];
 
-// TODO: Design paint loop to remove some of these!
 let CLICKABLE = [];
 let MOVEABLE = [];
 let DROPPABLE = [];
-let STATE_BUTTONS = [];
-let PASSIVE_POP_UPS = [];
-let ADDITIONALS = [];
-
 let inTutorial = false;
 
 const mainDispatcher = new Dispatcher();
@@ -128,10 +123,7 @@ function dispalyEndGameScreen() {
     // Don't let the player interact with anything else.
     CLICKABLE = [];
     MOVEABLE = [];
-    DROPPABLE = [];
-    STATE_BUTTONS = [];
-    PASSIVE_POP_UPS = [];    
-
+    DROPPABLE = [];  
 }
 
 // ------------------------------------------------------------------- Methods for animating --------------------------------------------------------------------
