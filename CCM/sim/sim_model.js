@@ -22,13 +22,18 @@ class SimulationModel {
      * Creates the simulation control buttons.
      */
     initSimBtns() {
+        const model = this;
 
         // Create the start sim button.
-        this.startBtn = new Button(94.5, 403.5, 39.0, 45.0, this.simStart, "sim-start");
+        this.startBtn = new Button(94.5, 403.5, 39.0, 45.0, function() {
+            model.simStart();
+        }, "sim-start");
         CLICKABLE.push(this.startBtn);
 
         // Create the stop sim button.
-        this.stopBtn = new Button(172.0, 403.5, 26.0, 38.0, this.simStop, "sim-stop");
+        this.stopBtn = new Button(172.0, 403.5, 26.0, 38.0, function() {
+            model.simStop();
+        }, "sim-stop");
         CLICKABLE.push(this.stopBtn);
 
         // Create the slow down button.
