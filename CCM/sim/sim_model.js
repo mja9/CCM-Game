@@ -5,12 +5,7 @@ class SimulationModel {
     constructor(view) {
         this.view = view;
         this.isRunning = false;
-        this.simState = {
-            PUMP: simPUMP,
-            EQUI: simEQUI,
-            FLOW: simFLOW,
-        };
-        this.currState = simState.PUMP;
+        this.state = "Pump";
         this.waveCoolDown = 1450; // ms
         this.transitionCoolDown = 500; // ms
         this.flowCoolDown = 6000; //ms
@@ -69,156 +64,140 @@ class SimulationModel {
     /**
      * Method to start the simulation.
      */
+    // TODO: Implement this.
     simStart() {
-        this.isRunning = true;
-        this.currState();
+        
     }
 
     /**
      * Method to pause the simulation. 
      */
-    // TODO: Fix this.
+    // TODO: Implement this.
     simStop() {
-        this.isRunning = false;
+        
     }
 
-}
+    // TODO: Implement this.
+    simSlow() {
 
-// // TODO: Fix this!!
-// let startConc = 300;
-// let maxbar = new MaxBar(400, 159, 23, 294);
+    }
 
-/**
- * Method to simulate pumping. Only runs while the simulation is in play.
- */
-function simPUMP() {
+    // TODO: Implement this.
+    simFastForward() {
 
-    // FIXME: Calling paint too many times -- throwing the timing off.
-    STATE_BUTTONS[0].v2 = 0.01;
+    }
 
-    if (isRunning) {
+    ai() {
+        switch(this.state) {
 
-        let didChange = false;
-        for (i = 0; i < A_LIMB.length; i++) {
-            if (!checkPump(i)) {
-                didChange = true;
-                animatePump(i);
-            }
+            case "Pump":
+                break;
+
+            case "Equilibrate":
+                break;
+
+            case "Flow":
+                break;
+                
         }
+    }
 
-        // Cooldown until next wave of pump animations.
-        if (didChange) {
-            window.setTimeout(currState, waveCoolDown);
+    transitionState() {
 
-        // Cooldown until switch happens.
-        } else {
+    }
 
-            // FIXME: Calling paint too many times -- throwing the timing off.
-            STATE_BUTTONS[0].v2 = -0.01;
-            currState = simState.EQUI;
-            window.setTimeout(currState, transitionCoolDown);
+    animatePump() {
+        const model = this;
+        let lastOccurence = needPump.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
+        needPump[lastOccurence] = false;
 
-            // TODO: Fix this !!!
-            let max = 0;
-            INTER_FLUID.forEach(pos => {
-                if (pos.c > max) {
-                    max = pos.c;
+        for (let i = 0; i < needPump.length; i++) {
+
+            if (needPump[i]) {
+
+                A_LIMB[i].salt.terminationCriteria = function(icon) {
+                    if (icon.x <= INTER_FLUID[i].x + (INTER_FLUID[i].w / 4.0)) {
+                        return true;
+                    }
+                    return false;
+                } 
+                A_LIMB[i].salt.animationDecorator = function() {
+                    INTER_FLUID[i].c += 50;
+                    A_LIMB[i].salt.x =  A_LIMB[i].salt.startX;
+                    A_LIMB[i].salt.y =  A_LIMB[i].salt.startY;
                 }
-            });
-            console.log(max);
-            console.log(Math.round((max - startConc) / 50));
-            if (max > startConc) {
-                maxbar.moveArrow();
-                // maxbar.paint();
+
+                // Set the velocity and alter limb concentration.
+                A_LIMB[i].salt.v = -10;
+                A_LIMB[i].c -= 50;
+
             }
+
         }
-
-    }
-}
-
-/**
- * Method to simulat equilibration. Only runs when simulation is in play.
- */
-function simEQUI() {
-
-    // FIXME:
-    STATE_BUTTONS[1].v2 = 0.01;
-
-    if (isRunning) {
-
-        let didChange = false;
-        for (i = 0; i < D_LIMB.length; i++) {
-            if (!checkEqui(i)) {
-                didChange = true;
-                animateEquilibrate(i);
+        
+        // Do the same for the last occurence.
+        A_LIMB[lastOccurence].salt.terminationCriteria = function(icon) {
+            if (icon.x <= INTER_FLUID[lastOccurence].x + (INTER_FLUID[lastOccurence].w / 4.0)) {
+                return true;
             }
+            return false;
+        } 
+        A_LIMB[lastOccurence].salt.animationDecorator = function() {
+            INTER_FLUID[lastOccurence].c += 50;
+            A_LIMB[lastOccurence].salt.x =  A_LIMB[lastOccurence].salt.startX;
+            A_LIMB[lastOccurence].salt.y =  A_LIMB[lastOccurence].salt.startY;
+            A_LIMB[lastOccurence].salt.animationDecorator = function() {};  // One-time use.
+            model.ai();     // Continue the simulation.
         }
 
-        // Cooldown until next wave of equi animations.
-        if (didChange) {
-            window.setTimeout(currState, waveCoolDown);
-
-        // Cooldown until switch happens.
-        } else {
-
-            // FIXME:
-            STATE_BUTTONS[1].v2 = -0.01;
-            currState = simState.FLOW;
-            window.setTimeout(currState, transitionCoolDown);
-        }
-
-    }
-}
-
-/**
- * Method to simulate flow. Once flow has begun, can not be paused in the middle.
- * Only runs while the simulation is in play.
- */
-function simFLOW() {
-
-    // FIXME: 
-    STATE_BUTTONS[2].v2 = 0.01;
-    if (isRunning) {
-        flow(true);
-        currState = simState.PUMP;
-        window.setTimeout(function() {
-            currState();
-
-            // FIXME:
-            STATE_BUTTONS[2].v2 = -0.01;
-        }, flowCoolDown);
-    }
-}
-
-function flowConcentrationSim(i=0, limb="dlimb", conc=300) {
-
-    // Flow in the descending limb.
-    if (limb == "dlimb") {
-        if (i == 5) {
-            var oldConc = D_LIMB[i].c;
-            D_LIMB[i].c = conc;
-            flowConcentrationSim(5, "alimb", oldConc);
-
-        } else {
-            var oldConc = D_LIMB[i].c;
-            D_LIMB[i].c = conc;
-            flowConcentrationSim(i + 1, limb, oldConc);
-        }
+        A_LIMB[lastOccurence].salt.v = -10;
+        A_LIMB[lastOccurence].c -= 50;        
     }
 
-    // Flow in the ascending limb.
-    if (limb == "alimb") {
-        if (i == 0) {   // Base case.
-            A_LIMB[i].c = conc;
-            resetAfterFlow();
+    animateEquilibrate() {
+        const model = this;
+        let lastOccurence = needEquilibrate.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
+        needEquilibrate[lastOccurence] = false;
+        
+        for (let i = 0; i < needEquilibrate.length; i++) {
 
-        } else {
-            var oldConc = A_LIMB[i].c;
-            A_LIMB[i].c = conc;
-            flowConcentrationSim(i - 1, limb, oldConc);
+            if (needEquilibrate[i]) {
+
+                D_LIMB[i].water.terminationCriteria = function(icon) {
+                    if (icon.x >= INTER_FLUID[i].x - (INTER_FLUID[i].w / 4.0)) {
+                        return true;
+                    }
+                    return false;
+                } 
+                D_LIMB[i].water.animationDecorator = function() {
+                    D_LIMB[i].water.x =  D_LIMB[i].water.startX;
+                    D_LIMB[i].water.y =  D_LIMB[i].water.startY;
+                }
+
+                // Set the velocity and alter limb concentration.
+                D_LIMB[i].water.v = 10;
+                D_LIMB[i].c += 50;
+
+            }
+
+        }
+        
+        // Do the same for the last occurence.
+        D_LIMB[lastOccurence].water.terminationCriteria = function(icon) {
+            if (icon.x >= INTER_FLUID[lastOccurence].x - (INTER_FLUID[lastOccurence].w / 4.0)) {
+                return true;
+            }
+            return false;
+        } 
+        D_LIMB[lastOccurence].water.animationDecorator = function() {
+            D_LIMB[lastOccurence].water.x =  D_LIMB[lastOccurence].water.startX;
+            D_LIMB[lastOccurence].water.y =  D_LIMB[lastOccurence].water.startY;
+            A_LIMB[lastOccurence].salt.animationDecorator = function() {};  // One-time use.
+            model.ai();     // Continue the simulation.
         }
 
+        D_LIMB[lastOccurence].water.v = 10;
+        D_LIMB[lastOccurence].c += 50;
     }
 
 }
-

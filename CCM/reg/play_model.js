@@ -332,15 +332,6 @@ class PlayModel {
 
     }
 
-    clearDecorators() {
-        A_LIMB.forEach(pos => {
-            pos.salt.animationDecorator = function() {};
-        });
-        D_LIMB.forEach(pos => {
-            pos.water.animationDecorator = function() {};
-        });
-    }
-
     startAI() {
         const model = this;
         switch(this.state) {
@@ -407,7 +398,7 @@ class PlayModel {
 
             case "Flow":
                 console.log("Flow AI starting...");
-                this.clearDecorators();
+                model.view.loop.clearDecorators();
                 this.view.loop.flow(function() {
                     console.log("Flow animation should have terminated!");
                     model.movePlayer();

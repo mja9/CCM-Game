@@ -148,6 +148,15 @@ class LoopOfHenle {
 
     }
 
+    clearDecorators() {
+        A_LIMB.forEach(pos => {
+            pos.salt.animationDecorator = function() {};
+        });
+        D_LIMB.forEach(pos => {
+            pos.water.animationDecorator = function() {};
+        });
+    }
+
 }
 
 class SideBar {
@@ -216,7 +225,7 @@ class SideBar {
 
 
         // Maxbar
-        // maxbar = new MaxBar(400, 159, 23, 294);
+        let maxbar = new MaxBar(400, 159, 23, 294);
         maxbar.paint();
     }
 
