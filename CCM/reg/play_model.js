@@ -14,6 +14,7 @@ class PlayModel {
     init() {
         // Initialize click, moveable, and drag n' drop handlers.
         this.initStateButtons();
+        this.initPlayButtons();
         this.initAscendingLimb();
         this.initDescendingLimb();
         this.initInterstitialFluid();
@@ -22,18 +23,26 @@ class PlayModel {
         this.tutorial.displayWelcomeTutorial();
     }
 
+    initPlayButtons() {
+        
+        this.checkBtn = new Button(289, 408, 62, 54, function(){}, "check");
+        CLICKABLE.push(this.checkBtn);
+
+        this.revertBtn = new Button(142.5, 409.5, 61, 59, function(){}, "replay");
+        CLICKABLE.push(this.checkBtn);
+        mainDispatcher.addAll([this.checkBtn, this.revertBtn]);
+
+    }
+
     initStateButtons() {
 
         // Pump button.
-        // STATE_BUTTONS.push(this.pumpButton);
         CLICKABLE.push(this.pumpButton);
     
         // Equilibrate button.
-        // STATE_BUTTONS.push(this.equilibrateButton);
         CLICKABLE.push(this.equilibrateButton);
     
         // Flow button.
-        // STATE_BUTTONS.push(this.flowButton);
         CLICKABLE.push(this.flowButton);
     
     }
@@ -414,7 +423,7 @@ class PlayModel {
         if (this.state == "Equilibrate" && this.playerPosition <= 6) {
 
             // Player equilibrates.
-            this.equilibrateButton.onClick = function() {
+            this.checkBtn.onClick = function() {
                 if (model.view.loop.validateEquilibrate()) {
                     model.transitionState();
                 }
@@ -423,7 +432,7 @@ class PlayModel {
         } else if (this.state == "Pump" && this.playerPosition > 6) {
 
             // PLayer pumps.
-            this.pumpButton.onClick = function() {
+            this.checkBtn.onClick = function() {
                 if (model.view.loop.validatePump()) {
                     model.transitionState();
                 }
@@ -569,7 +578,7 @@ class TutorialModel {
             console.log("Successful pump!");
 
             // Disable the pump state button.
-            model.pumpButton.onClick = function() {};
+            model.checkBtn.onClick = function() {};
 
             // Animate and then enable the equi state button.
             model.pumpButton.v = -12.25;
@@ -577,7 +586,7 @@ class TutorialModel {
                 console.log("This was called!")
                 model.equilibrateButton.v = 12.25;
                 model.equilibrateButton.animationDecorator = function() {
-                    model.equilibrateButton.onClick = function() {
+                    model.checkBtn.onClick = function() {
                         tutorial.equiState(tutorial);
                     };
                 };
@@ -600,14 +609,14 @@ class TutorialModel {
             console.log("Successful equilibration!");
 
             // Disable the equi button.
-            model.equilibrateButton.onClick = function() {};
+            model.checkBtn.onClick = function() {};
 
             // Animate and enable the flow button
             model.equilibrateButton.v = -12.25;
             model.equilibrateButton.animationDecorator = function() {
                 model.flowButton.v = 12.25;
                 model.flowButton.animationDecorator = function() {
-                    model.flowButton.onClick = function() {
+                    model.checkBtn.onClick = function() {
                         console.log("Called the flow button's onCLick!");
                         tutorial.flowState(tutorial);
                     };
@@ -653,7 +662,7 @@ class TutorialModel {
                 model.pumpButton.animationDecorator = function() {
 
                     // FIXME: Add the popup for the pump portion of the tutorial.
-                    model.pumpButton.onClick = function() {
+                    model.checkBtn.onClick = function() {
                         // tutorial.displayHowToPump();
                         tutorial.pumpState(tutorial);
                     };
