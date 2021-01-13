@@ -6,10 +6,6 @@ class SimulationModel {
         this.view = view;
         this.isRunning = false;
         this.state = "Pump";
-        this.waveCoolDown = 1450; // ms
-        this.transitionCoolDown = 500; // ms
-        this.flowCoolDown = 6000; //ms
-
     }
 
     init() {
@@ -91,14 +87,29 @@ class SimulationModel {
         switch(this.state) {
 
             case "Pump":
+                if (this.view.loop.validatePump()) {
+                    this.transitionState();
+                } else {
+                    this.animatePump();
+                }
                 break;
 
             case "Equilibrate":
+                if (this.view.loop.validateEquilibrate()) {
+                    this.transitionState();
+                } else {
+                    this.animateEquilibrate();
+                }
                 break;
 
             case "Flow":
+                this.view.loop.clearDecorators();
+                const model = this;
+                this.view.loop.flow(function() {
+                    model.transitionState();
+                });
                 break;
-                
+
         }
     }
 
