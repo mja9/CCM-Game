@@ -109,7 +109,7 @@ class SimulationModel {
      * Method to speed up the simulation.
      */
     simFastForward() {
-        if (this.currSpeed < 2.0) {
+        if (this.currSpeed < 4.0) {
             this.currSpeed += 0.5;
             this.simStop();
             this.simStart();
