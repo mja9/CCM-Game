@@ -409,7 +409,7 @@ class PlayModel {
                 console.log("Flow AI starting...");
                 model.view.loop.clearDecorators();
                 this.view.loop.flow(function() {
-                    console.log("Flow animation should have terminated!");
+                    model.view.sidebar.maxbar.checkMax();
                     model.movePlayer();
                     model.transitionState();
                 });
@@ -635,6 +635,7 @@ class TutorialModel {
     flowState(tutorial) {
 
         let animationDecorator = function() {
+            tutorial.playModel.view.sidebar.maxbar.checkMax();
             tutorial.displayNowToRegularPlay();
         };
         tutorial.playModel.view.loop.flow(animationDecorator);

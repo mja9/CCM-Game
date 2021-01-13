@@ -160,6 +160,10 @@ class LoopOfHenle {
 }
 
 class SideBar {
+
+    constructor() {
+        this.maxbar = new MaxBar(400, 159, 23, 294);
+    }
     
     paint() {
         // Background
@@ -225,8 +229,7 @@ class SideBar {
 
 
         // Maxbar
-        let maxbar = new MaxBar(400, 159, 23, 294);
-        maxbar.paint();
+        this.maxbar.paint();
     }
 
 }
@@ -239,12 +242,11 @@ class MaxBar {
         this.w = w;
         this.h = h;
         this.arrowMid = this.y + this.h - (3 * 16 + 3);
+        this.max = 300;
     }
 
     paint() {
         CONTEXT.drawImage(document.getElementById("maxbar"), this.x, this.y, this.w, this.h);
-        
-        // 162 - 440 -> 278 / 18 = 15.5
         CONTEXT.fillStyle = "#16a3e5";
         CONTEXT.beginPath();
         CONTEXT.moveTo(this.x + 3, this.arrowMid - 4.5);
@@ -257,6 +259,13 @@ class MaxBar {
         this.arrowMid = this.arrowMid - 16;
         if (this.arrowMid < this.y + 19) {
             this.arrowMid = this.y + 19;
+        }
+    }
+
+    checkMax() {
+        if (INTER_FLUID[INTER_FLUID.length - 1].c > this.max) {
+            this.max = INTER_FLUID[INTER_FLUID.length - 1].c;
+            this.moveArrow();
         }
     }
 
