@@ -5,7 +5,7 @@ class SimulationModel {
     constructor(view) {
         this.view = view;
         this.isRunning = true;
-        this.state = "Pump";
+        this.state = "Flow";
         this.baseSpeed = 50;
         this.currSpeed = 1.0;
     }
@@ -15,7 +15,7 @@ class SimulationModel {
         this.initStateButtons();
 
         // Set timeout to begin simulation.
-        window.setTimeout(this.ai, 2500);
+        this.transitionState();
     }
 
     /**
@@ -24,11 +24,11 @@ class SimulationModel {
     initSimBtns() {
 
         // Create the start sim button.
-        this.startBtn = new Button(94.5, 403.5, 39.0, 45.0, simStart, "sim-start");
+        this.startBtn = new Button(94.5, 403.5, 39.0, 45.0, this.simStart, "sim-start");
         CLICKABLE.push(this.startBtn);
 
         // Create the stop sim button.
-        this.stopBtn = new Button(172.0, 403.5, 26.0, 38.0, simStop, "sim-stop");
+        this.stopBtn = new Button(172.0, 403.5, 26.0, 38.0, this.simStop, "sim-stop");
         CLICKABLE.push(this.stopBtn);
 
         // Create the slow down button.
@@ -136,22 +136,10 @@ class SimulationModel {
     }
 
     transitionState() {
-
         const model = this;
         switch(this.state) {
 
             case "Pump":
-                this.flowBtn.animationDecorator = function() {
-                    model.pumpBtn.animationDecorator = function() {
-                        model.state = "Pump";
-                        model.ai();
-                    }
-                    model.pumpBtn.v = 12.25;
-                };
-                this.flowBtn.v = -12.25;
-                break;
-
-            case "Equilibrate":
                 this.pumpBtn.animationDecorator = function() {
                     model.equilibrateBtn.animationDecorator = function() {
                         model.state = "Equilibrate";
@@ -162,7 +150,7 @@ class SimulationModel {
                 this.pumpBtn.v = -12.25;
                 break;
 
-            case "Flow":
+            case "Equilibrate":
                 this.equilibrateBtn.animationDecorator = function() {
                     model.flowBtn.animationDecorator = function() {
                         model.state = "Flow";
@@ -172,12 +160,27 @@ class SimulationModel {
                 };
                 this.equilibrateBtn.v = -12.25;
                 break;
+
+            case "Flow":
+                console.log("Successfully entered the flow state!");
+                this.flowBtn.animationDecorator = function() {
+                    model.pumpBtn.animationDecorator = function() {
+                        model.state = "Pump";
+                        model.ai();
+                    }
+                    model.pumpBtn.v = 12.25;
+                };
+                this.flowBtn.v = -12.25;
+                break;
         }
 
     }
 
     animatePump() {
         const model = this;
+        let needPump = A_LIMB.map(function(pos, i) {
+            return !model.view.loop.checkPump(i);
+        });        
         let lastOccurence = needPump.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
         needPump[lastOccurence] = false;
 
@@ -226,6 +229,9 @@ class SimulationModel {
 
     animateEquilibrate() {
         const model = this;
+        let needEquilibrate = D_LIMB.map(function(pos, i) {
+            return !model.view.loop.checkEqui(i);
+        });
         let lastOccurence = needEquilibrate.lastIndexOf(true);    // Maintain refernece to last occurence to continue pump.
         needEquilibrate[lastOccurence] = false;
         
