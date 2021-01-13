@@ -4,8 +4,10 @@ class SimulationModel {
 
     constructor(view) {
         this.view = view;
-        this.isRunning = false;
+        this.isRunning = true;
         this.state = "Pump";
+        this.baseSpeed = 50;
+        this.currSpeed = 1;
     }
 
     init() {
@@ -13,7 +15,7 @@ class SimulationModel {
         this.initStateButtons();
 
         // Set timeout to begin simulation.
-        window.setTimeout(simStart, 2500);
+        window.setTimeout(this.ai, 2500);
     }
 
     /**
@@ -60,9 +62,15 @@ class SimulationModel {
     /**
      * Method to start the simulation.
      */
-    // TODO: Implement this.
     simStart() {
-        
+        if (!this.isRunning) {
+            mainLoop = window.setInterval(function() {
+                mainDispatcher.dispatchCommand(function(observer) {
+                    observer.paint();
+                });
+            }, (this.baseSpeed / this.currSpeed));
+        }
+        this.isRunning = true;
     }
 
     /**
@@ -70,7 +78,7 @@ class SimulationModel {
      */
     // TODO: Implement this.
     simStop() {
-        
+        this.isRunning = false;
     }
 
     // TODO: Implement this.
