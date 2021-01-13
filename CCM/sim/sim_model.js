@@ -115,6 +115,43 @@ class SimulationModel {
 
     transitionState() {
 
+        const model = this;
+        switch(this.state) {
+
+            case "Pump":
+                this.flowBtn.animationDecorator = function() {
+                    model.pumpBtn.animationDecorator = function() {
+                        model.state = "Pump";
+                        model.ai();
+                    }
+                    model.pumpBtn.v = 12.25;
+                };
+                this.flowBtn.v = -12.25;
+                break;
+
+            case "Equilibrate":
+                this.pumpBtn.animationDecorator = function() {
+                    model.equilibrateBtn.animationDecorator = function() {
+                        model.state = "Equilibrate";
+                        model.ai();
+                    }
+                    model.equilibrateBtn.v = 12.25;
+                };
+                this.pumpBtn.v = -12.25;
+                break;
+
+            case "Flow":
+                this.equilibrateBtn.animationDecorator = function() {
+                    model.flowBtn.animationDecorator = function() {
+                        model.state = "Flow";
+                        model.ai();
+                    }
+                    model.flowBtn.v = 12.25;
+                };
+                this.equilibrateBtn.v = -12.25;
+                break;
+        }
+
     }
 
     animatePump() {
