@@ -37,11 +37,15 @@ class SimulationModel {
         CLICKABLE.push(this.stopBtn);
 
         // Create the slow down button.
-        this.slowBtn = new Button(252.0, 403.5, 44.0, 45.0, function() {}, "sim-slow");
+        this.slowBtn = new Button(252.0, 403.5, 44.0, 45.0, function() {
+            model.simSlow();
+        }, "sim-slow");
         CLICKABLE.push(this.slowBtn);
 
         // Create the fast-forward button.
-        this.ffBtn = new Button(342.0, 403.5, 44.0, 45.0, function() {}, "sim-fast");
+        this.ffBtn = new Button(342.0, 403.5, 44.0, 45.0, function() {
+            model.simFastForward();
+        }, "sim-fast");
         CLICKABLE.push(this.ffBtn);
 
         mainDispatcher.addAll([this.startBtn, this.stopBtn, this.slowBtn, this.ffBtn]);
