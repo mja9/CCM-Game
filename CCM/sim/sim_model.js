@@ -137,6 +137,7 @@ class SimulationModel {
                 this.view.loop.clearDecorators();
                 const model = this;
                 this.view.loop.flow(function() {
+                    model.view.sidebar.maxbar.checkMax();
                     model.transitionState();
                 });
                 break;
