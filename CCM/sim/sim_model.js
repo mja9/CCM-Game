@@ -69,16 +69,18 @@ class SimulationModel {
                     observer.paint();
                 });
             }, (this.baseSpeed / this.currSpeed));
+            this.isRunning = true;
         }
-        this.isRunning = true;
     }
 
     /**
      * Method to pause the simulation. 
      */
-    // TODO: Implement this.
     simStop() {
-        this.isRunning = false;
+        if (this.isRunning) {
+            window.clearInterval(mainLoop);
+            this.isRunning = false;
+        }
     }
 
     // TODO: Implement this.
