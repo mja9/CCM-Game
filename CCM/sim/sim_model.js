@@ -287,3 +287,26 @@ class SimulationModel {
     }
 
 }
+
+class Animals {
+    constructor(maxbar) {
+        this.maxbar = maxbar;
+        this.i = 0;
+        this.images = [];
+        this.xPositions = [];
+        this.yPositions = [];
+        this.widths = [];
+        this.heights = [];
+        this.concentrations = [];
+    }
+
+    checkAnimals() {
+        
+    }
+
+    paint() {
+        CONTEXT.drawImage(document.getElementById(this.images[this.i]), 
+        this.xPositions[this.i] - this.widths[this.i] / 2, this.yPositions[this.i] - this.heights[this.i] / 2, 
+        this.widths[this.i], this.heights[this.i]);
+    }
+}
