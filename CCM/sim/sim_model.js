@@ -4,6 +4,8 @@ class SimulationModel {
 
     constructor(view) {
         this.view = view;
+        this.animals = new Animals(this.view.sidebar.maxbar);
+        mainDispatcher.add(this.animals);
         this.isRunning = true;
         this.state = "Flow";
         this.baseSpeed = 50;
@@ -138,6 +140,7 @@ class SimulationModel {
                 const model = this;
                 this.view.loop.flow(function() {
                     model.view.sidebar.maxbar.checkMax();
+                    model.animals.checkAnimals();
                     model.transitionState();
                 });
                 break;
