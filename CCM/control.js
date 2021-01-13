@@ -113,6 +113,12 @@ function initGameTutorial() {
     inTutorial = true;
 }
 
+function initSimulation() {
+
+    
+
+}
+
 // ------------------------------------------------------------------- Methods for animating --------------------------------------------------------------------
  
 function highlightLimb(limb) {

@@ -1,71 +1,16 @@
 // Copyright © 2020 mja9
 
-/**
- * Initialize the view for the simulation mode. 
- */
-function initSimView() {
+class SimulationView {
 
-    // Clear menu intervals and listeners.
-    window.clearInterval(titleScreenInterval);
-    CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);
+    constructor() {
+        mainDispatcher.add(this);
+        this.loop = new LoopOfHenle();
+        this.sidebar = new SideBar();
+        mainDispatcher.add(this.sidebar);
+    }
 
-    // Initialize loop game objects
-    initStateButtons();
-    initDescendingLimb();
-    initAscendingLimb();
-    initInterstitialFluid();
-    createSimButtons();
-
-    // Paint the game board
-    paintGameBoard();
-
-    window.setInterval(function() {
-        paintGameBoard();
-    }, 50);
-}
-
-/**
- * Creates the simulation control buttons.
- */
-function createSimButtons() {
-
-    // Create the start sim button.
-    let simStartBtn = new Button(94.5, 403.5, 39.0, 45.0, simStart, "sim-start");
-    CLICKABLE.push(simStartBtn);
-    ADDITIONALS.push(simStartBtn);
-
-    // Create the stop sim button.
-    let simStopBtn = new Button(172.0, 403.5, 26.0, 38.0, simStop, "sim-stop");
-    CLICKABLE.push(simStopBtn);
-    ADDITIONALS.push(simStopBtn);
-
-    // Create the slow down button.
-    let simSlowBtn = new Button(252.0, 403.5, 44.0, 45.0, function() {}, "sim-slow");
-    CLICKABLE.push(simSlowBtn);
-    ADDITIONALS.push(simSlowBtn);
-
-    // Create the fast-forward button.
-    let simFFBtn = new Button(342.0, 403.5, 44.0, 45.0, function() {}, "sim-fast");
-    CLICKABLE.push(simFFBtn);
-    ADDITIONALS.push(simFFBtn);
-
-}
-
-function initStateButtons() {
-
-    // Pump button.
-    var pumpButton = new StateButton(194.0, 175.0, 256, 60, function(){}, "255, 88, 83");
-    STATE_BUTTONS.push(pumpButton);
-    CLICKABLE.push(pumpButton);
-
-    // Equilibrate button.
-    var equilibrateButton = new StateButton(194.0, 240.0, 256, 60, function() {}, "255, 184, 41");
-    STATE_BUTTONS.push(equilibrateButton);
-    CLICKABLE.push(equilibrateButton);
-
-    // Flow button.
-    var flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
-    STATE_BUTTONS.push(flowButton);
-    CLICKABLE.push(flowButton);
+    paint() {
+        CONTEXT.drawImage(document.getElementById("loop-bkgd"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+    }
 
 }
