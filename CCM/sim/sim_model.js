@@ -7,7 +7,7 @@ class SimulationModel {
         this.isRunning = true;
         this.state = "Pump";
         this.baseSpeed = 50;
-        this.currSpeed = 1;
+        this.currSpeed = 1.0;
     }
 
     init() {
@@ -83,14 +83,26 @@ class SimulationModel {
         }
     }
 
-    // TODO: Implement this.
+    /**
+     * Method to slow down the simulation.
+     */
     simSlow() {
-
+        if (this.currSpeed > 1.0) {
+            this.currSpeed -= 0.5;
+            this.simStop();
+            this.simStart();
+        }
     }
 
-    // TODO: Implement this.
+    /**
+     * Method to speed up the simulation.
+     */
     simFastForward() {
-
+        if (this.currSpeed < 2.0) {
+            this.currSpeed += 0.5;
+            this.simStop();
+            this.simStart();
+        }
     }
 
     ai() {
