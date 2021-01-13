@@ -291,22 +291,28 @@ class SimulationModel {
 class Animals {
     constructor(maxbar) {
         this.maxbar = maxbar;
-        this.i = 0;
-        this.images = [];
-        this.xPositions = [];
-        this.yPositions = [];
-        this.widths = [];
-        this.heights = [];
-        this.concentrations = [];
+        this.i = -1;
+        this.images = ["beaver", "human", "rabbit", "cat", "fox", "rat", "chinchilla"];
+        this.xPositions = [84.5, 64.5, 81, 79.5, 82, 94, 96];
+        this.yPositions = [654, 633.5, 640, 651.5, 646, 660.5, 652.5];
+        this.widths = [89, 39, 86, 103, 102, 108, 116];
+        this.heights = [106, 155, 124, 109, 136, 107, 83];
+        this.concentrations = [500, 1200, 2300, 3200, 4000, 6400, 7600];
     }
 
     checkAnimals() {
-        
+        if (this.i < this.images.length - 1) {
+            if (this.maxbar.max >= this.concentrations[this.i + 1]) {
+                this.i += 1;
+            }
+        }
     }
 
     paint() {
-        CONTEXT.drawImage(document.getElementById(this.images[this.i]), 
-        this.xPositions[this.i] - this.widths[this.i] / 2, this.yPositions[this.i] - this.heights[this.i] / 2, 
-        this.widths[this.i], this.heights[this.i]);
+        if (this.i >= 0) {
+            CONTEXT.drawImage(document.getElementById(this.images[this.i]), 
+                this.xPositions[this.i] - this.widths[this.i] / 2, this.yPositions[this.i] - this.heights[this.i] / 2, 
+                this.widths[this.i], this.heights[this.i]);
+        }
     }
 }
