@@ -1,0 +1,19 @@
+/* Copyright © 2020 mja9 */
+body {
+    background-color: #fedbb4;
+}
+
+.game-title {
+    text-align: center;
+    font-size: 32px;
+    font-family: serif;
+}
+
+.game-board {
+    display: block; /* Neccessary for centering the canvas. */
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-color: #fcac4f;
+}
+

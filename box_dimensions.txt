@@ -1,0 +1,103 @@
+background color at the moment:		f5d9d9
+
+LIMB BOXES
+
+width: 150	height: 90
+stroke: 3, center aligned
+
+topmost box is 13 px away from top of limb WITHOUT including strokes!! 
+including the entire stroke, 19 px
+
+all boxes are perfectly touching, so topmost edge of each box hould be set at 
+13	103	193	283	373	463
+
+
+
+INTERSTITIAL FLUID BOXES
+
+width: 323	height: 85
+
+vertical space: 12 px on either side of limb [including stroke]
+
+excluding stroke:
+163.5		[323]		486.5
+
+horizontal space between boxes: 5 px apart
+ 	topmost box: 17		[85]		102
+			107			192
+			197			282
+			287			372
+			377			462
+			467			552     
+
+
+
+
+
+SALT ICON
+
+width: 30	height: 34
+7 px between edge and box to both the right and the bottom
+
+WATER ICON
+
+width: 26	height: 38
+7 px as well
+
+
+
+
+LATERAL BUTTONS
+
+width: 170	height: 80
+
+y = 257
+x = 163		1137
+
+ANTERIOR BUTTON
+
+width: 200	height: 60
+
+y = 665
+x = 50% of canvas = 650
+
+
+
+
+
+CONCENTRATION GRADIENT
+
+0 - 299 mOsm:		ffe7c7	
+
+300 - 599 mOsm:		ffbe4d
+
+600 - 899 mOsm:		ffab04
+
+900 - 1199 mOsm:	ff8316
+
+1200 - 1499 mOsm:	ff5f33
+
+1500+ mOsm:		ff413b
+
+
+
+
+PASSIVE DIALOGUE BOXES
+
+descending limb (relative to center)
+width: 321	height: 330
+x = 171.5
+y = 526
+
+ascending limb (relative to center)
+width: 321	height: 370
+x = 1158.5
+
+ACTIVE DIALOGUE BOXES
+
+welcome box (relative to center)
+width: 900	height: 580
+x = 665
+y = 365
+
+y = 506
