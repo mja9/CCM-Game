@@ -2,6 +2,7 @@ class PlayView {
 
     constructor() {
         mainDispatcher.add(this);
+        this.img = "loop-bkgd-empty";
     }
 
     init() {
@@ -11,7 +12,7 @@ class PlayView {
     }
 
     paint() {
-        CONTEXT.drawImage(document.getElementById("loop-bkgd"), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+        CONTEXT.drawImage(document.getElementById(this.img), 0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
     }
 
 }
