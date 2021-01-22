@@ -741,10 +741,10 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for dialogue 4.
-        const line1 = "Fluid enters at a low concentration.";
-        const line2 = "As it flows through the loop, the concentration grows as an osmotic gradient";
-        const line3 = "is created through countercurrent multiplication. The gradient ultimately draws";
-        const line4 = "water out of urine leaving the body through the collecting duct, minimizing water loss.";
+        const line1 = "Fluid enters at a low concentration. As it flows through the loop, the";
+        const line2 = "concentration grows as an osmotic gradient is created through countercurrent";
+        const line3 = "multiplication. The gradient ultimately draws water out of urine leaving the";
+        const line4 = "body through the collecting duct, minimizing water loss.";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3, line4], CANVAS.clientWidth / 2, 350, 37, "20pt Verdana");
