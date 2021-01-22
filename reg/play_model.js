@@ -645,6 +645,10 @@ class TutorialModel {
     }
 
     // FIXME: Rename.
+    /**
+     * Handles the incoming animation, and click detection
+     * for the first dialogue box.
+     */
     displayWelcomeTutorial() {
         const tutorial = this;
 
@@ -667,6 +671,11 @@ class TutorialModel {
         mainDispatcher.add(text);
     }
 
+    /**
+     * Handles the incoming animation, click detection, 
+     * and outgoing animation for dialogue boxes 1 and 2.
+     * @param {BlockingDialogue} db1 Dialogue box 1 which appears at the same time as 2.
+     */
     displayDialogueBox2(db1) {
         const tutorial = this;
 
@@ -676,17 +685,18 @@ class TutorialModel {
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 350, 37, "20pt Verdana");
-        text.v = 0.02;
+        text.v = 0.1;
 
         // Clear the screen then display dialogue 3 when detecting user input.
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.    
             document.addEventListener("keydown", function keyDownEvent2(event) {
                 document.removeEventListener("keydown", keyDownEvent2);     // Avoid re-trigger.
-                db1.v = - 0.02;
-                text.v = -0.02;
+                db1.v = - 0.1;
+                text.v = -0.1;
                 text.animationDecorator = function() {
-                    text.animationDecorator = function() {};    // Avoid double-jeopardy.    
+                    text.animationDecorator = function() {};    // Avoid double-jeopardy.  
+                    mainDispatcher.removeAll([text, db1]);  // Remove the old objects.  
                     tutorial.displayDialogueBox3();
                 }
             });  
@@ -694,8 +704,34 @@ class TutorialModel {
         mainDispatcher.add(text);
     }
 
+    /**
+     * Handles the incoming animation and click
+     * detection for dialogue box 3.
+     */
     displayDialogueBox3() {
-        console.log("It actually worked!");
+        const tutorial = this;
+
+        // Lines of text for dialogue 3.
+        const line1 = "That new structure is the loop of Henle,";
+        const line2 = "nestled between the distal and proximal";
+        const line3 = "convoluted tubules in the kidney.";
+
+        // Add this dialogue box.
+        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
+
+        // On input, dialogue 4 appears on the screen as well.
+        text.v = 0.1;
+        text.animationDecorator = function() {
+            text.animationDecorator = function() {};    // Avoid double-jeopardy.
+            document.addEventListener("keydown", function keyDownEvent3(event) {
+                document.removeEventListener("keydown", keyDownEvent3);     // AVoid re-trigger.
+                tutorial.displayDialogueBox4(text);
+            });
+        }
+    }
+
+    displayDialogueBox4(db3) {
+
     }
     
     // TODO: Fix this transition!
