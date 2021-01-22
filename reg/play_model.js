@@ -658,8 +658,9 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
         text.v = 0.02;
         text.animationDecorator = function() {
-            CANVAS.addEventListener("keydown", function keyDownEvent1(event) {
-                text.animationDecorator = function() {};    // Avoid double-jeopardy. 
+            text.animationDecorator = function() {};    // Avoid double-jeopardy. 
+            document.addEventListener("keydown", function keyDownEvent1(event) {
+                document.removeEventListener("keydown", keyDownEvent1);     // Avoid re-trigger.
                 tutorial.displayDialogueBox2(text);
             });
         };
@@ -679,7 +680,8 @@ class TutorialModel {
         // Clear the screen then display dialogue 3 when detecting user input.
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.    
-            CANVAS.addEventListener("keydown", function keyDownEvent2(event) {
+            document.addEventListener("keydown", function keyDownEvent2(event) {
+                document.removeEventListener("keydown", keyDownEvent2);     // Avoid re-trigger.
                 db1.v = - 0.2;
                 text.v = -0.2;
                 text.animationDecorator = function() {
@@ -692,7 +694,6 @@ class TutorialModel {
     }
 
     displayDialogueBox3() {
-
     }
     
     // TODO: Fix this transition!
