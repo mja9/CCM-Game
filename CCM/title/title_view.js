@@ -32,8 +32,6 @@ class TitleView {
         // Create the title screen buttons.
         let regPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.63, 228, 25, 
             function() {
-                console.log("Clicked start button!");
-
                 // Lock user out of trigerring another click event.
                 CLICKABLE = [];
 
@@ -56,14 +54,15 @@ class TitleView {
         let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.74, 228, 25, 
                 function() {
 
-                    // // Lock user out of trigerring another click event.
+                    // Lock user out of trigerring another click event.
                     CLICKABLE = [];
                     mainDispatcher.clear();
 
-                    // // Lock user out from triggering scroll over event.
+                    // Lock user out from triggering scroll over event.
                     CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);
 
-                    // // Start the simulation.
+                    // TODO: Add the fade animation when entering the simulation portion of the game.
+                    // Start the simulation.
                     initSimulation();
                 }, "#0ba1e7", "simulate");
 
