@@ -30,7 +30,7 @@ class TitleView {
         };
 
         // Create the title screen buttons.
-        let regPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.63, 228, 25, 
+        let regPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.591, 228, 25, 
             function() {
                 // Lock user out of trigerring another click event.
                 CLICKABLE = [];
@@ -51,7 +51,7 @@ class TitleView {
 
             }, "#0ba1e7", "play");
 
-        let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.74, 228, 25, 
+        let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.702, 228, 25, 
                 function() {
 
                     // Lock user out of trigerring another click event.
