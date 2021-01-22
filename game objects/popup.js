@@ -85,3 +85,77 @@ class FadingObject {
     }
 
 }
+
+/**
+ * This class defines the behaviour for a 
+ * dialogue box requiring user input to remove.
+ * This is different from a passive dialogue box 
+ * which acts independently from the player.
+ */
+class BlockingDialogue extends FadingObject {
+
+    /**
+     * Constructor for the blocking dialogue box.
+     * @param {Array} lines An array of strings representing the lines of text.
+     * @param {Number} xCenter The x-position about which the text is center-aligned.
+     * @param {Number} firstY The y-position of the midline of the first line of text.
+     * @param {Number} lineDistance The distance between the midlinesof each line of text, assumed to be uniform.
+     * @param {*} font A string representing the font name and size to be used for this text box, assumed to be uniform.
+     */
+    constructor(lines, xCenter, firstY, lineDistance, font) {
+        super();
+        this.lines = lines;
+        this.xCenter = xCenter;
+        this.firstY - firstY;
+        this.lineDistance = lineDistance;
+        this.font = font;
+    }
+
+    /**
+     * This method uses the fillText() to draw a 
+     * multi-line text box on the canvas with the 
+     * ability to fade in or out. Text may contain 
+     * various colors.
+     */
+    paint() {
+        this.move();    // Update object state.
+
+        // Record the old global alpha.
+        let oldAlpha = CONTEXT.globalAlpha;
+        CONTEXT.globalAlpha = this.alpha;
+        
+        // Text settings set to be compatible with assigned fields.
+        CONTEXT.font = this.font;
+        CONTEXT.textAlign = "center";
+        CONTEXT.textBaseline = "middle";
+
+        // Draw each line of text on the canvas.
+        let y = this.firstY;
+        for (let i = 0; i < this.lines.length; i++) {
+            
+            // Color case.
+            if (this.lines[i].includes("*")) {
+                this.paintColorLine();
+
+            } else {
+                CONTEXT.fillText(this.lines[i], this.xCenter, y);
+            }
+
+            y += this.lineDistance;
+        }
+
+        // Make sure to maintain the old alpha.
+        CONTEXT.globalAlpha = oldAlpha;
+    }
+
+    /**
+     * Method to draw a line of text with multiple colors.
+     * Colored text is indicated by placing "*color-#*"
+     * before the # of word(s) that should be drawn 
+     * in color.
+     */
+    paintColorLine() {
+
+    }
+
+}
