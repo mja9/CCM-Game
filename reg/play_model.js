@@ -644,16 +644,55 @@ class TutorialModel {
         
     }
 
-    // TODO: Change this!
+    // FIXME: Rename.
     displayWelcomeTutorial() {
-        const db1 = "400 million years ago, our fishy ancestors transitioned from a life";
-        const db2 = "in the sea to one on land. This drier environment presented a host";
-        const db3 = "of new problems -- not least, water conservation during excretion.";
+        const tutorial = this;
 
-        let txt1 = new BlockingDialogue([db1, db2, db3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
-        txt1.v = 0.02;
-        txt1.animationDecorator = function() {};
-        mainDispatcher.add(txt1);
+        // The lines of text of the first dialogue box.
+        const line1 = "400 million years ago, our fishy ancestors transitioned from a life";
+        const line2 = "in the sea to one on land. This drier environment presented a host";
+        const line3 = "of new problems -- not least, water conservation during excretion.";
+
+        // Create the blocking dialogue object, and display the second dialogue box
+        // when user input is detected. Both dialogue boxes are shwon on the screen at once.
+        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
+        text.v = 0.02;
+        text.animationDecorator = function() {
+            CANVAS.addEventListener("keydown", function keyDownEvent1(event) {
+                text.animationDecorator = function() {};    // Avoid double-jeopardy. 
+                tutorial.displayDialogueBox2(text);
+            });
+        };
+        mainDispatcher.add(text);
+    }
+
+    displayDialogueBox2(db1) {
+        const tutorial = this;
+
+        // Lines of text for dialogue 2.
+        const line1 = "";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1], 0, 0, "20pt Verdana");
+        text.v = 0.2;
+
+        // Clear the screen then display dialogue 3 when detecting user input.
+        text.animationDecorator = function() {
+            text.animationDecorator = function() {};    // Avoid double-jeopardy.    
+            CANVAS.addEventListener("keydown", function keyDownEvent2(event) {
+                db1.v = - 0.2;
+                text.v = -0.2;
+                text.animationDecorator = function() {
+                    text.animationDecorator = function() {};    // Avoid double-jeopardy.    
+                    tutorial.displayDialogueBox3();
+                }
+            });  
+        };
+        mainDispatcher.add(text);
+    }
+
+    displayDialogueBox3() {
+
     }
     
     // TODO: Fix this transition!
