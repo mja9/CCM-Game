@@ -657,7 +657,7 @@ class TutorialModel {
                 CONTEXT.textBaseline = "middle";
                 CONTEXT.fillText(db1, CANVAS.clientWidth / 2, 206);
                 CONTEXT.fillText(db2, CANVAS.clientWidth / 2, 243);
-                CONTEXT.fillText(db3, CANVAS.clientWidth / 2, 278);
+                CONTEXT.fillText(db3, CANVAS.clientWidth / 2, 280);
             }
         };
         mainDispatcher.add(obj);
