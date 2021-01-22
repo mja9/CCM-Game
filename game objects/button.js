@@ -2,8 +2,7 @@
 "use strict";
 
 /**
- * A class representing buttons and their behaviour 
- * for game menu.
+ * A class representing buttons and their behaviour.
  */
 class Button {
 

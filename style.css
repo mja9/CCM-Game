@@ -13,7 +13,5 @@ body {
     display: block; /* Neccessary for centering the canvas. */
     margin-left: auto;
     margin-right: auto;
-    border-style: solid;
-    border-color: #fcac4f;
 }
 
