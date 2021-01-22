@@ -1,6 +1,33 @@
 class TitleView {
     
     constructor() {
+        const view = this;
+
+        // Fade object for menu exit animations.
+        this.fade = {
+            v: 0.1,
+            alpha: 0.0,
+            move: function() {
+                view.fade.alpha += view.fade.v
+
+                if (view.fade.alpha >= 1.0) {
+                    view.fade.animationDecorator();
+                    view.fade.alpha = 1.0;
+                }
+                else if (view.fade.alpha <= 0.0) {
+                    view.fade.animationDecorator();
+                    view.fade.alpha = 0.0;
+                }
+            },
+            paint: function() {
+                view.fade.move();
+                let oldAlpha = CONTEXT.globalAlpha;
+                CONTEXT.globalAlpha = view.fade.alpha;
+                CONTEXT.fillStyle = "black";
+                CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+                CONTEXT.globalAlpha = oldAlpha;
+            },
+        };
 
         // Create the title screen buttons.
         let regPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.63, 228, 25, 
@@ -10,40 +37,20 @@ class TitleView {
                 // Lock user out of trigerring another click event.
                 CLICKABLE = [];
 
-                let fade = {
-                    alpha: 0.0,
-                    move: function() {
-                        fade.alpha += 0.1
-
-                        if (fade.alpha >= 1.0) {
-                            fade.animationDecorator();
-                            fade.animationDecorator = function() {};
-                        }
-                    },
-                    paint: function() {
-                        fade.move();
-                        let oldAlpha = CONTEXT.globalAlpha;
-                        CONTEXT.globalAlpha = fade.alpha;
-                        CONTEXT.fillStyle = "black";
-                        CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-                        CONTEXT.globalAlpha = oldAlpha;
-                    },
-
-                    // TODO: Fix the animation decorator so it can fade back in as well
-                    animationDecorator: function() {
-                        mainDispatcher.clear();
-                        initGameTutorial();
-                        mainDispatcher.add(fade);
-                    }
-                };
-                mainDispatcher.add(fade);
-                // mainDispatcher.clear();
+                // Add the fade animation object.
+                view.fade.animationDecorator = function() {
+                    this.animationDecorator = function() {};
+                    mainDispatcher.clear();
+                    mainDispatcher.add(view.fade);   // Leave the fade object.
+    
+                    // Start the tutorial.
+                    initGameTutorial();
+                }
+                mainDispatcher.add(view.fade);
 
                 // Lock user out from triggering scroll over event.
                 CANVAS.removeEventListener("mousemove", TitleModel.menuScrollHandler);
 
-                // Start the tutorial.
-                // initGameTutorial();
             }, "#0ba1e7", "play");
 
         let simPlayBtn = new MenuButton(CANVAS.clientWidth / 2.0, CANVAS.clientHeight * 0.74, 228, 25, 

@@ -1,7 +1,7 @@
 class PlayView {
 
     constructor() {
-        mainDispatcher.add(this);
+        mainDispatcher.addAt(this, 0);
         this.img = "loop-bkgd-empty";
     }
 

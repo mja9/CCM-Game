@@ -105,12 +105,18 @@ function addClickHandler() {
 
 function initGameTutorial() {
 
+    const fade = mainDispatcher.observers[0];
     let playView = new PlayView();
     let playModel = new PlayModel(playView);
 
     // Tell system we are in the tutorial.
-    playModel.tutorial.init();
-    inTutorial = true;
+    fade.v = -0.1;
+    fade.animationDecorator = function() {
+        fade.animationDecorator = function() {};
+        mainDispatcher.remove(fade);
+        playModel.tutorial.init();
+        inTutorial = true;
+    };
 }
 
 function initSimulation() {
