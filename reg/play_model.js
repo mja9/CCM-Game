@@ -673,7 +673,7 @@ class TutorialModel {
 
     /**
      * Handles the incoming animation, click detection, 
-     * and outgoing animation for dialogue boxes 1 and 2.
+     * and outgoing animation for dialogue 2. Also handles outging animation for dialogue box 1.
      * @param {BlockingDialogue} db1 Dialogue box 1 which appears at the same time as 2.
      */
     displayDialogueBox2(db1) {
@@ -695,7 +695,7 @@ class TutorialModel {
                 db1.v = - 0.1;
                 text.v = -0.1;
                 text.animationDecorator = function() {
-                    text.animationDecorator = function() {};    // Avoid double-jeopardy.  
+                    text.animationDecorator = function() {};    // Avoid double-jeopardy.
                     mainDispatcher.removeAll([text, db1]);  // Remove the old objects.  
                     tutorial.displayDialogueBox3();
                 }
@@ -728,9 +728,46 @@ class TutorialModel {
                 tutorial.displayDialogueBox4(text);
             });
         }
+        mainDispatcher.add(text);
     }
 
+    /**
+     * Handles the incoming animation, click detection, 
+     * and outgoing animation for dialogue 4. 
+     * Also handles outging animation for dialogue box 3.
+     * @param {BlockingDialogue} db3 Dialogue box 3 which appears at the same time as 4.
+     */
     displayDialogueBox4(db3) {
+        const tutorial = this;
+
+        // Lines of text for dialogue 4.
+        const line1 = "Fluid enters at a low concentration.";
+        const line2 = "As it flows through the loop, the concentration grows as an osmotic gradient";
+        const line3 = "is created through countercurrent multiplication. The gradient ultimately draws";
+        const line4 = "water out of urine leaving the body through the collecting duct, minimizing water loss.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4], CANVAS.clientWidth / 2, 350, 37, "20pt Verdana");
+        text.v = 0.1;
+
+        // Clear the screen then display dialogue 3 when detecting user input.
+        text.animationDecorator = function() {
+            text.animationDecorator = function() {};    // Avoid double-jeopardy.    
+            document.addEventListener("keydown", function keyDownEvent4(event) {
+                document.removeEventListener("keydown", keyDownEvent4);     // Avoid re-trigger.
+                db3.v = - 0.1;
+                text.v = -0.1;
+                text.animationDecorator = function() {
+                    text.animationDecorator = function() {};    // Avoid double-jeopardy.
+                    mainDispatcher.removeAll([text, db3]);  // Remove the old objects.  
+                    tutorial.displayDialogueBox5();
+                }
+            });  
+        };
+        mainDispatcher.add(text);
+    }
+
+    displayDialogueBox5() {
 
     }
     
