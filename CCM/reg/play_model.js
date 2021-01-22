@@ -646,7 +646,7 @@ class TutorialModel {
 
     // TODO: Change this!
     displayWelcomeTutorial() {
-        
+        const dialogueBox1 = ["400 million years ago ", "", ];
     }
     
     // TODO: Fix this transition!
