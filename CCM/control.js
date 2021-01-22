@@ -109,7 +109,7 @@ function initGameTutorial() {
     let playModel = new PlayModel(playView);
 
     // Tell system we are in the tutorial.
-    playModel.init();
+    playModel.tutorial.init();
     inTutorial = true;
 }
 

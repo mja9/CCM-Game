@@ -6,7 +6,9 @@ class PlayModel {
         this.pumpButton = new StateButton(194.0, 175.0, 256, 60, function(){}, "255, 88, 83");
         this.equilibrateButton = new StateButton(194.0, 240.0, 256, 60, function() {}, "255, 184, 41");
         this.flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
-        mainDispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
+        this.checkBtn = new Button(289, 408, 62, 54, function(){}, "check");
+        this.revertBtn = new Button(142.5, 409.5, 61, 59, function(){}, "replay");
+
         this.tutorial = new TutorialModel(this);
         this.view = playView;
     }
@@ -18,17 +20,11 @@ class PlayModel {
         this.initAscendingLimb();
         this.initDescendingLimb();
         this.initInterstitialFluid();
-
-        // Initialize the tutorial.
-        this.tutorial.displayWelcomeTutorial();
     }
 
     initPlayButtons() {
         
-        this.checkBtn = new Button(289, 408, 62, 54, function(){}, "check");
         CLICKABLE.push(this.checkBtn);
-
-        this.revertBtn = new Button(142.5, 409.5, 61, 59, function(){}, "replay");
         CLICKABLE.push(this.checkBtn);
         mainDispatcher.addAll([this.checkBtn, this.revertBtn]);
 
@@ -44,6 +40,8 @@ class PlayModel {
     
         // Flow button.
         CLICKABLE.push(this.flowButton);
+
+        mainDispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
     
     }
 
@@ -570,6 +568,10 @@ class TutorialModel {
         this.playModel = playModel;
     }
 
+    init() {
+        this.displayWelcomeTutorial();
+    }
+
     pumpState(tutorial) {
 
         const model = tutorial.playModel;
@@ -642,6 +644,7 @@ class TutorialModel {
         
     }
 
+    // TODO: Change this!
     displayWelcomeTutorial() {
         let oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
         CLICKABLE = [];
