@@ -671,19 +671,20 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for dialogue 2.
-        const line1 = "";
+        const line1 = "Mammals solved this problem by tinkering with the layout of the";
+        const line2 = "vertebrate kidney -- through the addition of a new structure.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1], 0, 0, "20pt Verdana");
-        text.v = 0.2;
+        let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 350, 37, "20pt Verdana");
+        text.v = 0.02;
 
         // Clear the screen then display dialogue 3 when detecting user input.
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.    
             document.addEventListener("keydown", function keyDownEvent2(event) {
                 document.removeEventListener("keydown", keyDownEvent2);     // Avoid re-trigger.
-                db1.v = - 0.2;
-                text.v = -0.2;
+                db1.v = - 0.02;
+                text.v = -0.02;
                 text.animationDecorator = function() {
                     text.animationDecorator = function() {};    // Avoid double-jeopardy.    
                     tutorial.displayDialogueBox3();
@@ -694,6 +695,7 @@ class TutorialModel {
     }
 
     displayDialogueBox3() {
+        console.log("It actually worked!");
     }
     
     // TODO: Fix this transition!
