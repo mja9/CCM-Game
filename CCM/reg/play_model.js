@@ -646,38 +646,38 @@ class TutorialModel {
 
     // TODO: Change this!
     displayWelcomeTutorial() {
-        let oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
-        CLICKABLE = [];
-        const model = this.playModel;
-        const tutorial = this;
+        // let oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
+        // CLICKABLE = [];
+        // const model = this.playModel;
+        // const tutorial = this;
     
-        let welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
-            new Button(665.0, 556.0, 150, 70, function() {
+        // let welcomePopUp = new PopUp(665.0, 365.0, 900, 580, [], 
+        //     new Button(665.0, 556.0, 150, 70, function() {
 
-                // Reset state before pop up was added.
-                CLICKABLE = oldClickable;
-                mainDispatcher.remove(welcomePopUp);
-                CONTEXT.globalAlpha = 1.0;
+        //         // Reset state before pop up was added.
+        //         CLICKABLE = oldClickable;
+        //         mainDispatcher.remove(welcomePopUp);
+        //         CONTEXT.globalAlpha = 1.0;
 
-                // FIXME: Is this where I want to do this?
-                model.addMoveableHandler();
+        //         // FIXME: Is this where I want to do this?
+        //         model.addMoveableHandler();
 
-                // Animate the state button to indicate what part of the system we are on.
-                model.pumpButton.animationDecorator = function() {
+        //         // Animate the state button to indicate what part of the system we are on.
+        //         model.pumpButton.animationDecorator = function() {
 
-                    // FIXME: Add the popup for the pump portion of the tutorial.
-                    model.checkBtn.onClick = function() {
-                        // tutorial.displayHowToPump();
-                        tutorial.pumpState(tutorial);
-                    };
-                };
-                model.pumpButton.v = 12.25;
+        //             // FIXME: Add the popup for the pump portion of the tutorial.
+        //             model.checkBtn.onClick = function() {
+        //                 // tutorial.displayHowToPump();
+        //                 tutorial.pumpState(tutorial);
+        //             };
+        //         };
+        //         model.pumpButton.v = 12.25;
     
-            }, "ok-button"),
-            "welcome-box");
+        //     }, "ok-button"),
+        //     "welcome-box");
             
-        CONTEXT.globalAlpha = 0.35;
-        mainDispatcher.add(welcomePopUp);
+        // CONTEXT.globalAlpha = 0.35;
+        // mainDispatcher.add(welcomePopUp);
     }
 
     displayHowToPump() {
