@@ -650,17 +650,10 @@ class TutorialModel {
         const db2 = "in the sea to one on land. This drier environment presented a host";
         const db3 = "of new problems -- not least, water conservation during excretion.";
 
-        const obj = {
-            paint: function() {
-                CONTEXT.font = "20pt Verdana";
-                CONTEXT.textAlign = "center";
-                CONTEXT.textBaseline = "middle";
-                CONTEXT.fillText(db1, CANVAS.clientWidth / 2, 206);
-                CONTEXT.fillText(db2, CANVAS.clientWidth / 2, 243);
-                CONTEXT.fillText(db3, CANVAS.clientWidth / 2, 280);
-            }
-        };
-        mainDispatcher.add(obj);
+        let txt1 = new BlockingDialogue([db1, db2, db3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
+        txt1.v = 0.02;
+        txt1.animationDecorator = function() {};
+        mainDispatcher.add(txt1);
     }
     
     // TODO: Fix this transition!

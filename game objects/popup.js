@@ -82,6 +82,7 @@ class FadingObject {
             this.animationDecorator();
             this.alpha = 0.0;
         }
+
     }
 
 }
@@ -106,7 +107,7 @@ class BlockingDialogue extends FadingObject {
         super();
         this.lines = lines;
         this.xCenter = xCenter;
-        this.firstY - firstY;
+        this.firstY = firstY;
         this.lineDistance = lineDistance;
         this.font = font;
     }
