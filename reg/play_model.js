@@ -720,7 +720,7 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
 
         // On input, dialogue 4 appears on the screen as well.
-        text.v = 0.1;
+        text.v = 0.02;
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.
             document.addEventListener("keydown", function keyDownEvent3(event) {

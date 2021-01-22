@@ -156,7 +156,7 @@ class BlockingDialogue extends FadingObject {
      * in color.
      */
     paintColorLine() {
-
+        
     }
 
 }
