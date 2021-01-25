@@ -791,20 +791,16 @@ class TutorialModel {
         text.v = 0.02;
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.
-            window.setTimeout(function() {
-                tutorial.displayDialogueBox6(text);
-            }, 100);
+            window.setTimeout(tutorial.displayDialogueBox6, 100);
         }
         mainDispatcher.add(text);
     }
 
     /**
      * Handle sthe incoming animation, click detection, 
-     * and outgoing animation for db6.
-     * Also handles outgoing animation for db5.
-     * @param {BlockingDialogue} db5 Dialogue box 5, which appears on screen with 6.
+     * and the transition out of the preface.
      */
-    displayDialogueBox6(db5) {
+    displayDialogueBox6() {
         const tutorial = this;
 
         // Lines of text for dialogue 6.
