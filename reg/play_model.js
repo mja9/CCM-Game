@@ -812,7 +812,9 @@ class TutorialModel {
         text.v = 0.02;
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.
-            window.setTimeout(tutorial.displayDialogueBox6, 100);
+            window.setTimeout(function() { 
+                tutorial.displayDialogueBox6();
+            }, 100);
         }
         mainDispatcher.add(text);
     }
