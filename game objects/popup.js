@@ -124,11 +124,6 @@ class BlockingDialogue extends FadingObject {
         // Record the old global alpha.
         let oldAlpha = CONTEXT.globalAlpha;
         CONTEXT.globalAlpha = this.alpha;
-        
-        // Text settings set to be compatible with assigned fields.
-        CONTEXT.font = this.font;
-        CONTEXT.textAlign = "center";
-        CONTEXT.textBaseline = "middle";
 
         // Draw each line of text on the canvas.
         let y = this.firstY;
@@ -136,9 +131,13 @@ class BlockingDialogue extends FadingObject {
             
             // Color case.
             if (this.lines[i].includes("$")) {
-                this.paintColorLine();
+                this.paintColorLine(this.lines[i], y);
 
             } else {
+                // Text settings set to be compatible with assigned fields.
+                CONTEXT.font = this.font;
+                CONTEXT.textAlign = "center";
+                CONTEXT.textBaseline = "middle";
                 CONTEXT.fillText(this.lines[i], this.xCenter, y);
             }
 
@@ -184,7 +183,7 @@ class BlockingDialogue extends FadingObject {
                 }
 
                 // Paint the next portion of text.
-                CONTEXT.textAlign = "left";
+                CONTEXT.textAlign = "start";
                 CONTEXT.textBaseline = "middle";
                 CONTEXT.fillText(text, start, y);
 

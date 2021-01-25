@@ -712,7 +712,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for dialogue 3.
-        const line1 = "That new structure is the loop of Henle,";
+        const line1 = "That new structure is the $(red)loop of Henle$,";
         const line2 = "nestled between the distal and proximal";
         const line3 = "convoluted tubules in the kidney.";
 
