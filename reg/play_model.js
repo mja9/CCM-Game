@@ -815,8 +815,9 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 423, 37, "20pt Verdana");
         text.alpha = 1.0;
 
-        // Clear the screen then display the loop of Henle.
-        document.addEventListener("keydown", function keyDownEvent6(event) {
+        // Click anywhere to continue events.
+        function keyDownEvent6(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent6);
             document.removeEventListener("keydown", keyDownEvent6);     // Avoid re-trigger.
 
                 let fade = {
@@ -863,8 +864,11 @@ class TutorialModel {
                     }
                 };
                 mainDispatcher.add(fade);
-        });  
-        // TODO: Add click anywhere functionality as well.
+        };
+
+        // Clear the screen then display the loop of Henle.
+        document.addEventListener("keydown", keyDownEvent6);
+        CANVAS.addEventListener("mousedown", keyDownEvent6);  
         mainDispatcher.add(text);
     }
 
