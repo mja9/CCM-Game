@@ -155,12 +155,13 @@ class BlockingDialogue extends FadingObject {
      * in color.
      */
     paintColorLine(line, y) {
-        // Get the left-most point.
-        CONTEXT.font = this.font;
-        let start = this.xCenter - CONTEXT.measureText(line).width / 2.0;
 
         // Split the line up between words with and without color.
         let lineParts = line.split("$");
+
+        // Get the left-most point.
+        CONTEXT.font = this.font;
+        let start = this.getLineStart(line);
 
         // Paint each part of the line according to its designation.
         for (let i = 0; i < lineParts.length; i++) {
@@ -194,20 +195,47 @@ class BlockingDialogue extends FadingObject {
         }
     }
 
-// const str2 = "$(red)nestled$ between the distal and $(purple)proximal$";
+    /**
+     * Helper function for painColorLine()
+     * that accurately identifies the x-pos
+     * where the line should start painting.
+     * Removes all excess characters referring to
+     * color from line.
+     * @param {String} line The multi-color line to be painted. 
+     */
+    getLineStart(line) {
 
-// ["",
-// "(red)nestled",
-// " between the distal and ",
-// "(purple)proximal", ""]
+        // Cut out all the color refernces in the line.
+        let lineWithoutColors = "";
+
+
+        while (line.length > 0) {
+
+            // Find the next '$' and remove it from new string.
+            let nextDollar = line.indexOf("$");
+
+            // Case where no more dollar signs are found.
+            if (nextDollar == -1) {
+                lineWithoutColors = lineWithoutColors.concat(line);
+                line = "";
+
+            } else {
+                lineWithoutColors = lineWithoutColors.concat(line.substring(0, nextDollar));
+
+                // Case where '$' is followed by a color.
+                if (line[nextDollar + 1] == "(") {
+                    let closeP = line.indexOf(")");
+                    line = line.substring(closeP + 1);
+
+                // Closing '$' case.
+                } else {
+                    line = line.substring(nextDollar + 1);
+                }
+            }
+
+        }
+
+        return this.xCenter - CONTEXT.measureText(lineWithoutColors).width / 2.0;
+    }
+
 }
-
-// let str = "(";
-// console.log(str[0] == "(");
-// const str2 = "$(red)nestled$ between the distal and $(purple)proximal$";
-// const colorPart = str2.split("$")[1];
-// let closeP = colorPart.indexOf(")");
-// console.log(colorPart);
-// console.log(closeP);
-// console.log(colorPart.substring(closeP + 1));
-
