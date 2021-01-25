@@ -26,7 +26,7 @@ class TitleView {
                 CONTEXT.fillStyle = "black";
                 CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
                 CONTEXT.globalAlpha = oldAlpha;
-            },
+            }
         };
 
         // Create the title screen buttons.

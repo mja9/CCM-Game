@@ -13,6 +13,14 @@ class PlayModel {
         this.view = playView;
     }
 
+    /**
+     * Adds all buttons appearing in regular 
+     * play to the canvas.
+     */
+    addButtons() {
+        mainDispatcher.addAll([this.checkBtn, this.revertBtn, this.pumpButton, this.equilibrateButton, this.flowButton]);
+    }
+
     init() {
         // Initialize click, moveable, and drag n' drop handlers.
         this.initStateButtons();
@@ -26,7 +34,6 @@ class PlayModel {
         
         CLICKABLE.push(this.checkBtn);
         CLICKABLE.push(this.checkBtn);
-        mainDispatcher.addAll([this.checkBtn, this.revertBtn]);
 
     }
 
@@ -40,8 +47,6 @@ class PlayModel {
     
         // Flow button.
         CLICKABLE.push(this.flowButton);
-
-        mainDispatcher.addAll([this.pumpButton, this.equilibrateButton, this.flowButton]);
     
     }
 
@@ -712,7 +717,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for dialogue 3.
-        const line1 = "That new structure is the $(red)loop of Henle$,";
+        const line1 = "That new structure is the $(#ff5853)loop of Henle$,";
         const line2 = "nestled between the distal and proximal";
         const line3 = "convoluted tubules in the kidney.";
 
@@ -742,8 +747,8 @@ class TutorialModel {
 
         // Lines of text for dialogue 4.
         const line1 = "Fluid enters at a low concentration. As it flows through the loop, the";
-        const line2 = "concentration grows as an osmotic gradient is created through countercurrent";
-        const line3 = "multiplication. The gradient ultimately draws water out of urine leaving the";
+        const line2 = "concentration grows as an osmotic gradient is created through $(#ff5853)countercurrent$";
+        const line3 = "$(#ff5853)multiplication.$ The gradient ultimately draws water out of urine leaving the";
         const line4 = "body through the collecting duct, minimizing water loss.";
 
         // Add this dialogue box. 
@@ -767,7 +772,141 @@ class TutorialModel {
         mainDispatcher.add(text);
     }
 
+    /**
+     * Handles the incoming animation
+     * and click detection for dialogue box 5.
+     */
     displayDialogueBox5() {
+        const tutorial = this;
+
+        // Lines of text for dialogue 5.
+        const line1 = "This game will teach you how countercurrent";
+        const line2 = "multiplication works by allowing you to $(#ff5853)build your$";
+        const line3 = "$(#ff5853)own osmotic gradient$ in the loop of Henle.";
+
+        // Add this dialogue box.
+        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt Verdana");
+
+        // On input, dialogue 6 appears on the screen as well.
+        text.v = 0.02;
+        text.animationDecorator = function() {
+            text.animationDecorator = function() {};    // Avoid double-jeopardy.
+            window.setTimeout(tutorial.displayDialogueBox6, 100);
+        }
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handle sthe incoming animation, click detection, 
+     * and outgoing animation for db6.
+     * Also handles outgoing animation for db5.
+     * @param {BlockingDialogue} db5 Dialogue box 5, which appears on screen with 6.
+     */
+    displayDialogueBox6(db5) {
+        const tutorial = this;
+
+        // Lines of text for dialogue 6.
+        const line1 = "$(#0060ff)When you are ready to play, press space or click$";
+        const line2 = "$(#0060ff)anywhere to enter the tutorial.$";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 423, 37, "20pt Verdana");
+        text.v = 0.1;
+
+        // Clear the screen then display the loop of Henle.
+        text.animationDecorator = function() {
+            text.animationDecorator = function() {};    // Avoid double-jeopardy.    
+            document.addEventListener("keydown", function keyDownEvent6(event) {
+                document.removeEventListener("keydown", keyDownEvent6);     // Avoid re-trigger.
+                db5.v = - 0.1;
+                text.v = -0.1;
+                text.animationDecorator = function() {
+                    text.animationDecorator = function() {};    // Avoid double-jeopardy.
+                    mainDispatcher.removeAll([text, db5]);  // Remove the old objects.  
+
+                    let fade = {
+                        v: 0.1,
+                        alpha: 0.0,
+                        move: function() {
+                            view.fade.alpha += view.fade.v
+            
+                            if (view.fade.alpha >= 1.0) {
+                                view.fade.animationDecorator();
+                                view.fade.alpha = 1.0;
+                            }
+                            else if (view.fade.alpha <= 0.0) {
+                                view.fade.animationDecorator();
+                                view.fade.alpha = 0.0;
+                            }
+                        },
+                        paint: function() {
+                            view.fade.move();
+                            let oldAlpha = CONTEXT.globalAlpha;
+                            CONTEXT.globalAlpha = view.fade.alpha;
+                            CONTEXT.fillStyle = "black";
+                            CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+                            CONTEXT.globalAlpha = oldAlpha;
+                        },
+
+                        animationDecorator: function() {
+                            fade.animationDecorator = function() {};    // Avoid double-jeopardy.
+                            mainDispatcher.clear();
+                            mainDispatcher.add(fade);
+
+                            fade.v = -0.1;
+                            fade.animationDecorator = function() {
+                                fade.animationDecorator = function() {};    // Avoid double-jeopardy.
+                                mainDispatcher.clear();
+                                tutorial.playModel.view.switchBackground();
+                                mainDispatcher.add(tutorial.playModel.view);
+                                tutorial.playModel.view.init();
+                                tutorial.playModel.addButtons();
+                                tutorial.displayDialogueBox7();
+
+                            }
+                        }
+                    };
+                    
+                }
+            });  
+        };
+        // TODO: Add click anywhere functionality as well.
+        mainDispatcher.add(text);
+    }
+
+    // Hanles the incoming animation, click 
+    // detection, and outgoing animation 
+    // for dialogue box 7.
+    displayDialogueBox7() {
+        const tutorial = this;
+
+        // Lines of text for dialogue box 7.
+        const line1 = "Welcome to your kindey. Let's help you";
+        const line2 = "get oriented and learn the rules of the";
+        const line3 = "game.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "13pt Verdana");
+        text.v = 0.02;
+
+        // Clear the screen and display db 8.
+        text.animationDecorator = function() {
+            text.animationDecorator = function() {};    // Avoid double-jeopardy.
+            document.addEventListener("keydown", function keyDownEvent7(event) {
+                document.removeEventListener("keydown", keyDownEvent7);     // Avoid re-trigger.
+                text.v = -0.1;
+                text.animationDecorator = function() {
+                    text.animationDecorator = function() {};    // Avoid double-jeopardy.
+                    mainDispatcher.remove(text);
+                    tutorial.displayDialogueBox8();
+                }
+            });
+        }
+        mainDispatcher.add(text);
+
+    }
+
+    displayDialogueBox8() {
 
     }
     
