@@ -135,7 +135,7 @@ class BlockingDialogue extends FadingObject {
         for (let i = 0; i < this.lines.length; i++) {
             
             // Color case.
-            if (this.lines[i].includes("*")) {
+            if (this.lines[i].includes("$")) {
                 this.paintColorLine();
 
             } else {
@@ -151,12 +151,64 @@ class BlockingDialogue extends FadingObject {
 
     /**
      * Method to draw a line of text with multiple colors.
-     * Colored text is indicated by placing "*color-#*"
-     * before the # of word(s) that should be drawn 
+     * Colored text is indicated by placing "$(color)...$"
+     * around the word(s) that should be painted 
      * in color.
      */
-    paintColorLine() {
-        
+    paintColorLine(line, y) {
+        // Get the left-most point.
+        CONTEXT.font = this.font;
+        let start = this.xCenter - CONTEXT.measureText(line).width / 2.0;
+
+        // Split the line up between words with and without color.
+        let lineParts = line.split("$");
+
+        // Paint each part of the line according to its designation.
+        for (let i = 0; i < lineParts.length; i++) {
+
+            if (lineParts[i].length > 0) {  // Skip empty strings.
+                let text = lineParts[i];
+
+                // Case where color is specified.
+                if (text[0] == "(") {
+
+                    // Get the color.
+                    let closeP = text.indexOf(")");
+                    let color = text.substring(1, closeP);
+                    CONTEXT.fillStyle = color;
+                    text = lineParts[i].substring(closeP + 1);
+
+                // Default color case.
+                } else {
+                    CONTEXT.fillStyle = "black";
+                }
+
+                // Paint the next portion of text.
+                CONTEXT.textAlign = "left";
+                CONTEXT.textBaseline = "middle";
+                CONTEXT.fillText(text, start, y);
+
+                // Move new starting point past written text.
+                start = start + CONTEXT.measureText(text).width;
+            }
+
+        }
     }
 
+// const str2 = "$(red)nestled$ between the distal and $(purple)proximal$";
+
+// ["",
+// "(red)nestled",
+// " between the distal and ",
+// "(purple)proximal", ""]
 }
+
+// let str = "(";
+// console.log(str[0] == "(");
+// const str2 = "$(red)nestled$ between the distal and $(purple)proximal$";
+// const colorPart = str2.split("$")[1];
+// let closeP = colorPart.indexOf(")");
+// console.log(colorPart);
+// console.log(closeP);
+// console.log(colorPart.substring(closeP + 1));
+

@@ -1,8 +1,8 @@
 // Copyright © 2020 mja9
 // Global constants.
 let i = 0;
-let CANVAS = document.getElementById("game-canvas");
-let CONTEXT = CANVAS.getContext("2d");
+const CANVAS = document.getElementById("game-canvas");
+const CONTEXT = CANVAS.getContext("2d");
 let titleScreenInterval;
 let LOOP_OF_HENLE = {
     x: 829,
