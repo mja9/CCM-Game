@@ -662,16 +662,21 @@ class TutorialModel {
         const line2 = "in the sea to one on land. This drier environment presented a host";
         const line3 = "of new problems -- not least, water conservation during excretion.";
 
+        // Press anything event.
+        function keyDownEvent1(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent1);
+            document.removeEventListener("keydown", keyDownEvent1);     // Avoid re-trigger.
+            tutorial.displayDialogueBox2(text);
+        }
+
         // Create the blocking dialogue object, and display the second dialogue box
         // when user input is detected. Both dialogue boxes are shwon on the screen at once.
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
         text.v = 0.02;
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy. 
-            document.addEventListener("keydown", function keyDownEvent1(event) {
-                document.removeEventListener("keydown", keyDownEvent1);     // Avoid re-trigger.
-                tutorial.displayDialogueBox2(text);
-            });
+            document.addEventListener("keydown", keyDownEvent1);
+            CANVAS.addEventListener("mousedown", keyDownEvent1);
         };
         mainDispatcher.add(text);
     }
@@ -692,19 +697,24 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 350, 37, "20pt Verdana");
         text.v = 0.1;
 
+        // Press anything event.
+        function keyDownEvent2(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent2);
+            document.removeEventListener("keydown", keyDownEvent2);     // Avoid re-trigger.
+            db1.v = - 0.1;
+            text.v = -0.1;
+            text.animationDecorator = function() {
+                text.animationDecorator = function() {};    // Avoid double-jeopardy.
+                mainDispatcher.removeAll([text, db1]);  // Remove the old objects.  
+                tutorial.displayDialogueBox3();
+            }
+        }
+
         // Clear the screen then display dialogue 3 when detecting user input.
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.    
-            document.addEventListener("keydown", function keyDownEvent2(event) {
-                document.removeEventListener("keydown", keyDownEvent2);     // Avoid re-trigger.
-                db1.v = - 0.1;
-                text.v = -0.1;
-                text.animationDecorator = function() {
-                    text.animationDecorator = function() {};    // Avoid double-jeopardy.
-                    mainDispatcher.removeAll([text, db1]);  // Remove the old objects.  
-                    tutorial.displayDialogueBox3();
-                }
-            });  
+            document.addEventListener("keydown", keyDownEvent2);
+            CANVAS.addEventListener("mousedown", keyDownEvent2);  
         };
         mainDispatcher.add(text);
     }
@@ -724,14 +734,20 @@ class TutorialModel {
         // Add this dialogue box.
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
 
+        // Press anything event.
+        function keyDownEvent3(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent3);
+            document.removeEventListener("keydown", keyDownEvent3);     // Avoid re-trigger.
+            tutorial.displayDialogueBox4(text);
+        }
+
         // On input, dialogue 4 appears on the screen as well.
         text.v = 0.02;
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.
-            document.addEventListener("keydown", function keyDownEvent3(event) {
-                document.removeEventListener("keydown", keyDownEvent3);     // AVoid re-trigger.
-                tutorial.displayDialogueBox4(text);
-            });
+            document.addEventListener("keydown", keyDownEvent3);
+            CANVAS.addEventListener("mousedown", keyDownEvent3);
+
         }
         mainDispatcher.add(text);
     }
@@ -755,19 +771,24 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3, line4], CANVAS.clientWidth / 2, 350, 37, "20pt Verdana");
         text.v = 0.1;
 
+        // Press anything event.
+        function keyDownEvent4(event) {
+            CANVAS.removeEventListener("mouswdown", keyDownEvent4);
+            document.removeEventListener("keydown", keyDownEvent4);     // Avoid re-trigger.
+            db3.v = - 0.1;
+            text.v = -0.1;
+            text.animationDecorator = function() {
+                text.animationDecorator = function() {};    // Avoid double-jeopardy.
+                mainDispatcher.removeAll([text, db3]);  // Remove the old objects.  
+                tutorial.displayDialogueBox5();
+            }
+        }
+
         // Clear the screen then display dialogue 3 when detecting user input.
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.    
-            document.addEventListener("keydown", function keyDownEvent4(event) {
-                document.removeEventListener("keydown", keyDownEvent4);     // Avoid re-trigger.
-                db3.v = - 0.1;
-                text.v = -0.1;
-                text.animationDecorator = function() {
-                    text.animationDecorator = function() {};    // Avoid double-jeopardy.
-                    mainDispatcher.removeAll([text, db3]);  // Remove the old objects.  
-                    tutorial.displayDialogueBox5();
-                }
-            });  
+            document.addEventListener("keydown", keyDownEvent4); 
+            CANVAS.addEventListener("mousedown", keyDownEvent4); 
         };
         mainDispatcher.add(text);
     }
@@ -785,7 +806,7 @@ class TutorialModel {
         const line3 = "$(#ff5853)own osmotic gradient$ in the loop of Henle.";
 
         // Add this dialogue box.
-        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt Verdana");        
 
         // On input, dialogue 6 appears on the screen as well.
         text.v = 0.02;
@@ -868,9 +889,8 @@ class TutorialModel {
         mainDispatcher.add(text);
     }
 
-    // Hanles the incoming animation, click 
-    // detection, and outgoing animation 
-    // for dialogue box 7.
+    // Handles the display and click 
+    // detection for dialogue box 7.
     displayDialogueBox7() {
         const tutorial = this;
 
@@ -883,24 +903,34 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
+        // Press anything event.
+        function keyDownEvent7(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent7)
+            document.removeEventListener("keydown", keyDownEvent7);     // Avoid re-trigger.
+            text.v = -0.1;
+            text.animationDecorator = function() {
+                text.animationDecorator = function() {};    // Avoid double-jeopardy.
+                mainDispatcher.remove(text);
+                tutorial.displayDialogueBox8();
+            }
+        }
+
         // Clear the screen and display db 8.
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.
-            document.addEventListener("keydown", function keyDownEvent7(event) {
-                document.removeEventListener("keydown", keyDownEvent7);     // Avoid re-trigger.
-                text.v = -0.1;
-                text.animationDecorator = function() {
-                    text.animationDecorator = function() {};    // Avoid double-jeopardy.
-                    mainDispatcher.remove(text);
-                    tutorial.displayDialogueBox8();
-                }
-            });
+            document.addEventListener("keydown", keyDownEvent7);
+            CANVAS.addEventListener("mousedown", keyDownEvent7);
         }
         mainDispatcher.add(text);
-
     }
 
+    // Handles the display and click
+    // detection for dialogue box 8.
     displayDialogueBox8() {
+       
+    }
+
+    displayDialogueBox9() {
 
     }
     
