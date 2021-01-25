@@ -813,67 +813,57 @@ class TutorialModel {
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 423, 37, "20pt Verdana");
-        text.v = 0.1;
+        text.alpha = 1.0;
 
         // Clear the screen then display the loop of Henle.
-        text.animationDecorator = function() {
-            text.animationDecorator = function() {};    // Avoid double-jeopardy.    
-            document.addEventListener("keydown", function keyDownEvent6(event) {
-                document.removeEventListener("keydown", keyDownEvent6);     // Avoid re-trigger.
-                // db5.v = - 0.1;
-                // text.v = -0.1;
-                // text.animationDecorator = function() {
-                //     text.animationDecorator = function() {};    // Avoid double-jeopardy.
-                //     mainDispatcher.removeAll([text, db5]);  // Remove the old objects.  
+        document.addEventListener("keydown", function keyDownEvent6(event) {
+            document.removeEventListener("keydown", keyDownEvent6);     // Avoid re-trigger.
 
-                    let fade = {
-                        v: 0.1,
-                        alpha: 0.0,
-                        move: function() {
-                            fade.alpha += fade.v
-            
-                            if (fade.alpha >= 1.0) {
-                                fade.animationDecorator();
-                                fade.alpha = 1.0;
-                            }
-                            else if (fade.alpha <= 0.0) {
-                                fade.animationDecorator();
-                                fade.alpha = 0.0;
-                            }
-                        },
-                        paint: function() {
-                            fade.move();
-                            let oldAlpha = CONTEXT.globalAlpha;
-                            CONTEXT.globalAlpha = fade.alpha;
-                            CONTEXT.fillStyle = "black";
-                            CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-                            CONTEXT.globalAlpha = oldAlpha;
-                        },
-
-                        animationDecorator: function() {
-                            fade.animationDecorator = function() {};    // Avoid double-jeopardy.
-                            mainDispatcher.clear();
-                            mainDispatcher.add(fade);
-
-                            fade.v = -0.1;
-                            fade.animationDecorator = function() {
-                                fade.animationDecorator = function() {};    // Avoid double-jeopardy.
-                                mainDispatcher.clear();
-                                tutorial.playModel.view.switchBackground();
-                                mainDispatcher.add(tutorial.playModel.view);
-                                tutorial.playModel.view.init();
-                                tutorial.playModel.addButtons();
-                                tutorial.displayDialogueBox7();
-
-                            }
+                let fade = {
+                    v: 0.1,
+                    alpha: 0.0,
+                    move: function() {
+                        fade.alpha += fade.v
+        
+                        if (fade.alpha >= 1.0) {
+                            fade.animationDecorator();
+                            fade.alpha = 1.0;
                         }
-                    };
-                    mainDispatcher.add(fade);
+                        else if (fade.alpha <= 0.0) {
+                            fade.animationDecorator();
+                            fade.alpha = 0.0;
+                        }
+                    },
+                    paint: function() {
+                        fade.move();
+                        let oldAlpha = CONTEXT.globalAlpha;
+                        CONTEXT.globalAlpha = fade.alpha;
+                        CONTEXT.fillStyle = "black";
+                        CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+                        CONTEXT.globalAlpha = oldAlpha;
+                    },
 
-                    
-                // }
-            });  
-        };
+                    animationDecorator: function() {
+                        fade.animationDecorator = function() {};    // Avoid double-jeopardy.
+                        mainDispatcher.clear();
+
+                        // Place the new game board behind the fade object.
+                        tutorial.playModel.view.switchBackground();
+                        mainDispatcher.add(tutorial.playModel.view);
+                        tutorial.playModel.view.init();
+                        tutorial.playModel.addButtons();
+                        mainDispatcher.add(fade);
+
+                        fade.v = -0.1;
+                        fade.animationDecorator = function() {
+                            fade.animationDecorator = function() {};    // Avoid double-jeopardy.
+                            mainDispatcher.remove(fade);
+                            tutorial.displayDialogueBox7();
+                        }
+                    }
+                };
+                mainDispatcher.add(fade);
+        });  
         // TODO: Add click anywhere functionality as well.
         mainDispatcher.add(text);
     }
@@ -890,8 +880,8 @@ class TutorialModel {
         const line3 = "game.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "13pt Verdana");
-        text.v = 0.02;
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
 
         // Clear the screen and display db 8.
         text.animationDecorator = function() {
