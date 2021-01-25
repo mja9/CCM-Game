@@ -135,6 +135,7 @@ class BlockingDialogue extends FadingObject {
 
             } else {
                 // Text settings set to be compatible with assigned fields.
+                CONTEXT.fillStyle = "#252525";
                 CONTEXT.font = this.font;
                 CONTEXT.textAlign = "center";
                 CONTEXT.textBaseline = "middle";

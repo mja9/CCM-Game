@@ -791,7 +791,9 @@ class TutorialModel {
         text.v = 0.02;
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.
-            window.setTimeout(tutorial.displayDialogueBox6, 100);
+            window.setTimeout(function() {
+                tutorial.displayDialogueBox6(text);
+            }, 100);
         }
         mainDispatcher.add(text);
     }
@@ -818,31 +820,31 @@ class TutorialModel {
             text.animationDecorator = function() {};    // Avoid double-jeopardy.    
             document.addEventListener("keydown", function keyDownEvent6(event) {
                 document.removeEventListener("keydown", keyDownEvent6);     // Avoid re-trigger.
-                db5.v = - 0.1;
-                text.v = -0.1;
-                text.animationDecorator = function() {
-                    text.animationDecorator = function() {};    // Avoid double-jeopardy.
-                    mainDispatcher.removeAll([text, db5]);  // Remove the old objects.  
+                // db5.v = - 0.1;
+                // text.v = -0.1;
+                // text.animationDecorator = function() {
+                //     text.animationDecorator = function() {};    // Avoid double-jeopardy.
+                //     mainDispatcher.removeAll([text, db5]);  // Remove the old objects.  
 
                     let fade = {
                         v: 0.1,
                         alpha: 0.0,
                         move: function() {
-                            view.fade.alpha += view.fade.v
+                            fade.alpha += fade.v
             
-                            if (view.fade.alpha >= 1.0) {
-                                view.fade.animationDecorator();
-                                view.fade.alpha = 1.0;
+                            if (fade.alpha >= 1.0) {
+                                fade.animationDecorator();
+                                fade.alpha = 1.0;
                             }
-                            else if (view.fade.alpha <= 0.0) {
-                                view.fade.animationDecorator();
-                                view.fade.alpha = 0.0;
+                            else if (fade.alpha <= 0.0) {
+                                fade.animationDecorator();
+                                fade.alpha = 0.0;
                             }
                         },
                         paint: function() {
-                            view.fade.move();
+                            fade.move();
                             let oldAlpha = CONTEXT.globalAlpha;
-                            CONTEXT.globalAlpha = view.fade.alpha;
+                            CONTEXT.globalAlpha = fade.alpha;
                             CONTEXT.fillStyle = "black";
                             CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
                             CONTEXT.globalAlpha = oldAlpha;
@@ -866,8 +868,10 @@ class TutorialModel {
                             }
                         }
                     };
+                    mainDispatcher.add(fade);
+
                     
-                }
+                // }
             });  
         };
         // TODO: Add click anywhere functionality as well.
