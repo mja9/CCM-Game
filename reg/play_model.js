@@ -909,31 +909,170 @@ class TutorialModel {
         function keyDownEvent7(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent7)
             document.removeEventListener("keydown", keyDownEvent7);     // Avoid re-trigger.
-            text.v = -0.1;
-            text.animationDecorator = function() {
-                text.animationDecorator = function() {};    // Avoid double-jeopardy.
-                mainDispatcher.remove(text);
-                tutorial.displayDialogueBox8();
-            }
+
+            // Clear the screen and display db 8.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox8();
         }
 
-        // Clear the screen and display db 8.
-        text.animationDecorator = function() {
-            text.animationDecorator = function() {};    // Avoid double-jeopardy.
-            document.addEventListener("keydown", keyDownEvent7);
-            CANVAS.addEventListener("mousedown", keyDownEvent7);
-        }
+        // On input display db8.
+        document.addEventListener("keydown", keyDownEvent7);
+        CANVAS.addEventListener("mousedown", keyDownEvent7);
         mainDispatcher.add(text);
     }
 
-    // Handles the display and click
-    // detection for dialogue box 8.
+    /** 
+     * Handles the display and click
+     * detection for dialogue box 8.
+     */
     displayDialogueBox8() {
-       
+        const tutorial = this;
+
+        // Lines of text for db8.
+        const line1 = "The structure to your right is the";
+        const line2 = "$(#ff5853)loop of Henle$.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent8(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent8);
+            document.removeEventListener("keydown", keyDownEvent8);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox9();
+        }
+
+        // On input display db9.
+        CANVAS.addEventListener("mousedown", keyDownEvent8);
+        document.addEventListener("keydown", keyDownEvent8);
+        mainDispatcher.add(text);
     }
 
+    /**
+     * Handles the display and click
+     * detection for db9.
+     */
     displayDialogueBox9() {
+        const tutorial = this;
 
+        // Lines of text for db9.
+        const line1 = "Fluid flows in through the";
+        const line2 = "$(#ff5853)descending limb$, around the";
+        const line3 = "hairpin bend, then out through";
+        const line4 = "the $(#ff5853)ascending limb$.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent9(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent9);
+            document.removeEventListener("keydown", keyDownEvent9);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox10();
+        }
+
+        // On input display db9.
+        CANVAS.addEventListener("mousedown", keyDownEvent9);
+        document.addEventListener("keydown", keyDownEvent9);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db10.
+     */
+    displayDialogueBox10() {
+        const tutorial = this;
+
+        // Lines of text for db10.
+        const line1 = "The boxes in the middle represent the";
+        const line2 = "$(#ff5853)interstitial fluid$, the liquid medium in";
+        const line3 = "which the loop of Henle floats.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent10(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent10);
+            document.removeEventListener("keydown", keyDownEvent10);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox11();
+        }
+
+        // On input display db9.
+        CANVAS.addEventListener("mousedown", keyDownEvent10);
+        document.addEventListener("keydown", keyDownEvent10);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db11.
+     */
+    displayDialogueBox11() {
+        const tutorial = this;
+
+        // Lines of text for db11.
+        const line1 = "The goal of countercurrent";
+        const line2 = "multiplication is to increase the";
+        const line3 = "concentration, or $(#ff5853)osmotic potential$, of";
+        const line4 = "the interstitial fluid, which will create"
+        const line5 = "concentrated urine in the collecting";
+        const line6 = "duct."
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4, line5, line6], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent11(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent11);
+            document.removeEventListener("keydown", keyDownEvent11);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox12();
+        }
+
+        // On input display db9.
+        CANVAS.addEventListener("mousedown", keyDownEvent11);
+        document.addEventListener("keydown", keyDownEvent11);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db12.
+     */
+    displayDialogueBox12() {
+        const tutorial = this;
+
+        // Lines of text for db12.
+        const line1 = "The osmotic potential of fluid is";
+        const line2 = "measured in $(#ff5853)milliosmoles$ (mOsm) -- the";
+        const line3 = "higher the number, the more";
+        const line4 = "concentrated."
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent12(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent12);
+            document.removeEventListener("keydown", keyDownEvent12);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox13();
+        }
+
+        // On input display db9.
+        CANVAS.addEventListener("mousedown", keyDownEvent12);
+        document.addEventListener("keydown", keyDownEvent12);
+        mainDispatcher.add(text);
     }
     
     // TODO: Fix this transition!
