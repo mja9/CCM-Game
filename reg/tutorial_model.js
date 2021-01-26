@@ -74,7 +74,6 @@ class TutorialModel {
 
         let animationDecorator = function() {
             tutorial.playModel.view.sidebar.maxbar.checkMax();
-            tutorial.displayNowToRegularPlay();
         };
         tutorial.playModel.view.loop.flow(animationDecorator);
         
@@ -406,7 +405,7 @@ class TutorialModel {
             tutorial.displayDialogueBox10();
         }
 
-        // On input display db9.
+        // On input display db10.
         CANVAS.addEventListener("mousedown", keyDownEvent9);
         document.addEventListener("keydown", keyDownEvent9);
         mainDispatcher.add(text);
@@ -436,7 +435,7 @@ class TutorialModel {
             tutorial.displayDialogueBox11();
         }
 
-        // On input display db9.
+        // On input display db11.
         CANVAS.addEventListener("mousedown", keyDownEvent10);
         document.addEventListener("keydown", keyDownEvent10);
         mainDispatcher.add(text);
@@ -469,7 +468,7 @@ class TutorialModel {
             tutorial.displayDialogueBox12();
         }
 
-        // On input display db9.
+        // On input display db12.
         CANVAS.addEventListener("mousedown", keyDownEvent11);
         document.addEventListener("keydown", keyDownEvent11);
         mainDispatcher.add(text);
@@ -500,7 +499,7 @@ class TutorialModel {
             tutorial.displayDialogueBox13();
         }
 
-        // On input display db9.
+        // On input display db13.
         CANVAS.addEventListener("mousedown", keyDownEvent12);
         document.addEventListener("keydown", keyDownEvent12);
         mainDispatcher.add(text);
@@ -530,7 +529,7 @@ class TutorialModel {
             tutorial.displayDialogueBox14();
         }
 
-        // On input display db9.
+        // On input display db14.
         CANVAS.addEventListener("mousedown", keyDownEvent13);
         document.addEventListener("keydown", keyDownEvent13);
         mainDispatcher.add(text);
@@ -560,7 +559,7 @@ class TutorialModel {
             tutorial.displayDialogueBox15();
         }
 
-        // On input display db9.
+        // On input display db15.
         CANVAS.addEventListener("mousedown", keyDownEvent14);
         document.addEventListener("keydown", keyDownEvent14);
         mainDispatcher.add(text);
@@ -590,31 +589,369 @@ class TutorialModel {
             tutorial.displayDialogueBox16();
         }
 
-        // On input display db9.
+        // On input display db16.
         CANVAS.addEventListener("mousedown", keyDownEvent15);
         document.addEventListener("keydown", keyDownEvent15);
         mainDispatcher.add(text);
     }
-    
-    // TODO: Fix this transition!
-    displayNowToRegularPlay() {
-        var oldClickable = CLICKABLE.slice();   // Functionally handle changes in CLICKABLE.
-        CLICKABLE = [];
-        const model = this.playModel;
-    
-        var regularPlayPopUp = new PopUp(665.0, 328.0, 700, 300, [], 
-        new Button(665.0, 404.0, 150, 70, 
-            function() {
-                CLICKABLE = oldClickable;
-                mainDispatcher.remove(regularPlayPopUp);
-                CONTEXT.globalAlpha = 1.0;
 
-                model.initRegularGame();
-            }, "ok-button"), "end-tutorial");
+    /**
+     * Handles the display and click
+     * detection for db16.
+     */
+    displayDialogueBox16() {
+        const tutorial = this;
+
+        // Lines of text for db16.
+        const line1 = "Now that you know the loop's basic";
+        const line2 = "anatomy and the features of the";
+        const line3 = "game, let's start building the";
+        const line4 = "gradient!";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent16(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent16);
+            document.removeEventListener("keydown", keyDownEvent16);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox17();
+        }
+
+        // On input display db17.
+        CANVAS.addEventListener("mousedown", keyDownEvent16);
+        document.addEventListener("keydown", keyDownEvent16);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db17.
+     */
+    displayDialogueBox17() {
+        const tutorial = this;
+
+        // Lines of text for db17.
+        const line1 = "First, the ascending limb $(#ff5853)actively pumps$";
+        const line2 = "$(#ff5853)out solutes$ into the interstitial fluid, as its";
+        const line3 = "walls are $(#ff5853)impermeable$ to water.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent17(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent17);
+            document.removeEventListener("keydown", keyDownEvent17);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox18();
+        }
+
+        // On input display db18.
+        CANVAS.addEventListener("mousedown", keyDownEvent17);
+        document.addEventListener("keydown", keyDownEvent17);
+        mainDispatcher.add(text);
+    }
     
-        CONTEXT.globalAlpha = 0.35;
-        mainDispatcher.add(regularPlayPopUp);
-    
+    /**
+     * Handles the display and click
+     * detection for db18.
+     */
+    displayDialogueBox18() {
+        const tutorial = this;
+
+        // Lines of text for db18.
+        const line1 = "However, the ascending limb and the";
+        const line2 = "interstitial fluid $(#0060ff)cannot exceed a$";
+        const line3 = "$(#0060ff)concentration difference of 200 mOsm$.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent18(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent18);
+            document.removeEventListener("keydown", keyDownEvent18);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox19();
+        }
+
+        // On input display db19.
+        CANVAS.addEventListener("mousedown", keyDownEvent18);
+        document.addEventListener("keydown", keyDownEvent18);
+        mainDispatcher.add(text);
+    }
+
+
+    // TODO: TODO: TODO: Fix the transition between db 19 and db20.
+    /**
+     * Handles the display and click
+     * detection for db19.
+     */
+    displayDialogueBox19() {
+        const tutorial = this;
+
+        // Lines of text for db19.
+        const line1 = "$(#0060ff)Drag the correct element$ into the";
+        const line2 = "corresponding position in the interstitial";
+        const line3 = "fluid until you've reduced the concentration";
+        const line4 = "as much as possible."
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Add db19's subtext.
+        const line5 = "Press the $(#0060ff)next$ button when you are done, or the";
+        const line6 = "$(#0060ff)retry$ button to reset your concentration.";
+
+        let subtext = new BlockingDialogue([line5, line6], 247, 546, 30, "12pt Verdana");
+        subtext.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent19(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent19);
+            document.removeEventListener("keydown", keyDownEvent19);     // Avoid re-trigger.
+            mainDispatcher.removeAll([text, subtext]);
+            tutorial.displayDialogueBox20();
+        }
+
+        // On input display db20.
+        CANVAS.addEventListener("mousedown", keyDownEvent19);
+        document.addEventListener("keydown", keyDownEvent19);
+        mainDispatcher.addAll([text, subtext]);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db20.
+     */
+    displayDialogueBox20() {
+        const tutorial = this;
+
+        // Lines of text for db20.
+        const line1 = "Great job!";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent20(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent20);
+            document.removeEventListener("keydown", keyDownEvent20);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox21();
+        }
+
+        // On input display db21.
+        CANVAS.addEventListener("mousedown", keyDownEvent20);
+        document.addEventListener("keydown", keyDownEvent20);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db21.
+     */
+    displayDialogueBox21() {
+        const tutorial = this;
+
+        // Lines of text for db21.
+        const line1 = "Next, the $(#ff5853)descending limb$ passively";
+        const line2 = "equilibrates wth the interstitial fluid to";
+        const line3 = "match its concentration. Its walls are";
+        const line4 = "$(#ff5853)permeable$ to accomodate this";
+        const line5 = "process.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4, line5], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent21(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent21);
+            document.removeEventListener("keydown", keyDownEvent21);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox22();
+        }
+
+        // On input display db22.
+        CANVAS.addEventListener("mousedown", keyDownEvent21);
+        document.addEventListener("keydown", keyDownEvent21);
+        mainDispatcher.add(text);
+    }
+
+    // TODO: TODO: TODO: Fix the transition between db 22 and db23.
+    /**
+     * Handles the display and click
+     * detection for db22.
+     */
+    displayDialogueBox22() {
+        const tutorial = this;
+
+        // Lines of text for db22.
+        const line1 = "$(#0060ff)Drag the correct element$ into the";
+        const line2 = "corresponding position in the interstitial";
+        const line3 = "fluid until you've reached";
+        const line4 = "equilibrium.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Add db22's subtext.
+        const line5 = "Press the $(#0060ff)next$ button when you are done, or the";
+        const line6 = "$(#0060ff)retry$ button to reset your concentration.";
+
+        let subtext = new BlockingDialogue([line5, line6], 247, 546, 30, "12pt Verdana");
+        subtext.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent22(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent22);
+            document.removeEventListener("keydown", keyDownEvent22);     // Avoid re-trigger.
+            mainDispatcher.removeAll([text, subtext]);
+            tutorial.displayDialogueBox23();
+        }
+
+        // On input display db23.
+        CANVAS.addEventListener("mousedown", keyDownEvent22);
+        document.addEventListener("keydown", keyDownEvent22);
+        mainDispatcher.addAll([text, subtext]);
+    }
+
+    // TODO: TODO: TODO: Fix the transition to include the flow here!
+    /**
+     * Handles the display and click
+     * detection for db23.
+     */
+    displayDialogueBox23() {
+        const tutorial = this;
+
+        // Lines of text for db23.
+        const line1 = "You've set up all the concentrations";
+        const line2 = "correctly!";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Add db23's subtext.
+        const line3 = "Click $(#0060ff)next$ to advance the fluid and";
+        const line4 = "pass it through the loop.";
+
+        let subtext = new BlockingDialogue([line3, line4], 247, 597, 30, "12pt Verdana");
+        subtext.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent23(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent23);
+            document.removeEventListener("keydown", keyDownEvent23);     // Avoid re-trigger.
+            mainDispatcher.removeAll([text, subtext]);
+            tutorial.displayDialogueBox24();
+        }
+
+        // On input display db24.
+        CANVAS.addEventListener("mousedown", keyDownEvent23);
+        document.addEventListener("keydown", keyDownEvent23);
+        mainDispatcher.addAll([text, subtext]);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db25.
+     */
+    displayDialogueBox25() {
+        const tutorial = this;
+
+        // Lines of text for db25.
+        const line1 = "$(#0060ff)These$ will light up to signify what";
+        const line2 = "stage of the process you are on,";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent25(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent25);
+            document.removeEventListener("keydown", keyDownEvent25);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox26();
+        }
+
+        // On input display db26.
+        CANVAS.addEventListener("mousedown", keyDownEvent25);
+        document.addEventListener("keydown", keyDownEvent25);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db26.
+     */
+    displayDialogueBox26() {
+        const tutorial = this;
+
+        // Lines of text for db26.
+        const line1 = "These will light up to signify what";
+        const line2 = "stage of the process you are on,";
+        const line3 = "and $(#0060ff)this bar$ will track the maximum";
+        const line4 = "concentration of your interstitial fluid.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent26(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent26);
+            document.removeEventListener("keydown", keyDownEvent26);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox27();
+        }
+
+        // On input display db26.
+        CANVAS.addEventListener("mousedown", keyDownEvent26);
+        document.addEventListener("keydown", keyDownEvent26);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db27.
+     */
+    displayDialogueBox27() {
+        const tutorial = this;
+
+        // Lines of text for db27.
+        const line1 = "Now you will be restricted to your";
+        const line2 = "spot as a single unit of primary urine.";
+        const line3 = "Follow the loop's rules when it's your";
+        const line4 = "turn, and watch how the gradient";
+        const line5 = "builds.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3, line4, line5], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent27(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent27);
+            document.removeEventListener("keydown", keyDownEvent27);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.playModel.initRegularGame();   // TODO: TODO: TODO: Move to the regular play.
+        }
+
+        // On input display db26.
+        CANVAS.addEventListener("mousedown", keyDownEvent27);
+        document.addEventListener("keydown", keyDownEvent27);
+        mainDispatcher.add(text);
     }
 
 }
