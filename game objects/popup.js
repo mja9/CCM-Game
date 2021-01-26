@@ -181,7 +181,7 @@ class BlockingDialogue extends FadingObject {
 
                 // Default color case.
                 } else {
-                    CONTEXT.fillStyle = "black";
+                    CONTEXT.fillStyle = "#252525";
                 }
 
                 // Paint the next portion of text.

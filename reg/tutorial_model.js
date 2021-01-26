@@ -709,7 +709,7 @@ class TutorialModel {
         const line5 = "Press the $(#0060ff)next$ button when you are done, or the";
         const line6 = "$(#0060ff)retry$ button to reset your concentration.";
 
-        let subtext = new BlockingDialogue([line5, line6], 247, 546, 30, "12pt Verdana");
+        let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt Verdana");
         subtext.alpha = 1.0;
 
         // Press anything event.
@@ -808,7 +808,7 @@ class TutorialModel {
         const line5 = "Press the $(#0060ff)next$ button when you are done, or the";
         const line6 = "$(#0060ff)retry$ button to reset your concentration.";
 
-        let subtext = new BlockingDialogue([line5, line6], 247, 546, 30, "12pt Verdana");
+        let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt Verdana");
         subtext.alpha = 1.0;
 
         // Press anything event.
@@ -845,7 +845,7 @@ class TutorialModel {
         const line3 = "Click $(#0060ff)next$ to advance the fluid and";
         const line4 = "pass it through the loop.";
 
-        let subtext = new BlockingDialogue([line3, line4], 247, 597, 30, "12pt Verdana");
+        let subtext = new BlockingDialogue([line3, line4], 247, 597, 25, "12pt Verdana");
         subtext.alpha = 1.0;
 
         // Press anything event.
@@ -860,6 +860,36 @@ class TutorialModel {
         CANVAS.addEventListener("mousedown", keyDownEvent23);
         document.addEventListener("keydown", keyDownEvent23);
         mainDispatcher.addAll([text, subtext]);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db24.
+     */
+    displayDialogueBox24() {
+        const tutorial = this;
+
+        // Lines of text for db24.
+        const line1 = "One final thing -- the box above will";
+        const line2 = "allow you to track your progress";
+        const line3 = "building the gradient.";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Press anything event.
+        function keyDownEvent24(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent24);
+            document.removeEventListener("keydown", keyDownEvent24);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox25();
+        }
+
+        // On input display db25.
+        CANVAS.addEventListener("mousedown", keyDownEvent24);
+        document.addEventListener("keydown", keyDownEvent24);
+        mainDispatcher.add(text);
     }
 
     /**
