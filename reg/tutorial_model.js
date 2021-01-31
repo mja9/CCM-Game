@@ -30,8 +30,6 @@ class TutorialModel {
                 };
             };
 
-            // FIXME: Show pop up for equilibrate
-
         // FIXME: Add a useful error message here
         } else {
             console.log("Unsucessful pump!");
@@ -60,8 +58,6 @@ class TutorialModel {
                     };
                 };
             };
-
-            // FIXME: Show pop up for flow
         
         // FIXME: Add a useful error message
         } else {
@@ -79,7 +75,6 @@ class TutorialModel {
         
     }
 
-    // FIXME: Rename.
     /**
      * Handles the incoming animation, and click detection
      * for the first dialogue box.
@@ -687,7 +682,6 @@ class TutorialModel {
     }
 
 
-    // TODO: TODO: TODO: Fix the transition between db 19 and db20.
     /**
      * Handles the display and click
      * detection for db19.
@@ -713,7 +707,7 @@ class TutorialModel {
         subtext.alpha = 1.0;
 
         // Press anything event.
-        function keyDownEvent19(event) {
+        function keyDownEvent19() {
             CANVAS.removeEventListener("mousedown", keyDownEvent19);
             document.removeEventListener("keydown", keyDownEvent19);     // Avoid re-trigger.
             mainDispatcher.removeAll([text, subtext]);
@@ -721,7 +715,7 @@ class TutorialModel {
             tutorial.displayDialogueBox20();
         }
 
-        // On input display db20.
+        // On check display db20.
         this.playModel.init();  // Initialize the clickable handler.
         this.playModel.addMoveableHandler();
         this.playModel.checkBtn.onClick = function() {
@@ -792,7 +786,6 @@ class TutorialModel {
         mainDispatcher.add(text);
     }
 
-    // TODO: TODO: TODO: Fix the transition between db 22 and db23.
     /**
      * Handles the display and click
      * detection for db22.
@@ -818,21 +811,25 @@ class TutorialModel {
         subtext.alpha = 1.0;
 
         // Press anything event.
-        function keyDownEvent22(event) {
+        function keyDownEvent22() {
             CANVAS.removeEventListener("mousedown", keyDownEvent22);
             document.removeEventListener("keydown", keyDownEvent22);     // Avoid re-trigger.
             mainDispatcher.removeAll([text, subtext]);
+            tutorial.playModel.removeMoveableHandler();
             tutorial.displayDialogueBox23();
         }
 
         // On input display db23.
-        // CANVAS.addEventListener("mousedown", keyDownEvent22);
-        // document.addEventListener("keydown", keyDownEvent22);
-
+        this.playModel.addMoveableHandler();    // Allow icons to be moved once again.
+        this.playModel.checkBtn.onClick = function() {
+            if (tutorial.playModel.view.loop.validateEquilibrate()) {
+                keyDownEvent22();
+            }
+        };
         mainDispatcher.addAll([text, subtext]);
     }
 
-    // TODO: TODO: TODO: Fix the transition to include the flow here!
+
     /**
      * Handles the display and click
      * detection for db23.
@@ -856,7 +853,7 @@ class TutorialModel {
         subtext.alpha = 1.0;
 
         // Press anything event.
-        function keyDownEvent23(event) {
+        function keyDownEvent23() {
             CANVAS.removeEventListener("mousedown", keyDownEvent23);
             document.removeEventListener("keydown", keyDownEvent23);     // Avoid re-trigger.
             mainDispatcher.removeAll([text, subtext]);
@@ -864,8 +861,9 @@ class TutorialModel {
         }
 
         // On input display db24.
-        CANVAS.addEventListener("mousedown", keyDownEvent23);
-        document.addEventListener("keydown", keyDownEvent23);
+        this.playModel.checkBtn.onClick = function() {
+            tutorial.playModel.view.loop.flow(keyDownEvent23);
+        }
         mainDispatcher.addAll([text, subtext]);
     }
 
@@ -982,7 +980,8 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent27);
             document.removeEventListener("keydown", keyDownEvent27);     // Avoid re-trigger.
             mainDispatcher.remove(text);
-            tutorial.playModel.initRegularGame();   // TODO: TODO: TODO: Move to the regular play.
+            tutorial.playModel.addMoveableHandler();
+            tutorial.playModel.initRegularGame();
         }
 
         // On input display db26.
