@@ -33,7 +33,7 @@ class PlayModel {
     initPlayButtons() {
         
         CLICKABLE.push(this.checkBtn);
-        CLICKABLE.push(this.checkBtn);
+        CLICKABLE.push(this.revertBtn);
 
     }
 

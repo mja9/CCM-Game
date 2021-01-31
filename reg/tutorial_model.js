@@ -717,12 +717,18 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent19);
             document.removeEventListener("keydown", keyDownEvent19);     // Avoid re-trigger.
             mainDispatcher.removeAll([text, subtext]);
+            tutorial.playModel.removeMoveableHandler()
             tutorial.displayDialogueBox20();
         }
 
         // On input display db20.
-        CANVAS.addEventListener("mousedown", keyDownEvent19);
-        document.addEventListener("keydown", keyDownEvent19);
+        this.playModel.init();  // Initialize the clickable handler.
+        this.playModel.addMoveableHandler();
+        this.playModel.checkBtn.onClick = function() {
+            if (tutorial.playModel.view.loop.validatePump()) {
+                keyDownEvent19();
+            }
+        };
         mainDispatcher.addAll([text, subtext]);
     }
 
@@ -820,8 +826,9 @@ class TutorialModel {
         }
 
         // On input display db23.
-        CANVAS.addEventListener("mousedown", keyDownEvent22);
-        document.addEventListener("keydown", keyDownEvent22);
+        // CANVAS.addEventListener("mousedown", keyDownEvent22);
+        // document.addEventListener("keydown", keyDownEvent22);
+
         mainDispatcher.addAll([text, subtext]);
     }
 
