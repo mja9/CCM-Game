@@ -654,6 +654,7 @@ class TutorialModel {
         this.playModel.addMoveableHandler();
         this.playModel.checkBtn.onClick = function() {
             if (tutorial.playModel.view.loop.validatePump()) {
+                tutorial.playModel.checkBtn.onClick = function() {};
                 keyDownEvent19();
             }
         };
@@ -757,6 +758,7 @@ class TutorialModel {
         this.playModel.addMoveableHandler();    // Allow icons to be moved once again.
         this.playModel.checkBtn.onClick = function() {
             if (tutorial.playModel.view.loop.validateEquilibrate()) {
+                tutorial.playModel.checkBtn.onClick = function() {};
                 keyDownEvent22();
             }
         };
@@ -796,6 +798,7 @@ class TutorialModel {
 
         // On input display db24.
         this.playModel.checkBtn.onClick = function() {
+            tutorial.playModel.checkBtn.onClick = function() {};
             tutorial.playModel.view.loop.flow(keyDownEvent23);
         }
         mainDispatcher.addAll([text, subtext]);
