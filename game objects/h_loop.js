@@ -157,6 +157,26 @@ class LoopOfHenle {
         });
     }
 
+    save() {
+
+        // Save the concentrations for the descending limb.
+        this.descendingState = [];
+        D_LIMB.forEach(pos => {
+            this.descendingState.push(pos.c);
+        });
+
+        // Save the concentrations for the ascending limb.
+        this.ascendingState = [];
+        A_LIMB.forEach(pos => {
+            this.ascendingState.push(pos.c);
+        });
+        
+    }
+
+    revert() {
+
+    }
+
 }
 
 class SideBar {
