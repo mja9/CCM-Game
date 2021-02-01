@@ -655,8 +655,13 @@ class TutorialModel {
         this.playModel.checkBtn.onClick = function() {
             if (tutorial.playModel.view.loop.validatePump()) {
                 tutorial.playModel.checkBtn.onClick = function() {};
+                tutorial.playModel.revertBtn.onClick = function() {};   // Avoid reverting after successful pump.
                 keyDownEvent19();
             }
+        };
+        this.playModel.view.loop.save();    // Save the state for the revert button.
+        this.playModel.revertBtn.onClick = function() {
+            tutorial.playModel.view.loop.revert();
         };
         mainDispatcher.addAll([text, subtext]);
     }
@@ -800,7 +805,7 @@ class TutorialModel {
         this.playModel.checkBtn.onClick = function() {
             tutorial.playModel.checkBtn.onClick = function() {};
             tutorial.playModel.view.loop.flow(keyDownEvent23);
-        }
+        };
         mainDispatcher.addAll([text, subtext]);
     }
 
