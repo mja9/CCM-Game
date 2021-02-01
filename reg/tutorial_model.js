@@ -764,8 +764,13 @@ class TutorialModel {
         this.playModel.checkBtn.onClick = function() {
             if (tutorial.playModel.view.loop.validateEquilibrate()) {
                 tutorial.playModel.checkBtn.onClick = function() {};
+                tutorial.playModel.revertBtn.onClick = function() {};
                 keyDownEvent22();
             }
+        };
+        this.playModel.view.loop.save();    // Save loop state for revert button.
+        this.playModel.revertBtn.onClick = function() {
+            tutorial.playModel.view.loop.revert();
         };
         mainDispatcher.addAll([text, subtext]);
     }
