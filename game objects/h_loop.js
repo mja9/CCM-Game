@@ -157,6 +157,11 @@ class LoopOfHenle {
         });
     }
 
+    /**
+     * Method to save the state of the loop of Henle. Since 
+     * positions in the loop are static, it is sufficient to 
+     * save the concentration for each position.
+     */
     save() {
 
         // Save the concentrations for the descending limb.
@@ -173,7 +178,17 @@ class LoopOfHenle {
         
     }
 
+    /**
+     * Reverts the loop of Henle back to the last saved state.
+     * If no state has been saved, makes no changes to the loop.
+     */
     revert() {
+
+        // Revert to saved concentrations.
+        for (let i = 0; i < this.descendingState.length; i++) {
+            D_LIMB[i].c = this.descendingState[i];
+            A_LIMB[i].c = this.ascendingState[i];
+        }
 
     }
 
