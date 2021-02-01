@@ -175,7 +175,13 @@ class LoopOfHenle {
         A_LIMB.forEach(pos => {
             this.ascendingState.push(pos.c);
         });
-        
+
+        // Save the concentrations for the interstitial fluid.
+        this.interState = [];
+        INTER_FLUID.forEach(pos => {
+            this.interState.push(pos.c);
+        });
+
     }
 
     /**
@@ -188,6 +194,7 @@ class LoopOfHenle {
         for (let i = 0; i < this.descendingState.length; i++) {
             D_LIMB[i].c = this.descendingState[i];
             A_LIMB[i].c = this.ascendingState[i];
+            INTER_FLUID[i].c = this.interState[i];
         }
 
     }
