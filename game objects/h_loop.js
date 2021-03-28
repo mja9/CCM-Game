@@ -201,6 +201,75 @@ class LoopOfHenle {
 
 }
 
+class HairpinBend {
+
+    /**
+     * An object representing the hairpin bend of the loop.
+     * The x and y positions represent the top left point of the
+     * bend. Used to animate the bend in the tutorial.
+     */
+    constructor() {
+        this.h = 150;
+        this.w = 648;
+        this.x = 505;
+        this.y = 571;
+        this.a = 0.0;
+        this.vel = 0.05;
+    }
+
+    /**
+     * The paint method for the hairpin object. It calls any
+     * supporting methods used to animate the bend, as well
+     * as performs any necessary updates on the state of the bend.
+     */
+    paint() {
+        this.update();
+        this.flash();
+    }
+
+    /**
+     * Update method used to update the state of the 
+     * hairpin bend object. Changes the alpha value 
+     * used for the flash animation per tick.
+     */
+    update() {
+        this.a += this.vel;
+
+        // Clamp the upper bound of the alpha.
+        if (this.a >= 0.5) {
+            this.a = 0.5;
+            this.vel = -this.vel;
+        }
+
+        // Clamp the lower bound of the alpha.
+        if (this.a < 0.0) {
+            this.a = 0.0;
+            this.vel = -this.vel;
+        }
+    }
+
+    /**
+     * Supporting flash highlight animation used 
+     * in the tutorial of the game.
+     */
+    flash() {
+
+        // Save the alpha value before this method was called
+        // to avoid unintended side-effects.
+        let lastAlpha = CONTEXT.globalAlpha;
+
+        // Fill in a white rectangle on the hairpin bend.
+        CONTEXT.globalAlpha = this.a;
+        CONTEXT.fillStyle = "white";
+        CONTEXT.fillRect(this.x, this.y, this.w, this.h);
+
+        // reset the alpha value to the original
+        CONTEXT.globalAlpha = lastAlpha;
+
+    }
+
+}
+
 class SideBar {
 
     constructor() {

@@ -359,14 +359,16 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
-        // TODO: Make the hairpin bend.
-        
+        // Make the hairpin bend flash an animation.
+        let bend = new HairpinBend();
+        mainDispatcher.add(bend);
 
         // Press anything event.
         function keyDownEvent9Part2(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent9Part2);
             document.removeEventListener("keydown", keyDownEvent9Part2);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            mainDispatcher.remove(bend);
             tutorial.displayDialogueBox9Part3();
         }
 
