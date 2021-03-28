@@ -676,27 +676,27 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // TODO: Shadow animation of salt moving.
-        A_LIMB[2].salt.animationDecorator = function() {
-            A_LIMB[2].salt.x = A_LIMB[2].salt.startX;
-            A_LIMB[2].salt.v = -10;
+        let saltCopy = new SaltIcon(A_LIMB[2].salt.startX, A_LIMB[2].salt.startY, A_LIMB[2]);
+        saltCopy.animationDecorator = function() {
+            saltCopy.x = saltCopy.startX;
+            saltCopy.v = -10;
         };
-        A_LIMB[2].salt.terminationCriteria = function() {
-            if (A_LIMB[2].salt.x <= INTER_FLUID[2].x + (INTER_FLUID[2].w / 4.0)) {
+        saltCopy.terminationCriteria = function() {
+            if (saltCopy.x <= INTER_FLUID[2].x + (INTER_FLUID[2].w / 4.0)) {
                 return true;
             }
             return false;
         };
-        A_LIMB[2].salt.v = -10;
+        saltCopy.v = -10;
+        let grayedSalt = new GrayOut(0.5, saltCopy);
+        mainDispatcher.add(grayedSalt);
 
         // Press anything event.
         function keyDownEvent17(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent17);
             document.removeEventListener("keydown", keyDownEvent17);     // Avoid re-trigger.
             mainDispatcher.remove(text);
-            A_LIMB[2].salt.v = 0;
-            A_LIMB[2].salt.x = A_LIMB[2].salt.startX;
-            A_LIMB[2].salt.animationDecorator = function() {};
-            A_LIMB[2].salt.terminationCriteria = function() {};
+            mainDispatcher.remove(grayedSalt);
             tutorial.displayDialogueBox18();
         }
 
