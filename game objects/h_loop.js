@@ -236,8 +236,8 @@ class HairpinBend {
         this.a += this.vel;
 
         // Clamp the upper bound of the alpha.
-        if (this.a >= 0.5) {
-            this.a = 0.5;
+        if (this.a >= 0.65) {
+            this.a = 0.65;
             this.vel = -this.vel;
         }
 

@@ -430,11 +430,15 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
+        // Flash the interstitial boxes to direct the player's attention.
+        INTER_FLUID.forEach(pos => pos.setFlash(0.05));
+
         // Press anything event.
         function keyDownEvent10(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent10);
             document.removeEventListener("keydown", keyDownEvent10);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            INTER_FLUID.forEach(pos => pos.resetFlash());
             tutorial.displayDialogueBox11();
         }
 

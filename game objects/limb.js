@@ -9,6 +9,7 @@ class GradientPosition {
         this.c = c;
         this.a = 0.0;
         this.rad = 15.0;
+        this.flashVel = 0;
     }
 
 
@@ -136,6 +137,51 @@ class GradientPosition {
 
     }
 
+    /**
+     * This method sets the velocity used to change the 
+     * alpha parameter of this GradientPosition (this.a).
+     * The parameter is used to dynamically change the 
+     * alpha setting when creating the flash highlight
+     * animation.
+     * @param {Number} vel Amount to change alpha per tick.
+     */
+        setFlash(vel) {
+        this.flashVel = vel;
+    }
+
+    /**
+     * This method is called per tick of the paint/update loop.
+     * It updates the alpha of this GradientPosition according
+     * to the set flashVelocity. In the case flashVel is 0, which
+     * includes its starting state, this method makes no changes 
+     * to the state of this GradientPosition.
+     */
+    updateAlpha() {
+        this.a += this.flashVel;
+
+        // Clamp the alpha number by a set maximum.
+        if (this.a >= 0.65) {
+            this.a = 0.65;
+            this.flashVel = -this.flashVel;
+        }
+
+        // Avoid errors where alpha could be negative.
+        if (this.a < 0.0) {
+            this.a = 0;
+            this.flashVel = -this.flashVel;
+        }
+    }
+
+    /**
+     * This method is used to reset the parameters used 
+     * to implement the flash highlight animation. Can be 
+     * used to halt the animation.
+     */
+     resetFlash() {
+        this.a = 0.0;
+        this.flashVel = 0.0;
+    }
+
 }
 
 class LimbPosition extends GradientPosition {
@@ -152,57 +198,11 @@ class LimbPosition extends GradientPosition {
         this.velY = 0;
         this.velX = 0;
         this.animationDecorator = function() {};
-        this.flashVel = 0;
     }  
     
     setVelocity(velX, velY) {
         this.velX = velX;
         this.velY = velY;
-    }
-
-    /**
-     * This method sets the velocity used to change the 
-     * alpha parameter of this GradientPosition (this.a).
-     * The parameter is used to dynamically change the 
-     * alpha setting when creating the flash highlight
-     * animation.
-     * @param {Number} vel Amount to change alpha per tick.
-     */
-    setFlash(vel) {
-        this.flashVel = vel;
-    }
-
-    /**
-     * This method is called per tick of the paint/update loop.
-     * It updates the alpha of this GradientPosition according
-     * to the set flashVelocity. In the case flashVel is 0, which
-     * includes its starting state, this method makes no changes 
-     * to the state of this GradientPosition.
-     */
-    updateAlpha() {
-        this.a += this.flashVel;
-
-        // Clamp the alpha number by a set maximum.
-        if (this.a >= 0.5) {
-            this.a = 0.5;
-            this.flashVel = -this.flashVel;
-        }
-
-        // Avoid errors where alpha could be negative.
-        if (this.a < 0.0) {
-            this.a = 0;
-            this.flashVel = -this.flashVel;
-        }
-    }
-
-    /**
-     * This method is used to reset the parameters used 
-     * to implement the flash highlight animation. Can be 
-     * used to halt the animation.
-     */
-    resetFlash() {
-        this.a = 0.0;
-        this.flashVel = 0.0;
     }
 
     paint() {
@@ -221,11 +221,9 @@ class LimbPosition extends GradientPosition {
         CONTEXT.fillStyle = "#252525";
         CONTEXT.font = "30px Courier New";
         CONTEXT.textAlign = "center";
-        // CONTEXT.shadowColor = "white";
-        // CONTEXT.shadowBlur = 4;
         CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
 
-        // CONTEXT.shadowBlur = 0;
+        // Additonal animations.
         this.flash();
     }
 
@@ -530,6 +528,10 @@ class InterPosition extends GradientPosition{
     }   
 
     paint() {
+
+        // Update the state of this position.
+        this.updateAlpha();
+
         // Draw rectangular positions.
         this.colorFillMechanic();
 
@@ -538,5 +540,8 @@ class InterPosition extends GradientPosition{
         CONTEXT.font = "40px Courier New";
         CONTEXT.textAlign = "center";
         CONTEXT.fillText(this.c.toString(), this.x, this.y);
+
+        // Additional animations.
+        this.flash();
     }
 }
