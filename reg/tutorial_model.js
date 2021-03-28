@@ -675,8 +675,10 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
-        // TODO: Shadow animation of salt moving.
-        let saltCopy = new SaltIcon(A_LIMB[2].salt.startX, A_LIMB[2].salt.startY, A_LIMB[2]);
+        // Shadow animation of salt moving.
+        let saltCopy = new SaltIcon(A_LIMB[2].salt.startX + (A_LIMB[2].salt.w / 2), A_LIMB[2].salt.startY + (A_LIMB[2].salt.h / 2), A_LIMB[2]);
+
+        // When shadow salt reaches the inter position, reset its position and velocity.
         saltCopy.animationDecorator = function() {
             saltCopy.x = saltCopy.startX;
             saltCopy.v = -10;
@@ -688,6 +690,8 @@ class TutorialModel {
             return false;
         };
         saltCopy.v = -10;
+
+        // Create grayed out version of the object and add it to dispatcher.
         let grayedSalt = new GrayOut(0.5, saltCopy);
         mainDispatcher.add(grayedSalt);
 
@@ -696,6 +700,8 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent17);
             document.removeEventListener("keydown", keyDownEvent17);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+
+            // Remove grayed out icon copy.
             mainDispatcher.remove(grayedSalt);
             tutorial.displayDialogueBox18();
         }

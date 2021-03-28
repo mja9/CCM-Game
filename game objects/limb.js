@@ -461,51 +461,6 @@ class WaterIcon extends Icon {
         CONTEXT.drawImage(document.getElementById("water-icon"), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
-    highlight(icon) {
-        
-        return function() {
-
-            // Fade Animation
-            paintGameBoard();
-            CONTEXT.globalAlpha = icon.highlight.lastAlpha;
-            var grad = CONTEXT.createRadialGradient(icon.x, icon.y + icon.h / 12, 5, icon.x, icon.y + icon.h / 12, 
-                                                    icon.h > icon.w ? icon.h / 2 + icon.h / 10 : icon.w / 2 + icon.w / 10);
-            grad.addColorStop(0, "#003311");
-            grad.addColorStop(1, "#66ff99");
-            CONTEXT.fillStyle = grad;
-            CONTEXT.beginPath();
-            CONTEXT.arc(icon.x, icon.y + icon.h / 12, icon.h > icon.w ? icon.h / 2 + icon.h / 10 : icon.w / 2 + icon.w / 10, 0, 2 * Math.PI);
-            CONTEXT.fill();
-            CONTEXT.globalAlpha = 1.0;
-            icon.paint();
-
-            icon.highlight.lastAlpha +=  icon.highlight.direction * 0.1;
-            if (icon.highlight.lastAlpha <= 0.2) {
-                icon.highlight.direction = 1;
-            } else if (icon.highlight.lastAlpha == 1.0) {
-                icon.highlight.direction = -1;
-            }
-
-        }
-
-    }
-
-    animateHighlight() {
-
-        this.highlight.direction = -1;
-        this.highlight.lastAlpha = 1.0;
-        this.animateHighlight.animation = window.setInterval(this.highlight(this), 50);
-
-    }
-
-    stopAnimation() {
-        window.clearInterval(this.animateHighlight.animation);
-        this.highlight.direction = -1;
-        this.highlight.lastAlpha = 1.0;
-        CONTEXT.globalAlpha = 1.0;
-        paintGameBoard();
-    }
-
 }
 
 class SaltIcon extends Icon {
@@ -524,51 +479,6 @@ class SaltIcon extends Icon {
     paint() {
         this.move();
         CONTEXT.drawImage(document.getElementById("salt-icon"), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-    }
-
-    highlight(icon) {
-        
-        return function() {
-
-            // Fade Animation
-            paintGameBoard();
-            CONTEXT.globalAlpha = icon.highlight.lastAlpha;
-            var grad = CONTEXT.createRadialGradient(icon.x, icon.y, 5, icon.x, icon.y, 
-                                                    icon.h > icon.w ? icon.h / 2 + icon.h / 6 : icon.w / 2 + icon.w / 6);
-            grad.addColorStop(0, "#003311");
-            grad.addColorStop(1, "#66ff99");
-            CONTEXT.fillStyle = grad;
-            CONTEXT.beginPath();
-            CONTEXT.arc(icon.x, icon.y, icon.h > icon.w ? icon.h / 2 + icon.h / 6 : icon.w / 2 + icon.w / 6, 0, 2 * Math.PI);
-            CONTEXT.fill();
-            CONTEXT.globalAlpha = 1.0;
-            icon.paint();
-
-            icon.highlight.lastAlpha +=  icon.highlight.direction * 0.1;
-            if (icon.highlight.lastAlpha <= 0.2) {
-                icon.highlight.direction = 1;
-            } else if (icon.highlight.lastAlpha == 1.0) {
-                icon.highlight.direction = -1;
-            }
-
-        }
-
-    }
-
-    animateHighlight() {
-
-        this.highlight.direction = -1;
-        this.highlight.lastAlpha = 1.0;
-        this.animateHighlight.animation = window.setInterval(this.highlight(this), 50);
-
-    }
-
-    stopAnimation() {
-        window.clearInterval(this.animateHighlight.animation);
-        this.highlight.direction = -1;
-        this.highlight.lastAlpha = 1.0;
-        CONTEXT.globalAlpha = 1.0;
-        paintGameBoard();
     }
 
 }
