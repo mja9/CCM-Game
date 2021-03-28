@@ -839,11 +839,33 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3, line4, line5], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
+        // Shadow animation for the water icon.
+        let waterCopy = new WaterIcon(D_LIMB[2].water.startX - (D_LIMB[2].water.w / 2), D_LIMB[2].water.startY + (D_LIMB[2].water.h / 2), D_LIMB[2]);
+
+        // When shadow salt reaches the inter position, reset its position and velocity.
+        waterCopy.animationDecorator = function() {
+            waterCopy.x = waterCopy.startX;
+            waterCopy.v = 10;
+        };
+        waterCopy.terminationCriteria = function() {
+            if (saltCopy.x >= INTER_FLUID[2].x + (INTER_FLUID[2].w / 4.0)) {
+                return true;
+            }
+            return false;
+        };
+        waterCopy.v = 10;
+
+        // Create grayed out version of the object and add it to dispatcher.
+        let grayedWater = new GrayOut(0.5, waterCopy);
+        mainDispatcher.add(grayedWater);
+
+
         // Press anything event.
         function keyDownEvent21(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent21);
             document.removeEventListener("keydown", keyDownEvent21);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            mainDispatcher.remove(grayedWater); // Remove shadow icon animation.
             tutorial.displayDialogueBox22();
         }
 
