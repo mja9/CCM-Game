@@ -476,7 +476,7 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3, line4, line5, line6], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
-        // TODO:
+        // Flash the concentrations.
         for (let i = 0; i < A_LIMB.length; i++) {
             A_LIMB[i].setFlashState(2);
             A_LIMB[i].setFlash(0.05);
@@ -491,7 +491,6 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent11);
             document.removeEventListener("keydown", keyDownEvent11);     // Avoid re-trigger.
             mainDispatcher.remove(text);
-            // TODO:
             for (let i = 0; i < A_LIMB.length; i++) {
                 A_LIMB[i].resetFlash();
                 D_LIMB[i].resetFlash();
@@ -613,6 +612,8 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
+        // TODO: Flash the icons here.
+
         // Press anything event.
         function keyDownEvent15(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent15);
@@ -674,11 +675,28 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
+        // TODO: Shadow animation of salt moving.
+        A_LIMB[2].salt.animationDecorator = function() {
+            A_LIMB[2].salt.x = A_LIMB[2].salt.startX;
+            A_LIMB[2].salt.v = -10;
+        };
+        A_LIMB[2].salt.terminationCriteria = function() {
+            if (A_LIMB[2].salt.x <= INTER_FLUID[2].x + (INTER_FLUID[2].w / 4.0)) {
+                return true;
+            }
+            return false;
+        };
+        A_LIMB[2].salt.v = -10;
+
         // Press anything event.
         function keyDownEvent17(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent17);
             document.removeEventListener("keydown", keyDownEvent17);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            A_LIMB[2].salt.v = 0;
+            A_LIMB[2].salt.x = A_LIMB[2].salt.startX;
+            A_LIMB[2].salt.animationDecorator = function() {};
+            A_LIMB[2].salt.terminationCriteria = function() {};
             tutorial.displayDialogueBox18();
         }
 

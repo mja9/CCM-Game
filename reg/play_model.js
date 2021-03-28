@@ -434,7 +434,7 @@ class PlayModel {
 
         } else if (this.state == "Pump" && this.playerPosition > 6) {
 
-            // PLayer pumps.
+            // Player pumps.
             this.checkBtn.onClick = function() {
                 if (model.view.loop.validatePump()) {
                     model.transitionState();
