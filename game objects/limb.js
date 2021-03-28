@@ -10,9 +10,13 @@ class GradientPosition {
         this.a = 0.0;
         this.rad = 15.0;
         this.flashVel = 0;
+        this.flashState = 0;    // 1 to flash, 2 to flashNumbers
     }
 
-
+    /**
+     * The primary mechanic behind the paint method for each 
+     * position in the game whose colors change into a gradient dynamically.
+     */
     colorFillMechanic() {
 
         let rad = this.rad;
@@ -99,10 +103,23 @@ class GradientPosition {
         }
     }
 
+    /**
+     * A method used to paint the concentration 
+     * of this position in the center of its shape.
+     */
+    paintConcentration(color) {
+
+        CONTEXT.fillStyle = color;
+        CONTEXT.font = "30px Courier New";
+        CONTEXT.textAlign = "center";
+        CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
+
+    }
+
     flash() {
 
         // Optimization technique: avoid painting an invisible square.
-        if (this.a > 0.0) {
+        if (this.a > 0.0 && this.flashState == 1) {
 
             // Set color style for the flashing animation.
             CONTEXT.fillStyle = "white";
@@ -138,6 +155,24 @@ class GradientPosition {
     }
 
     /**
+     * An alternative flashing method. This method performs
+     * the same flashing highlight animation on the numbers 
+     * representing the concentration of each position.
+     */
+    flashNumbers() {
+
+        if (this.flashState == 2) {
+            // Maintain old alpha value to minimize side-effects.
+            let lastAlpha = CONTEXT.globalAlpha;
+
+            CONTEXT.globalAlpha = this.a;
+            this.paintConcentration("white");
+            CONTEXT.globalAlpha = lastAlpha;
+        }
+
+    }
+
+    /**
      * This method sets the velocity used to change the 
      * alpha parameter of this GradientPosition (this.a).
      * The parameter is used to dynamically change the 
@@ -145,8 +180,17 @@ class GradientPosition {
      * animation.
      * @param {Number} vel Amount to change alpha per tick.
      */
-        setFlash(vel) {
+    setFlash(vel) {
         this.flashVel = vel;
+    }
+
+    /**
+     * This method sets the code used to perform 
+     * seperate flash animations.
+     * @param {Number} code 0 for off, 1 for flash, 2 for flashNumbers.
+     */
+     setFlashState(code) {
+        this.flashState = code;
     }
 
     /**
@@ -180,6 +224,7 @@ class GradientPosition {
      resetFlash() {
         this.a = 0.0;
         this.flashVel = 0.0;
+        this.setFlashState(0);
     }
 
 }
@@ -218,10 +263,7 @@ class LimbPosition extends GradientPosition {
         }
 
         // Draw numerical representation of concentration.
-        CONTEXT.fillStyle = "#252525";
-        CONTEXT.font = "30px Courier New";
-        CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
+        this.paintConcentration("#252525");
 
         // Additonal animations.
         this.flash();
@@ -536,10 +578,7 @@ class InterPosition extends GradientPosition{
         this.colorFillMechanic();
 
         // Draw numerical representation of concentration.
-        CONTEXT.fillStyle = "#252525";
-        CONTEXT.font = "40px Courier New";
-        CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x, this.y);
+        this.paintConcentration("#252525");
 
         // Additional animations.
         this.flash();

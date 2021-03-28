@@ -325,7 +325,10 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // Make the descending limb flash to highlight the subject of this dialogue box.
-        D_LIMB.forEach(pos => pos.setFlash(0.05));
+        D_LIMB.forEach(pos => {
+            pos.setFlashState(1);
+            pos.setFlash(0.05);
+        });
 
         // Press anything event.
         function keyDownEvent9(event) {
@@ -397,7 +400,10 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // Make the ascending limb flash to highlight the subject of this dialogue box.
-        A_LIMB.forEach(pos => pos.setFlash(0.05));
+        A_LIMB.forEach(pos => {
+            pos.setFlashState(1);
+            pos.setFlash(0.05);
+        });
 
         // Press anything event.
         function keyDownEvent9Part3(event) {
@@ -431,7 +437,10 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // Flash the interstitial boxes to direct the player's attention.
-        INTER_FLUID.forEach(pos => pos.setFlash(0.05));
+        INTER_FLUID.forEach(pos => {
+            pos.setFlashState(1);
+            pos.setFlash(0.05);
+        });
 
         // Press anything event.
         function keyDownEvent10(event) {
@@ -467,11 +476,27 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3, line4, line5, line6], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
+        // TODO:
+        for (let i = 0; i < A_LIMB.length; i++) {
+            A_LIMB[i].setFlashState(2);
+            A_LIMB[i].setFlash(0.05);
+            D_LIMB[i].setFlashState(2);
+            D_LIMB[i].setFlash(0.05);
+            INTER_FLUID[i].setFlashState(2);
+            INTER_FLUID[i].setFlash(0.05);
+        }
+
         // Press anything event.
         function keyDownEvent11(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent11);
             document.removeEventListener("keydown", keyDownEvent11);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            // TODO:
+            for (let i = 0; i < A_LIMB.length; i++) {
+                A_LIMB[i].resetFlash();
+                D_LIMB[i].resetFlash();
+                INTER_FLUID[i].resetFlash();
+            }
             tutorial.displayDialogueBox12();
         }
 
