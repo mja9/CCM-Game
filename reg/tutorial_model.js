@@ -318,7 +318,74 @@ class TutorialModel {
 
         // Lines of text for db9.
         const line1 = "Fluid flows in through the";
-        const line2 = "$(#ff5853)descending limb$, around the";
+        const line2 = "$(#ff5853)descending limb$";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // Make the descending limb flash to highlight the subject of this dialogue box.
+        D_LIMB.forEach(pos => pos.setFlash(0.05));
+
+        // Press anything event.
+        function keyDownEvent9(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent9);
+            document.removeEventListener("keydown", keyDownEvent9);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox9Part2();
+        }
+
+        // On input display db9 part 2.
+        CANVAS.addEventListener("mousedown", keyDownEvent9);
+        document.addEventListener("keydown", keyDownEvent9);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db9 part 2, where
+     * the hairpin bend gets highlighted.
+     */
+    displayDialogueBox9Part2() {
+        const tutorial = this;
+
+        // Lines of text for db9.
+        const line1 = "Fluid flows in through the";
+        const line2 = "descending limb, around the";
+        const line3 = "$(#ff5853)hairpin bend$";
+
+        // Add this dialogue box. 
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        text.alpha = 1.0;
+
+        // TODO: Make the hairpin bend.
+        
+
+        // Press anything event.
+        function keyDownEvent9Part2(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent9Part2);
+            document.removeEventListener("keydown", keyDownEvent9Part2);     // Avoid re-trigger.
+            mainDispatcher.remove(text);
+            tutorial.displayDialogueBox9Part3();
+        }
+
+        // On input display db9 part 3.
+        CANVAS.addEventListener("mousedown", keyDownEvent9Part2);
+        document.addEventListener("keydown", keyDownEvent9Part2);
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the display and click
+     * detection for db9 part 3, where
+     * the ascending limb gets highlighted.
+     */
+     displayDialogueBox9Part3() {
+        const tutorial = this;
+
+        // Lines of text for db9.
+        const line1 = "Fluid flows in through the";
+        const line2 = "descending limb, around the";
         const line3 = "hairpin bend, then out through";
         const line4 = "the $(#ff5853)ascending limb$.";
 
@@ -326,17 +393,20 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
+        // Make the ascending limb flash to highlight the subject of this dialogue box.
+        A_LIMB.forEach(pos => pos.setFlash(0.05));
+
         // Press anything event.
-        function keyDownEvent9(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent9);
-            document.removeEventListener("keydown", keyDownEvent9);     // Avoid re-trigger.
+        function keyDownEvent9Part3(event) {
+            CANVAS.removeEventListener("mousedown", keyDownEvent9Part3);
+            document.removeEventListener("keydown", keyDownEvent9Part3);     // Avoid re-trigger.
             mainDispatcher.remove(text);
             tutorial.displayDialogueBox10();
         }
 
         // On input display db10.
-        CANVAS.addEventListener("mousedown", keyDownEvent9);
-        document.addEventListener("keydown", keyDownEvent9);
+        CANVAS.addEventListener("mousedown", keyDownEvent9Part3);
+        document.addEventListener("keydown", keyDownEvent9Part3);
         mainDispatcher.add(text);
     }
 

@@ -8,12 +8,13 @@ class GradientPosition {
         this.h = h;
         this.c = c;
         this.a = 0.0;
+        this.rad = 15.0;
     }
 
 
     colorFillMechanic() {
 
-        let rad = 15.0;
+        let rad = this.rad;
         let ratio = Math.round((this.c / 300.0 % 1) / 0.17);
 
         // Single color case.
@@ -99,32 +100,39 @@ class GradientPosition {
 
     flash() {
 
-        // Set color style for the flashing animation.
-        CONTEXT.fillStyle = "white";
+        // Optimization technique: avoid painting an invisible square.
+        if (this.a > 0.0) {
 
-        // Maintain the previous alpha being used to paint items on the canvas
-        // to eliminate unwanted side-effects.
-        let lastAlpha = CONTEXT.alpha;
-        CONTEXT.alpha = this.a;
+            // Set color style for the flashing animation.
+            CONTEXT.fillStyle = "white";
 
-        // Draw the rounded box.
-        CONTEXT.beginPath();
-        CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
-        CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
-        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
-        this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
-        CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
-        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
-        this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
-        CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
-        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
-        this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
-        CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
-        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
-        this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
-        CONTEXT.fill();
+            // Maintain the previous alpha being used to paint items on the canvas
+            // to eliminate unwanted side-effects.
+            let lastAlpha = CONTEXT.globalAlpha;
+            // console.log("Alpha: ");
+            // console.log(this.a);
+            CONTEXT.globalAlpha = this.a;
 
-        CONTEXT.alpha = lastAlpha;
+            // Draw the rounded box.
+            let rad = this.rad;
+            CONTEXT.beginPath();
+            CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+            CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
+            CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
+            this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+            CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+            CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
+            this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
+            CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
+            CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
+            this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+            CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+            CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
+            this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+            CONTEXT.fill();
+
+            CONTEXT.globalAlpha = lastAlpha;
+        }
 
     }
 
@@ -180,13 +188,8 @@ class LimbPosition extends GradientPosition {
             this.flashVel = -this.flashVel;
         }
 
-        /* 
-         * Avoid errors where alpha could be negative.
-         * Since alpha is initially set to 0, avoid passing
-         * this conditional when we have yet to set 
-         * the flashVelocity parameter.
-         */
-        if (this.a <= 0.0 && this.flashVel > 0) {
+        // Avoid errors where alpha could be negative.
+        if (this.a < 0.0) {
             this.a = 0;
             this.flashVel = -this.flashVel;
         }
