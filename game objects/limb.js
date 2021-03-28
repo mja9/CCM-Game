@@ -7,6 +7,7 @@ class GradientPosition {
         this.w = w;
         this.h = h;
         this.c = c;
+        this.a = 0.0;
     }
 
 
@@ -95,6 +96,38 @@ class GradientPosition {
 
         }
     }
+
+    flash() {
+
+        // Set color style for the flashing animation.
+        CONTEXT.fillStyle = "white";
+
+        // Maintain the previous alpha being used to paint items on the canvas
+        // to eliminate unwanted side-effects.
+        let lastAlpha = CONTEXT.alpha;
+        CONTEXT.alpha = this.a;
+
+        // Draw the rounded box.
+        CONTEXT.beginPath();
+        CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+        CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
+        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
+        this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+        CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+        CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
+        this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
+        CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
+        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
+        this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+        CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+        CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
+        this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+        CONTEXT.fill();
+
+        CONTEXT.alpha = lastAlpha;
+
+    }
+
 }
 
 class LimbPosition extends GradientPosition {
@@ -111,6 +144,7 @@ class LimbPosition extends GradientPosition {
         this.velY = 0;
         this.velX = 0;
         this.animationDecorator = function() {};
+        this.flashVel = 0;
     }  
     
     setVelocity(velX, velY) {
@@ -118,9 +152,53 @@ class LimbPosition extends GradientPosition {
         this.velY = velY;
     }
 
+    /**
+     * This method sets the velocity used to change the 
+     * alpha parameter of this GradientPosition (this.a).
+     * The parameter is used to dynamically change the 
+     * alpha setting when creating the flash highlight
+     * animation.
+     * @param {Number} vel Amount to change alpha per tick.
+     */
+    setFlash(vel) {
+        this.flashVel = vel;
+    }
+
+    /**
+     * This method is called per tick of the paint/update loop.
+     * It updates the alpha of this GradientPosition according
+     * to the set flashVelocity. In the case flashVel is 0, which
+     * includes its starting state, this method makes no changes 
+     * to the state of this GradientPosition.
+     */
+    updateAlpha() {
+        this.a += this.flashVel;
+
+        // Clamp the alpha number by a set maximum.
+        if (this.a >= 0.5) {
+            this.a = 0.5;
+            this.flashVel = -this.flashVel;
+        }
+
+        /* 
+         * Avoid errors where alpha could be negative.
+         * Since alpha is initially set to 0, avoid passing
+         * this conditional when we have yet to set 
+         * the flashVelocity parameter.
+         */
+        if (this.a <= 0.0 && this.flashVel > 0) {
+            this.a = 0;
+            this.flashVel = -this.flashVel;
+        }
+    }
+
     paint() {
-        // Draw rectangular positions.
+
+        // Methods to update the state of the LimbPosition.
+        this.updateAlpha();
         this.move();
+
+        // Draw rectangular positions.
         this.colorFillMechanic();
         if (this.isSelected) {
             this.selectionIndicator();
@@ -135,6 +213,7 @@ class LimbPosition extends GradientPosition {
         CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
 
         // CONTEXT.shadowBlur = 0;
+        this.flash();
     }
 
     selectionIndicator() {
