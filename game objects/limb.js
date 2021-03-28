@@ -195,6 +195,16 @@ class LimbPosition extends GradientPosition {
         }
     }
 
+    /**
+     * This method is used to reset the parameters used 
+     * to implement the flash highlight animation. Can be 
+     * used to halt the animation.
+     */
+    resetFlash() {
+        this.a = 0.0;
+        this.flashVel = 0.0;
+    }
+
     paint() {
 
         // Methods to update the state of the LimbPosition.

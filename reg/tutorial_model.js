@@ -332,6 +332,7 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent9);
             document.removeEventListener("keydown", keyDownEvent9);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            D_LIMB.forEach(pos => pos.resetFlash());
             tutorial.displayDialogueBox9Part2();
         }
 
@@ -401,6 +402,7 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent9Part3);
             document.removeEventListener("keydown", keyDownEvent9Part3);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            A_LIMB.forEach(pos => pos.resetFlash());
             tutorial.displayDialogueBox10();
         }
 
