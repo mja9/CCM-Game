@@ -108,17 +108,18 @@ class GradientPosition {
      * of this position in the center of its shape.
      * 
      * @param {String} color The color to use when painting the concentration.
-     * @param {Number} code 0 for a limb position, 1 for an interstictial position.
+     * @param {Number} code 0 for a limb position, 1 for an interstitial position.
      */
     paintConcentration(color, code) {
 
         CONTEXT.fillStyle = color;
-        CONTEXT.font = "30px Courier New";
         CONTEXT.textAlign = "center";
-        if (code) {
-            CONTEXT.fillText(this.c.toString(), this.x, this.y);
-        } else {
+        if (code == 0) {
+            CONTEXT.font = "30px Courier New";
             CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
+        } else {
+            CONTEXT.font = "40px Courier New";
+            CONTEXT.fillText(this.c.toString(), this.x, this.y);
         }
 
     }
@@ -272,7 +273,7 @@ class LimbPosition extends GradientPosition {
         }
 
         // Draw numerical representation of concentration.
-        this.paintConcentration("#252525");
+        this.paintConcentration("#252525", 0);
 
         // Additonal animations.
         this.flash();
@@ -588,7 +589,7 @@ class InterPosition extends GradientPosition{
         this.colorFillMechanic();
 
         // Draw numerical representation of concentration.
-        this.paintConcentration("#252525");
+        this.paintConcentration("#252525", 1);
 
         // Additional animations.
         this.flash();
