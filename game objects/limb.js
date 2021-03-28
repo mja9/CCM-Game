@@ -267,6 +267,7 @@ class LimbPosition extends GradientPosition {
 
         // Additonal animations.
         this.flash();
+        this.flashNumbers();
     }
 
     selectionIndicator() {
@@ -582,5 +583,6 @@ class InterPosition extends GradientPosition{
 
         // Additional animations.
         this.flash();
+        this.flashNumbers();
     }
 }
