@@ -106,13 +106,20 @@ class GradientPosition {
     /**
      * A method used to paint the concentration 
      * of this position in the center of its shape.
+     * 
+     * @param {String} color The color to use when painting the concentration.
+     * @param {Number} code 0 for a limb position, 1 for an interstictial position.
      */
-    paintConcentration(color) {
+    paintConcentration(color, code) {
 
         CONTEXT.fillStyle = color;
         CONTEXT.font = "30px Courier New";
         CONTEXT.textAlign = "center";
-        CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
+        if (code) {
+            CONTEXT.fillText(this.c.toString(), this.x, this.y);
+        } else {
+            CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
+        }
 
     }
 
@@ -158,15 +165,17 @@ class GradientPosition {
      * An alternative flashing method. This method performs
      * the same flashing highlight animation on the numbers 
      * representing the concentration of each position.
+     * 
+     * @param {Number} code 0 for a limb pos, 1 for an inter pos.
      */
-    flashNumbers() {
+    flashNumbers(code) {
 
         if (this.flashState == 2) {
             // Maintain old alpha value to minimize side-effects.
             let lastAlpha = CONTEXT.globalAlpha;
 
             CONTEXT.globalAlpha = this.a;
-            this.paintConcentration("white");
+            this.paintConcentration("white", code);
             CONTEXT.globalAlpha = lastAlpha;
         }
 
@@ -267,7 +276,7 @@ class LimbPosition extends GradientPosition {
 
         // Additonal animations.
         this.flash();
-        this.flashNumbers();
+        this.flashNumbers(0);
     }
 
     selectionIndicator() {
@@ -583,6 +592,6 @@ class InterPosition extends GradientPosition{
 
         // Additional animations.
         this.flash();
-        this.flashNumbers();
+        this.flashNumbers(1);
     }
 }
