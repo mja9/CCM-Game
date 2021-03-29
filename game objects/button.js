@@ -22,47 +22,6 @@ class Button {
         this.h = height;
         this.onClick = clickAction;
         this.image = image
-        this.a = 0.0;   // Alpha used for flash animation.
-        this.maxAlpha = 0.75;
-        this.v = 0.0;   // Delta for alpha per tick.
-    }
-
-    /**
-     * Set the amount to change the alpha
-     * value per tick.
-     * @param {*} v Delta alpha per tick.
-     */
-    setVelocity(v) {
-        this.v = v;
-    }
-
-    /**
-     * method to set the max alpha for the 
-     * flash animation.
-     * @param {Number} maxAlpha 
-     */
-    setMaxAlpha(maxAlpha) {
-        this.maxAlpha = maxAlpha;
-    }
-
-    /**
-     * Update method to alter the alpha
-     * value used in the flash animation per tick.
-     */
-    updateAlpha() {
-        this.a += this.v;
-
-        // Clamp max of the alpha value.
-        if (this.a > this.maxAlpha) {
-            this.a = this.maxAlpha;
-            this.v = -this.v;
-        }
-
-        // Clamp the min of the alpha value.
-        if (this.a < 0.0) {
-            this.a = 0.0;
-            this.v = -this.v;
-        }    
     }
 
     /**
@@ -70,41 +29,7 @@ class Button {
      * its center, width, and height.
      */
     paint() {
-
-        // Update the state of this button.
-        this.updateAlpha();
         CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-
-        // Additional animations.
-        this.flash();
-    }
-
-    /**
-     * Additional animation method 
-     * to flash white highlight over button using
-     * button's alpha value.
-     */
-    flash() {
-        // Hold onto previous alpha value.
-        let lastAlpha = CONTEXT.globalAlpha;
-
-        // Paint white square over button.
-        CONTEXT.globalAlpha = this.a;
-        CONTEXT.fillStyle = "white";
-        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-
-        // Reset alpha value
-        CONTEXT.globalAlpha = lastAlpha;
-    }
-
-    /**
-     * This method is used to reset the parameters used 
-     * to implement the flash highlight animation. Can be 
-     * used to halt the animation.
-     */
-     resetFlash() {
-        this.a = 0.0;
-        this.v = 0.0;
     }
 
 }
@@ -185,10 +110,55 @@ class StateButton {
         this.gradWidth = 0;
         this.v = 0;
         this.animationDecorator = function() {};
+        this.a = 0.0;   // Alpha used for flash animation.
+        this.maxAlpha = 0.75;
+        this.flashVel = 0.0;   // Delta for alpha per tick.
     }
+
+    /**
+     * Set the amount to change the alpha
+     * value per tick.
+     * @param {*} v Delta alpha per tick.
+     */
+    setFlashVelocity(v) {
+        this.v = v;
+    }
+    
+    /**
+     * method to set the max alpha for the 
+     * flash animation.
+     * @param {Number} maxAlpha 
+     */
+    setMaxAlpha(maxAlpha) {
+        this.maxAlpha = maxAlpha;
+    }
+
+    /**
+     * Update method to alter the alpha
+     * value used in the flash animation per tick.
+     */
+     updateAlpha() {
+        this.a += this.v;
+
+        // Clamp max of the alpha value.
+        if (this.a > this.maxAlpha) {
+            this.a = this.maxAlpha;
+            this.v = -this.v;
+        }
+
+        // Clamp the min of the alpha value.
+        if (this.a < 0.0) {
+            this.a = 0.0;
+            this.v = -this.v;
+        }    
+    }
+
+
 
     paint() {
 
+        // Update state of this button.
+        this.updateAlpha();
         this.move();
 
         let gradient = CONTEXT.createLinearGradient(this.x - (this.w / 2.0), this.y, this.x - (this.w / 2.0) + this.gradWidth, this.y);
@@ -196,6 +166,37 @@ class StateButton {
         gradient.addColorStop(1.0, 'rgba(' + this.color + ', 0.0)');
         CONTEXT.fillStyle = gradient;
         CONTEXT.fillRect(this.x - (this.w / 2.0), this.y - (this.h / 2.0), this.w, this.h);
+
+        // Additional animations.
+        this.flow();
+    }
+
+    /**
+     * Additional animation method 
+     * to flash white highlight over button using
+     * button's alpha value.
+     */
+     flash() {
+        // Hold onto previous alpha value.
+        let lastAlpha = CONTEXT.globalAlpha;
+
+        // Paint white square over button.
+        CONTEXT.globalAlpha = this.a;
+        CONTEXT.fillStyle = "white";
+        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Reset alpha value
+        CONTEXT.globalAlpha = lastAlpha;
+    }
+
+    /**
+     * This method is used to reset the parameters used 
+     * to implement the flash highlight animation. Can be 
+     * used to halt the animation.
+     */
+     resetFlash() {
+        this.a = 0.0;
+        this.v = 0.0;
     }
 
     move() {

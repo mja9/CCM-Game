@@ -1023,9 +1023,9 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // TODO: Highlight the state buttons.
-        this.playModel.pumpButton.setVelocity(0.05);
-        this.playModel.equilibrateButton.setVelocity(0.05);
-        this.playModel.flowButton.setVelocity(0.05);
+        this.playModel.pumpButton.setFlashVelocity(0.05);
+        this.playModel.equilibrateButton.setFlashVelocity(0.05);
+        this.playModel.flowButton.setFlashVelocity(0.05);
 
         // Press anything event.
         function keyDownEvent25(event) {
