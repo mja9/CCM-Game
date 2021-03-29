@@ -86,7 +86,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for dialogue 3.
-        const line1 = "That new structure is the $(#ff5853)loop of Henle$,";
+        const line1 = "That new structure is the $(white)loop of Henle$,";
         const line2 = "nestled between the distal and proximal";
         const line3 = "convoluted tubules in the kidney.";
 
@@ -123,7 +123,7 @@ class TutorialModel {
         // Lines of text for dialogue 4.
         const line1 = "Fluid enters at a low concentration. As it flows through the loop, the";
         const line2 = "concentration grows as an osmotic gradient is created through $(#ff5853)countercurrent$";
-        const line3 = "$(#ff5853)multiplication.$ The gradient ultimately draws water out of urine leaving the";
+        const line3 = "$(white)multiplication.$ The gradient ultimately draws water out of urine leaving the";
         const line4 = "body through the collecting duct, minimizing water loss.";
 
         // Add this dialogue box. 
@@ -161,8 +161,8 @@ class TutorialModel {
 
         // Lines of text for dialogue 5.
         const line1 = "This game will teach you how countercurrent";
-        const line2 = "multiplication works by allowing you to $(#ff5853)build your$";
-        const line3 = "$(#ff5853)own osmotic gradient$ in the loop of Henle.";
+        const line2 = "multiplication works by allowing you to $(white)build your$";
+        const line3 = "$(white)own osmotic gradient$ in the loop of Henle.";
 
         // Add this dialogue box.
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt Verdana");        
@@ -289,7 +289,7 @@ class TutorialModel {
 
         // Lines of text for db8.
         const line1 = "The structure to your right is the";
-        const line2 = "$(#ff5853)loop of Henle$.";
+        const line2 = "$(white)loop of Henle$.";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
@@ -318,7 +318,7 @@ class TutorialModel {
 
         // Lines of text for db9.
         const line1 = "Fluid flows in through the";
-        const line2 = "$(#ff5853)descending limb$";
+        const line2 = "$(white)descending limb$";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
@@ -356,7 +356,7 @@ class TutorialModel {
         // Lines of text for db9.
         const line1 = "Fluid flows in through the";
         const line2 = "descending limb, around the";
-        const line3 = "$(#ff5853)hairpin bend$";
+        const line3 = "$(white)hairpin bend$";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
@@ -393,7 +393,7 @@ class TutorialModel {
         const line1 = "Fluid flows in through the";
         const line2 = "descending limb, around the";
         const line3 = "hairpin bend, then out through";
-        const line4 = "the $(#ff5853)ascending limb$.";
+        const line4 = "the $(white)ascending limb$.";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
@@ -429,7 +429,7 @@ class TutorialModel {
 
         // Lines of text for db10.
         const line1 = "The boxes in the middle represent the";
-        const line2 = "$(#ff5853)interstitial fluid$, the liquid medium in";
+        const line2 = "$(white)interstitial fluid$, the liquid medium in";
         const line3 = "which the loop of Henle floats.";
 
         // Add this dialogue box. 
@@ -467,7 +467,7 @@ class TutorialModel {
         // Lines of text for db11.
         const line1 = "The goal of countercurrent";
         const line2 = "multiplication is to increase the";
-        const line3 = "concentration, or $(#ff5853)osmotic potential$, of";
+        const line3 = "concentration, or $(white)osmotic potential$, of";
         const line4 = "the interstitial fluid, which will create"
         const line5 = "concentrated urine in the collecting";
         const line6 = "duct."
@@ -514,7 +514,7 @@ class TutorialModel {
 
         // Lines of text for db12.
         const line1 = "The osmotic potential of fluid is";
-        const line2 = "measured in $(#ff5853)milliosmoles$ (mOsm) -- the";
+        const line2 = "measured in $(white)milliosmoles$ (mOsm) -- the";
         const line3 = "higher the number, the more";
         const line4 = "concentrated."
 
@@ -604,8 +604,8 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db15.
-        const line1 = "The $(#ff5853)salt$ and $(#0060ff)water$ icons allow you to";
-        const line2 = "add or subtract a unit of $(#ff5853)50 mOsm$";
+        const line1 = "The $(white)salt$ and $(white)water$ icons allow you to";
+        const line2 = "add or subtract a unit of $(white)50 mOsm$";
         const line3 = "from the corresponding box.";
 
         // Add this dialogue box. 
@@ -667,9 +667,9 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db17.
-        const line1 = "First, the ascending limb $(#ff5853)actively pumps$";
-        const line2 = "$(#ff5853)out solutes$ into the interstitial fluid, as its";
-        const line3 = "walls are $(#ff5853)impermeable$ to water.";
+        const line1 = "First, the ascending limb will actively $(#ff5853)PUMP$";
+        const line2 = "out solutes into the interstitial fluid, as its";
+        const line3 = "walls are $(white)impermeable$ to water.";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
@@ -727,8 +727,8 @@ class TutorialModel {
 
         // Lines of text for db18.
         const line1 = "However, the ascending limb and the";
-        const line2 = "interstitial fluid $(#0060ff)cannot exceed a$";
-        const line3 = "$(#0060ff)concentration difference of 200 mOsm$.";
+        const line2 = "interstitial fluid $(white)cannot exceed a$";
+        const line3 = "$(white)concentration difference of 200 mOsm$.";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
@@ -835,10 +835,10 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db21.
-        const line1 = "Next, the $(#ff5853)descending limb$ passively";
-        const line2 = "equilibrates wth the interstitial fluid to";
+        const line1 = "Next, the descending limb will passively";
+        const line2 = "$(#ffd300)EQUILIBRATE$ with the interstitial fluid to";
         const line3 = "match its concentration. Its walls are";
-        const line4 = "$(#ff5853)permeable$ to accomodate this";
+        const line4 = "$(white)permeable$ to accomodate this";
         const line5 = "process.";
 
         // Add this dialogue box. 
@@ -952,7 +952,7 @@ class TutorialModel {
 
         // Add db23's subtext.
         const line3 = "Click $(#0060ff)next$ to advance the fluid and";
-        const line4 = "pass it through the loop.";
+        const line4 = "$(#58cced)FLOW$ through the loop.";
 
         let subtext = new BlockingDialogue([line3, line4], 247, 597, 25, "12pt Verdana");
         subtext.alpha = 1.0;
@@ -981,7 +981,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db24.
-        const line1 = "One final thing -- the box above will";
+        const line1 = "One final thing -- the $(white)box$ above will";
         const line2 = "allow you to track your progress";
         const line3 = "building the gradient.";
 
@@ -1015,7 +1015,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db25.
-        const line1 = "$(#0060ff)These$ will light up to signify what";
+        const line1 = "$(white)These$ will light up to signify what";
         const line2 = "stage of the process you are on,";
 
         // Add this dialogue box. 
@@ -1057,7 +1057,7 @@ class TutorialModel {
         // Lines of text for db26.
         const line1 = "These will light up to signify what";
         const line2 = "stage of the process you are on,";
-        const line3 = "and $(#0060ff)this bar$ will track the maximum";
+        const line3 = "and $(white)this bar$ will track the maximum";
         const line4 = "concentration of your interstitial fluid.";
 
         // Add this dialogue box. 
@@ -1086,8 +1086,8 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db27.
-        const line1 = "Now you will be restricted to your";
-        const line2 = "spot as a single unit of primary urine.";
+        const line1 = "Now you will be $(white)restricted to your$";
+        const line2 = "$(white)spot as a single unit of primary urine$.";
         const line3 = "Follow the loop's rules when it's your";
         const line4 = "turn, and watch how the gradient";
         const line5 = "builds.";
