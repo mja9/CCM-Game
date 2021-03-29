@@ -118,7 +118,7 @@ class StateButton {
     /**
      * Set the amount to change the alpha
      * value per tick.
-     * @param {*} v Delta alpha per tick.
+     * @param {Number} v Delta alpha per tick.
      */
     setFlashVelocity(v) {
         this.flashVel = v;
@@ -143,13 +143,13 @@ class StateButton {
         // Clamp max of the alpha value.
         if (this.a > this.maxAlpha) {
             this.a = this.maxAlpha;
-            this.v = -this.flashVel;
+            this.flashVel = -this.flashVel;
         }
 
         // Clamp the min of the alpha value.
         if (this.a < 0.0) {
             this.a = 0.0;
-            this.v = -this.flashVel;
+            this.flashVel = -this.flashVel;
         }    
     }
 
@@ -176,7 +176,7 @@ class StateButton {
      * to flash white highlight over button using
      * button's alpha value.
      */
-     flash() {
+    flash() {
         // Hold onto previous alpha value.
         let lastAlpha = CONTEXT.globalAlpha;
 

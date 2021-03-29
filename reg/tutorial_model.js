@@ -1023,7 +1023,6 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // Highlight the state buttons.
-        // TODO: I think i broke something...
         this.playModel.pumpButton.setFlashVelocity(0.05);
         this.playModel.equilibrateButton.setFlashVelocity(0.05);
         this.playModel.flowButton.setFlashVelocity(0.05);

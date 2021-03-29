@@ -430,9 +430,81 @@ class MaxBar {
         this.h = h;
         this.arrowMid = this.y + this.h - (3 * 16 + 3);
         this.max = 300;
+        this.a = 0.0;   // Alpha for flash animation.
+        this.flashVel = 0.0;   // Delta for alpha per tick.
+    }
+
+    /**
+     * Set the amount to change the alpha
+     * value per tick.
+     * @param {Number} v Delta alpha per tick.
+     */
+     setFlashVelocity(v) {
+        this.flashVel = v;
+    }
+
+    /**
+     * method to set the max alpha for the 
+     * flash animation.
+     * @param {Number} maxAlpha 
+     */
+     setMaxAlpha(maxAlpha) {
+        this.maxAlpha = maxAlpha;
+    }
+
+    /**
+     * Update method to alter the alpha
+     * value used in the flash animation per tick.
+     */
+     updateAlpha() {
+        this.a += this.flashVel;
+
+        // Clamp max of the alpha value.
+        if (this.a > this.maxAlpha) {
+            this.a = this.maxAlpha;
+            this.flashVel = -this.flashVel;
+        }
+
+        // Clamp the min of the alpha value.
+        if (this.a < 0.0) {
+            this.a = 0.0;
+            this.flashVel = -this.flashVel;
+        }    
+    }
+
+    /**
+     * Additional animation method 
+     * to flash white highlight over button using
+     * button's alpha value.
+     */
+     flash() {
+        // Hold onto previous alpha value.
+        let lastAlpha = CONTEXT.globalAlpha;
+
+        // Paint white square over button.
+        CONTEXT.globalAlpha = this.a;
+        CONTEXT.fillStyle = "white";
+        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Reset alpha value
+        CONTEXT.globalAlpha = lastAlpha;
+    }
+
+    /**
+     * This method is used to reset the parameters used 
+     * to implement the flash highlight animation. Can be 
+     * used to halt the animation.
+     */
+     resetFlash() {
+        this.a = 0.0;
+        this.flashVel = 0.0;
     }
 
     paint() {
+
+        // Update state of the maxbar.
+        this.updateAlpha();
+
         CONTEXT.drawImage(document.getElementById("maxbar"), this.x, this.y, this.w, this.h);
         CONTEXT.fillStyle = "#16a3e5";
         CONTEXT.beginPath();
@@ -440,6 +512,9 @@ class MaxBar {
         CONTEXT.lineTo(this.x + 12, this.arrowMid);
         CONTEXT.lineTo(this.x + 3, this.arrowMid + 4.5);
         CONTEXT.fill();
+
+        // Additional animations.
+        this.flash();
     }
 
     moveArrow() {
