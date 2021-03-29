@@ -1064,11 +1064,15 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
+        // TODO: Flash highlight of the maxbar.
+        this.playModel.view.maxbar.setFlashVelocity(0.05);
+
         // Press anything event.
         function keyDownEvent26(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent26);
             document.removeEventListener("keydown", keyDownEvent26);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            tutorial.playModel.view.maxbar.resetFlash();    // Remove the flash animation.
             tutorial.displayDialogueBox27();
         }
 

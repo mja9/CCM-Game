@@ -444,15 +444,6 @@ class MaxBar {
     }
 
     /**
-     * method to set the max alpha for the 
-     * flash animation.
-     * @param {Number} maxAlpha 
-     */
-     setMaxAlpha(maxAlpha) {
-        this.maxAlpha = maxAlpha;
-    }
-
-    /**
      * Update method to alter the alpha
      * value used in the flash animation per tick.
      */
@@ -460,8 +451,8 @@ class MaxBar {
         this.a += this.flashVel;
 
         // Clamp max of the alpha value.
-        if (this.a > this.maxAlpha) {
-            this.a = this.maxAlpha;
+        if (this.a > 0.75) {
+            this.a = 0.75;
             this.flashVel = -this.flashVel;
         }
 
@@ -484,7 +475,7 @@ class MaxBar {
         // Paint white square over button.
         CONTEXT.globalAlpha = this.a;
         CONTEXT.fillStyle = "white";
-        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        CONTEXT.fillRect(this.x, this.y, this.w, this.h);
 
         // Reset alpha value
         CONTEXT.globalAlpha = lastAlpha;
