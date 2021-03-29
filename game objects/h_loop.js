@@ -270,13 +270,55 @@ class HairpinBend {
 
 }
 
+/**
+ * Class representing the sidebar containing information about the
+ * game state at a given moment. This includes which state the game is in,
+ * and a measure of the max concentration present.
+ */
 class SideBar {
 
     constructor() {
         this.maxbar = new MaxBar(400, 159, 23, 294);
+        this.a = 0.0;
+        this.v = 0.0;
     }
-    
+
+    /**
+     * Set this.a's delta 
+     * per tick.
+     * @param {*} v Velocity of alpha value.
+     */
+    setVelocity(v) {
+        this.v = v;
+    }
+
+    /**
+     * Update method called every tick to 
+     * change the alpha value according to this.v.
+     */
+    updateAlpha() {
+        this.a += this.v;
+
+        // Clamp the max value of this.a
+        if (this.a > 0.5) {
+            this.a = 0.5;
+            this.v = -this.v;
+        }
+
+        // Clamp the max value of this.a
+        if (this.a < 0.0) {
+            this.a = 0.0;
+            this.v = -this.v;
+        }
+    }
+
+    /**
+     * Paint method which paints the 
+     * labels for the state bars and the
+     * maxbar.
+     */
     paint() {
+
         // Background
         let oldAlpha = CONTEXT.globalAlpha;
         CONTEXT.fillStyle = "white";
@@ -341,6 +383,25 @@ class SideBar {
 
         // Maxbar
         this.maxbar.paint();
+    }
+
+    /**
+     * Flash animation for SideBar object. Uses this.a 
+     * to dynamically change the transparency of the animation.
+     */
+    flash() {
+
+        // Hold on to the last value of alpha to limit side-effects.
+        let oldAlpha = CONTEXT.globalAlpha;
+        CONTEXT.globalAlpha = this.a;
+
+        // Fill in white square where sidebar is located.
+        CONTEXT.fillStyle = "white";
+        CONTEXT.fillRect(45, 125, 404, 350);
+
+        // Reset alpha value.
+        CONTEXT.globalAlpha = oldAlpha;
+
     }
 
 }

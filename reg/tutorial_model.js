@@ -675,25 +675,31 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
-        // Shadow animation of salt moving.
-        let saltCopy = new SaltIcon(A_LIMB[2].salt.startX + (A_LIMB[2].salt.w / 2), A_LIMB[2].salt.startY + (A_LIMB[2].salt.h / 2), A_LIMB[2]);
+        // Shadow animation of ascending limb salt moving.
+        let grayed = [];
+        for (let i = 0; i < A_LIMB.length; i++) {
 
-        // When shadow salt reaches the inter position, reset its position and velocity.
-        saltCopy.animationDecorator = function() {
-            saltCopy.x = saltCopy.startX;
+            let saltCopy = new SaltIcon(A_LIMB[i].salt.startX + (A_LIMB[i].salt.w / 2), A_LIMB[i].salt.startY + (A_LIMB[i].salt.h / 2), A_LIMB[i]);
+
+            // When shadow salt reaches the inter position, reset its position and velocity.
+            saltCopy.animationDecorator = function() {
+                saltCopy.x = saltCopy.startX;
+                saltCopy.v = -10;
+            };
+            saltCopy.terminationCriteria = function() {
+                if (saltCopy.x <= INTER_FLUID[i].x + (INTER_FLUID[i].w / 4.0)) {
+                    return true;
+                }
+                return false;
+            };
             saltCopy.v = -10;
-        };
-        saltCopy.terminationCriteria = function() {
-            if (saltCopy.x <= INTER_FLUID[2].x + (INTER_FLUID[2].w / 4.0)) {
-                return true;
-            }
-            return false;
-        };
-        saltCopy.v = -10;
 
-        // Create grayed out version of the object and add it to dispatcher.
-        let grayedSalt = new GrayOut(0.5, saltCopy);
-        mainDispatcher.add(grayedSalt);
+            // Create grayed out version of the object and add it to dispatcher.
+            let grayedSalt = new GrayOut(0.5, saltCopy);
+            grayed.push(grayedSalt);
+        }
+        
+        mainDispatcher.addAll(grayed);
 
         // Press anything event.
         function keyDownEvent17(event) {
@@ -702,7 +708,7 @@ class TutorialModel {
             mainDispatcher.remove(text);
 
             // Remove grayed out icon copy.
-            mainDispatcher.remove(grayedSalt);
+            mainDispatcher.removeAll(grayed);
             tutorial.displayDialogueBox18();
         }
 
@@ -840,32 +846,36 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // Shadow animation for the water icon.
-        let waterCopy = new WaterIcon(D_LIMB[2].water.startX - (D_LIMB[2].water.w / 2), D_LIMB[2].water.startY + (D_LIMB[2].water.h / 2), D_LIMB[2]);
+        let grayed = [];
+        for (let i = 0; i < D_LIMB.length; i++) {
 
-        // When shadow salt reaches the inter position, reset its position and velocity.
-        waterCopy.animationDecorator = function() {
-            waterCopy.x = waterCopy.startX;
+            let waterCopy = new WaterIcon(D_LIMB[i].water.startX - (D_LIMB[i].water.w / 2), D_LIMB[i].water.startY + (D_LIMB[i].water.h / 2), D_LIMB[i]);
+
+            // When shadow salt reaches the inter position, reset its position and velocity.
+            waterCopy.animationDecorator = function() {
+                waterCopy.x = waterCopy.startX;
+                waterCopy.v = 10;
+            };
+            waterCopy.terminationCriteria = function() {
+                if (waterCopy.x >= INTER_FLUID[i].x - (INTER_FLUID[i].w / 4.0)) {
+                    return true;
+                }
+                return false;
+            };
             waterCopy.v = 10;
-        };
-        waterCopy.terminationCriteria = function() {
-            if (saltCopy.x >= INTER_FLUID[2].x + (INTER_FLUID[2].w / 4.0)) {
-                return true;
-            }
-            return false;
-        };
-        waterCopy.v = 10;
 
-        // Create grayed out version of the object and add it to dispatcher.
-        let grayedWater = new GrayOut(0.5, waterCopy);
-        mainDispatcher.add(grayedWater);
-
+            // Create grayed out version of the object and add it to dispatcher.
+            let grayedWater = new GrayOut(0.5, waterCopy);
+            grayed.push(grayedWater);
+        }
+        mainDispatcher.addAll(grayed);
 
         // Press anything event.
         function keyDownEvent21(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent21);
             document.removeEventListener("keydown", keyDownEvent21);     // Avoid re-trigger.
             mainDispatcher.remove(text);
-            mainDispatcher.remove(grayedWater); // Remove shadow icon animation.
+            mainDispatcher.removeAll(grayed); // Remove shadow icon animation.
             tutorial.displayDialogueBox22();
         }
 
@@ -974,6 +984,9 @@ class TutorialModel {
         const line1 = "One final thing -- the box above will";
         const line2 = "allow you to track your progress";
         const line3 = "building the gradient.";
+
+        // TODO: Highlight the state box.
+        
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
