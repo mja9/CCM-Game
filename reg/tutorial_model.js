@@ -1022,7 +1022,7 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
 
-        // TODO: Highlight the state buttons.
+        // Highlight the state buttons.
         this.playModel.pumpButton.setFlashVelocity(0.05);
         this.playModel.equilibrateButton.setFlashVelocity(0.05);
         this.playModel.flowButton.setFlashVelocity(0.05);
@@ -1034,9 +1034,9 @@ class TutorialModel {
             mainDispatcher.remove(text);
 
             // Remove the flash animation.
-            this.playModel.pumpButton.resetFlash();
-            this.playModel.equilibrateButton.resetFlash();
-            this.playModel.flowButton.resetFlash();
+            tutorial.playModel.pumpButton.resetFlash();
+            tutorial.playModel.equilibrateButton.resetFlash();
+            tutorial.playModel.flowButton.resetFlash();
         
             tutorial.displayDialogueBox26();
         }

@@ -168,7 +168,7 @@ class StateButton {
         CONTEXT.fillRect(this.x - (this.w / 2.0), this.y - (this.h / 2.0), this.w, this.h);
 
         // Additional animations.
-        this.flow();
+        this.flash();
     }
 
     /**
