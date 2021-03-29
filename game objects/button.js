@@ -121,7 +121,7 @@ class StateButton {
      * @param {*} v Delta alpha per tick.
      */
     setFlashVelocity(v) {
-        this.v = v;
+        this.flashVel = v;
     }
     
     /**
@@ -138,18 +138,18 @@ class StateButton {
      * value used in the flash animation per tick.
      */
      updateAlpha() {
-        this.a += this.v;
+        this.a += this.flashVel;
 
         // Clamp max of the alpha value.
         if (this.a > this.maxAlpha) {
             this.a = this.maxAlpha;
-            this.v = -this.v;
+            this.v = -this.flashVel;
         }
 
         // Clamp the min of the alpha value.
         if (this.a < 0.0) {
             this.a = 0.0;
-            this.v = -this.v;
+            this.v = -this.flashVel;
         }    
     }
 
@@ -196,7 +196,7 @@ class StateButton {
      */
      resetFlash() {
         this.a = 0.0;
-        this.v = 0.0;
+        this.flashVel = 0.0;
     }
 
     move() {

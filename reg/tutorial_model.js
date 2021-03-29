@@ -122,7 +122,7 @@ class TutorialModel {
 
         // Lines of text for dialogue 4.
         const line1 = "Fluid enters at a low concentration. As it flows through the loop, the";
-        const line2 = "concentration grows as an osmotic gradient is created through $(#ff5853)countercurrent$";
+        const line2 = "concentration grows as an osmotic gradient is created through $(white)countercurrent$";
         const line3 = "$(white)multiplication.$ The gradient ultimately draws water out of urine leaving the";
         const line4 = "body through the collecting duct, minimizing water loss.";
 
@@ -491,11 +491,6 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent11);
             document.removeEventListener("keydown", keyDownEvent11);     // Avoid re-trigger.
             mainDispatcher.remove(text);
-            for (let i = 0; i < A_LIMB.length; i++) {
-                A_LIMB[i].resetFlash();
-                D_LIMB[i].resetFlash();
-                INTER_FLUID[i].resetFlash();
-            }
             tutorial.displayDialogueBox12();
         }
 
@@ -527,6 +522,11 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent12);
             document.removeEventListener("keydown", keyDownEvent12);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            for (let i = 0; i < A_LIMB.length; i++) {   // Remove concebtration flashes.
+                A_LIMB[i].resetFlash();
+                D_LIMB[i].resetFlash();
+                INTER_FLUID[i].resetFlash();
+            }
             tutorial.displayDialogueBox13();
         }
 
@@ -1023,6 +1023,7 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // Highlight the state buttons.
+        // TODO: I think i broke something...
         this.playModel.pumpButton.setFlashVelocity(0.05);
         this.playModel.equilibrateButton.setFlashVelocity(0.05);
         this.playModel.flowButton.setFlashVelocity(0.05);
