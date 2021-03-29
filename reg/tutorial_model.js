@@ -2,6 +2,7 @@ class TutorialModel {
 
     constructor(playModel) {
         this.playModel = playModel;
+        this.font = "Hanken Light";
     }
 
     init() {
@@ -30,7 +31,7 @@ class TutorialModel {
 
         // Create the blocking dialogue object, and display the second dialogue box
         // when user input is detected. Both dialogue boxes are shwon on the screen at once.
-        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt " + this.font);
         text.v = 0.02;
         text.animationDecorator = function() {
             text.animationDecorator = function() {};    // Avoid double-jeopardy. 
@@ -53,7 +54,7 @@ class TutorialModel {
         const line2 = "vertebrate kidney -- through the addition of a new structure.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 350, 37, "20pt Verdana");
+        let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 350, 37, "20pt " + this.font);
         text.v = 0.1;
 
         // Press anything event.
@@ -91,7 +92,7 @@ class TutorialModel {
         const line3 = "convoluted tubules in the kidney.";
 
         // Add this dialogue box.
-        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt " + this.font);
 
         // Press anything event.
         function keyDownEvent3(event) {
@@ -127,7 +128,7 @@ class TutorialModel {
         const line4 = "body through the collecting duct, minimizing water loss.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4], CANVAS.clientWidth / 2, 350, 37, "20pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4], CANVAS.clientWidth / 2, 350, 37, "20pt " + this.font);
         text.v = 0.1;
 
         // Press anything event.
@@ -165,7 +166,7 @@ class TutorialModel {
         const line3 = "$(white)own osmotic gradient$ in the loop of Henle.";
 
         // Add this dialogue box.
-        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt Verdana");        
+        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt " + this.font);        
 
         // On input, dialogue 6 appears on the screen as well.
         text.v = 0.02;
@@ -190,7 +191,7 @@ class TutorialModel {
         const line2 = "$(#0060ff)anywhere to enter the tutorial.$";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 423, 37, "20pt Verdana");
+        let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 423, 37, "20pt " + this.font);
         text.alpha = 1.0;
 
         // Click anywhere to continue events.
@@ -261,7 +262,7 @@ class TutorialModel {
         const line3 = "game.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -292,7 +293,7 @@ class TutorialModel {
         const line2 = "$(white)loop of Henle$.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -321,7 +322,7 @@ class TutorialModel {
         const line2 = "$(white)descending limb$";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Make the descending limb flash to highlight the subject of this dialogue box.
@@ -359,7 +360,7 @@ class TutorialModel {
         const line3 = "$(white)hairpin bend$";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Make the hairpin bend flash an animation.
@@ -396,7 +397,7 @@ class TutorialModel {
         const line4 = "the $(white)ascending limb$.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Make the ascending limb flash to highlight the subject of this dialogue box.
@@ -433,7 +434,7 @@ class TutorialModel {
         const line3 = "which the loop of Henle floats.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Flash the interstitial boxes to direct the player's attention.
@@ -473,7 +474,7 @@ class TutorialModel {
         const line6 = "duct."
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4, line5, line6], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4, line5, line6], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Flash the concentrations.
@@ -514,7 +515,7 @@ class TutorialModel {
         const line4 = "concentrated."
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -549,7 +550,7 @@ class TutorialModel {
         const line3 = "plasma.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -579,7 +580,7 @@ class TutorialModel {
         const line3 = "salt or water from the loop.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -609,7 +610,7 @@ class TutorialModel {
         const line3 = "from the corresponding box.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // TODO: Flash the icons here.
@@ -642,7 +643,7 @@ class TutorialModel {
         const line4 = "gradient!";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -672,7 +673,7 @@ class TutorialModel {
         const line3 = "walls are $(white)impermeable$ to water.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Shadow animation of ascending limb salt moving.
@@ -731,7 +732,7 @@ class TutorialModel {
         const line3 = "$(white)concentration difference of 200 mOsm$.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -763,14 +764,14 @@ class TutorialModel {
         const line4 = "as much as possible."
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Add db19's subtext.
         const line5 = "Press the $(#0060ff)next$ button when you are done, or the";
         const line6 = "$(#0060ff)retry$ button to reset your concentration.";
 
-        let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt Verdana");
+        let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
 
         // Press anything event.
@@ -810,7 +811,7 @@ class TutorialModel {
         const line1 = "Great job!";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -842,7 +843,7 @@ class TutorialModel {
         const line5 = "process.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4, line5], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4, line5], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Shadow animation for the water icon.
@@ -899,14 +900,14 @@ class TutorialModel {
         const line4 = "equilibrium.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Add db22's subtext.
         const line5 = "Press the $(#0060ff)next$ button when you are done, or the";
         const line6 = "$(#0060ff)retry$ button to reset your concentration.";
 
-        let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt Verdana");
+        let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
 
         // Press anything event.
@@ -947,14 +948,14 @@ class TutorialModel {
         const line2 = "correctly!";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Add db23's subtext.
         const line3 = "Click $(#0060ff)next$ to advance the fluid and";
         const line4 = "$(#58cced)FLOW$ through the loop.";
 
-        let subtext = new BlockingDialogue([line3, line4], 247, 597, 25, "12pt Verdana");
+        let subtext = new BlockingDialogue([line3, line4], 247, 597, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
 
         // Press anything event.
@@ -989,7 +990,7 @@ class TutorialModel {
         this.playModel.view.sidebar.setVelocity(0.05);
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
@@ -1019,7 +1020,7 @@ class TutorialModel {
         const line2 = "stage of the process you are on,";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Highlight the state buttons.
@@ -1061,7 +1062,7 @@ class TutorialModel {
         const line4 = "concentration of your interstitial fluid.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Flash highlight of the maxbar.
@@ -1097,7 +1098,7 @@ class TutorialModel {
         const line5 = "builds.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4, line5], 247, 526, 30, "14pt Verdana");
+        let text = new BlockingDialogue([line1, line2, line3, line4, line5], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Press anything event.
