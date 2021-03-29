@@ -115,10 +115,10 @@ class GradientPosition {
         CONTEXT.fillStyle = color;
         CONTEXT.textAlign = "center";
         if (code == 0) {
-            CONTEXT.font = "30px Courier New";
+            CONTEXT.font = "30px Hanken Book";
             CONTEXT.fillText(this.c.toString(), this.x, this.y - (this.h / 8.0));
         } else {
-            CONTEXT.font = "40px Courier New";
+            CONTEXT.font = "40px Hanken Book";
             CONTEXT.fillText(this.c.toString(), this.x, this.y);
         }
 
