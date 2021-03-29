@@ -74,6 +74,7 @@ class Button {
         // Update the state of this button.
         this.updateAlpha();
         CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
         // Additional animations.
         this.flash();
     }
@@ -94,6 +95,16 @@ class Button {
 
         // Reset alpha value
         CONTEXT.globalAlpha = lastAlpha;
+    }
+
+    /**
+     * This method is used to reset the parameters used 
+     * to implement the flash highlight animation. Can be 
+     * used to halt the animation.
+     */
+     resetFlash() {
+        this.a = 0.0;
+        this.v = 0.0;
     }
 
 }

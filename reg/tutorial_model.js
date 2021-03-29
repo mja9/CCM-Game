@@ -1023,12 +1023,21 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // TODO: Highlight the state buttons.
+        this.playModel.pumpButton.setVelocity(0.05);
+        this.playModel.equilibrateButton.setVelocity(0.05);
+        this.playModel.flowButton.setVelocity(0.05);
 
         // Press anything event.
         function keyDownEvent25(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent25);
             document.removeEventListener("keydown", keyDownEvent25);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+
+            // Remove the flash animation.
+            this.playModel.pumpButton.resetFlash();
+            this.playModel.equilibrateButton.resetFlash();
+            this.playModel.flowButton.resetFlash();
+        
             tutorial.displayDialogueBox26();
         }
 
