@@ -404,6 +404,15 @@ class SideBar {
 
     }
 
+    /**
+     * Method to reset the values associated with the 
+     * flash animation.
+     */
+    resetFlash() {
+        this.v = 0.0;
+        this.a = 0.0;
+    }
+
 }
 
 class MaxBar {

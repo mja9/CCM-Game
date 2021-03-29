@@ -986,7 +986,7 @@ class TutorialModel {
         const line3 = "building the gradient.";
 
         // TODO: Highlight the state box.
-        
+        this.playModel.view.sidebar.setVelocity(0.05);
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt Verdana");
@@ -997,6 +997,7 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent24);
             document.removeEventListener("keydown", keyDownEvent24);     // Avoid re-trigger.
             mainDispatcher.remove(text);
+            tutorial.playModel.view.sidebar.resetFlash();   // Remove flash highlight animation.
             tutorial.displayDialogueBox25();
         }
 
