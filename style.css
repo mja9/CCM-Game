@@ -1,4 +1,18 @@
 /* Copyright © 2020 mja9 */
+@font-face {
+    font-family: 'Hanken Book';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Hanken Book'), url('fonts/Hanken-Book.woff') format('woff');
+}
+    
+@font-face {
+    font-family: 'Hanken Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Hanken Light'), url('fonts/Hanken-Light.woff') format('woff');
+}
+
 body {
     background-color: #fedbb4;
 }
