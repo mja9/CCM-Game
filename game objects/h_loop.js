@@ -286,7 +286,7 @@ class SideBar {
     /**
      * Set this.a's delta 
      * per tick.
-     * @param {*} v Velocity of alpha value.
+     * @param {Number} v Velocity of alpha value.
      */
     setVelocity(v) {
         this.v = v;
@@ -300,8 +300,8 @@ class SideBar {
         this.a += this.v;
 
         // Clamp the max value of this.a
-        if (this.a > 0.5) {
-            this.a = 0.5;
+        if (this.a > 0.75) {
+            this.a = 0.75;
             this.v = -this.v;
         }
 
@@ -318,6 +318,9 @@ class SideBar {
      * maxbar.
      */
     paint() {
+
+        // Update the state of the sidebar.
+        this.updateAlpha();
 
         // Background
         let oldAlpha = CONTEXT.globalAlpha;
@@ -383,6 +386,9 @@ class SideBar {
 
         // Maxbar
         this.maxbar.paint();
+
+        // Additional animations.
+        this.flash();
     }
 
     /**

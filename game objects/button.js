@@ -6,6 +6,15 @@
  */
 class Button {
 
+    /**
+     * Constrcutor for the button class.
+     * @param {Number} xPos x component of the button's center
+     * @param {Number} yPos y component of the button's center.
+     * @param {Number} width width of the button
+     * @param {Number} height height of the button
+     * @param {Function} clickAction action triggered when button is clicked
+     * @param {String} image DOM reference of the image to be used for the button's appearance.
+     */
     constructor(xPos, yPos, width, height, clickAction, image) {
         this.x = xPos;
         this.y = yPos;
@@ -13,10 +22,78 @@ class Button {
         this.h = height;
         this.onClick = clickAction;
         this.image = image
+        this.a = 0.0;   // Alpha used for flash animation.
+        this.maxAlpha = 0.75;
+        this.v = 0.0;   // Delta for alpha per tick.
     }
 
+    /**
+     * Set the amount to change the alpha
+     * value per tick.
+     * @param {*} v Delta alpha per tick.
+     */
+    setVelocity(v) {
+        this.v = v;
+    }
+
+    /**
+     * method to set the max alpha for the 
+     * flash animation.
+     * @param {Number} maxAlpha 
+     */
+    setMaxAlpha(maxAlpha) {
+        this.maxAlpha = maxAlpha;
+    }
+
+    /**
+     * Update method to alter the alpha
+     * value used in the flash animation per tick.
+     */
+    updateAlpha() {
+        this.a += this.v;
+
+        // Clamp max of the alpha value.
+        if (this.a > this.maxAlpha) {
+            this.a = this.maxAlpha;
+            this.v = -this.v;
+        }
+
+        // Clamp the min of the alpha value.
+        if (this.a < 0.0) {
+            this.a = 0.0;
+            this.v = -this.v;
+        }    
+    }
+
+    /**
+     * Paint method of the button. Paints the image at the specidied location accoring to 
+     * its center, width, and height.
+     */
     paint() {
+
+        // Update the state of this button.
+        this.updateAlpha();
         CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        // Additional animations.
+        this.flash();
+    }
+
+    /**
+     * Additional animation method 
+     * to flash white highlight over button using
+     * button's alpha value.
+     */
+    flash() {
+        // Hold onto previous alpha value.
+        let lastAlpha = CONTEXT.globalAlpha;
+
+        // Paint white square over button.
+        CONTEXT.globalAlpha = this.a;
+        CONTEXT.fillStyle = "white";
+        CONTEXT.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Reset alpha value
+        CONTEXT.globalAlpha = lastAlpha;
     }
 
 }

@@ -985,7 +985,7 @@ class TutorialModel {
         const line2 = "allow you to track your progress";
         const line3 = "building the gradient.";
 
-        // TODO: Highlight the state box.
+        // Highlight the state box.
         this.playModel.view.sidebar.setVelocity(0.05);
 
         // Add this dialogue box. 
@@ -1021,6 +1021,8 @@ class TutorialModel {
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt Verdana");
         text.alpha = 1.0;
+
+        // TODO: Highlight the state buttons.
 
         // Press anything event.
         function keyDownEvent25(event) {
