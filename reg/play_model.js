@@ -8,7 +8,7 @@ class PlayModel {
         this.flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
         this.checkBtn = new Button(289, 408, 62, 54, function(){}, "check");
         this.revertBtn = new Button(142.5, 409.5, 61, 59, function(){}, "replay");
-
+        this.turnIndicator = new TurnIndicator(243, 593, 246, 100);
         this.tutorial = new TutorialModel(this);
         this.view = playView;
     }
@@ -270,6 +270,9 @@ class PlayModel {
         D_LIMB[2].isSelected = true;
         this.playerPosition = 3;
 
+        // Add the turn indicator object to the dispatcher.
+        mainDispatcher.add(this.turnIndicator);
+
         // Transition to pump and begin AI.
         this.transitionState();
     }
@@ -430,6 +433,9 @@ class PlayModel {
 
         if (this.state == "Equilibrate" && this.playerPosition <= 6) {
 
+            // TODO: Transition to your turn indicator.
+            this.turnIndicator.toYou();
+
             // Save the state of the loop to be able to revert.
             this.view.loop.save();
 
@@ -443,11 +449,16 @@ class PlayModel {
                 if (model.view.loop.validateEquilibrate()) {
                     model.checkBtn.onClick = function() {};
                     model.revertBtn.onClick = function() {};    // Avoid re-trigger.
+                    // TODO: Transition to PC turn.
+                    model.turnIndicator.toPC();
                     model.transitionState();
                 }
             };
 
         } else if (this.state == "Pump" && this.playerPosition > 6) {
+
+            // TODO: Transition to you turn.
+            this.turnIndicator.toYou();
 
             // Save the state of the loop to be able to revert.
             this.view.loop.save();
@@ -462,6 +473,8 @@ class PlayModel {
                 if (model.view.loop.validatePump()) {
                     model.checkBtn.onClick = function() {};
                     model.revertBtn.onClick = function() {};    // Avoid re-trigger.
+                    // TODO: Transition to pc turn indicator.
+                    model.turnIndicator.toPC();
                     model.transitionState();
                 }
             }
@@ -588,6 +601,66 @@ class PlayModel {
             }
         }
         mainDispatcher.add(goodbye);
+    }
+
+}
+
+/**
+ * An object representing the turn indicator in regular play.
+ * Switches images depending on whose turn it is, and which
+ * transition is taking place.
+ */
+class TurnIndicator {
+
+    /**
+     * Constrcutor for the turn indicator.
+     * @param {Number} xPos The x-component of the center of the image.
+     * @param {Number} yPos The y-component of the center of the image.
+     * @param {Number} width The width of the image.
+     * @param {Number} height The height of the image.
+     */
+    constructor(xPos, yPos, width, height) {
+        this.x = xPos;
+        this.y = yPos;
+        this.w = width;
+        this.h = height;
+        this.image = "pc-turn";
+    }
+
+    /**
+     * Method to paint the corresponding turn/
+     * transition image on the screen.
+     */
+    paint() {
+        CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+    }
+
+    /**
+     * Sets the image to the PC turn image.
+     */
+    setPCTurn() {
+        this.image = "pc-turn";
+    }
+
+    /**
+     * Sets the timage to the 'to PC' transition.
+     */
+    toPC() {
+        this.image = "to-pc";
+    }
+
+    /**
+     * Sets the image to the your turn image.
+     */
+    yourTurn() {
+        this.image = "u-turn";
+    }
+
+    /**
+     * Sets the image to the 'to You' transition.
+     */
+    toYou() {
+        this.image = "to-u";
     }
 
 }

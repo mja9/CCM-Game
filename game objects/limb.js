@@ -285,6 +285,7 @@ class LimbPosition extends GradientPosition {
 
         // Choose the proper color
         CONTEXT.strokeStyle = "white";
+        CONTEXT.lineWidth = 7;
 
         // Draw the rounded box.
         CONTEXT.beginPath();
