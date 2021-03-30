@@ -628,6 +628,14 @@ class TurnIndicator {
     }
 
     /**
+     * Updates the current frame we are on for the gif
+     * while in animation mode.
+     */
+    updateFrame() {
+
+    }
+
+    /**
      * Method to paint the corresponding turn/
      * transition image on the screen.
      */
@@ -646,13 +654,13 @@ class TurnIndicator {
      * Sets the timage to the 'to PC' transition.
      */
     toPC() {
-        this.image = "to-pc";
+        // TODO:
     }
 
     /**
      * Sets the image to the your turn image.
      */
-    yourTurn() {
+    setYourTurn() {
         this.image = "u-turn";
     }
 
@@ -660,7 +668,7 @@ class TurnIndicator {
      * Sets the image to the 'to You' transition.
      */
     toYou() {
-        this.image = "to-u";
+        // TODO:       
     }
 
 }
