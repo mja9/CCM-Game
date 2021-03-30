@@ -262,6 +262,10 @@ class PlayModel {
     }
 
     initRegularGame() {
+
+        // No longer in the tutorial.
+        inTutorial = false;
+
         // Choose starting limb position.
         D_LIMB[2].isSelected = true;
         this.playerPosition = 3;
@@ -423,20 +427,41 @@ class PlayModel {
 
     pauseAI() {
         const model = this;
+
         if (this.state == "Equilibrate" && this.playerPosition <= 6) {
+
+            // Save the state of the loop to be able to revert.
+            this.view.loop.save();
+
+            // Set the revert button functionality.
+            this.revertBtn.onClick = function() {
+                model.view.loop.revert();
+            };
 
             // Player equilibrates.
             this.checkBtn.onClick = function() {
                 if (model.view.loop.validateEquilibrate()) {
+                    model.checkBtn.onClick = function() {};
+                    model.revertBtn.onClick = function() {};    // Avoid re-trigger.
                     model.transitionState();
                 }
             };
 
         } else if (this.state == "Pump" && this.playerPosition > 6) {
 
+            // Save the state of the loop to be able to revert.
+            this.view.loop.save();
+
+            // Set the revert button functionality.
+            this.revertBtn.onClick = function() {
+                model.view.loop.revert();
+            };
+
             // Player pumps.
             this.checkBtn.onClick = function() {
                 if (model.view.loop.validatePump()) {
+                    model.checkBtn.onClick = function() {};
+                    model.revertBtn.onClick = function() {};    // Avoid re-trigger.
                     model.transitionState();
                 }
             }

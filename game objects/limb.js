@@ -284,7 +284,7 @@ class LimbPosition extends GradientPosition {
         let rad = 15.0;
 
         // Choose the proper color
-        CONTEXT.strokeStyle = "green";
+        CONTEXT.strokeStyle = "white";
 
         // Draw the rounded box.
         CONTEXT.beginPath();
