@@ -624,7 +624,7 @@ class TurnIndicator {
         this.y = yPos;
         this.w = width;
         this.h = height;
-        this.image = "pc-turn";
+        
     }
 
     /**
@@ -640,14 +640,14 @@ class TurnIndicator {
      * transition image on the screen.
      */
     paint() {
-        CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        // CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
     /**
      * Sets the image to the PC turn image.
      */
     setPCTurn() {
-        this.image = "pc-turn";
+
     }
 
     /**
@@ -661,7 +661,6 @@ class TurnIndicator {
      * Sets the image to the your turn image.
      */
     setYourTurn() {
-        this.image = "u-turn";
     }
 
     /**
