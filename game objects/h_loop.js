@@ -297,7 +297,10 @@ class SideBar {
 
         // Button labels for simulation.
         this.sLabels = [
-
+            new Label(94, 448, font, color, "PLAY"),
+            new Label(171, 448, font, color, "PAUSE"),
+            new Label(255, 448, font, color, "SLOWER"),
+            new Label(341, 448, font, color, "FASTER")
         ];
         this.mode = mode;
     }
