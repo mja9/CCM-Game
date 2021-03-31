@@ -413,7 +413,8 @@ class SideBar {
         this.flash();
 
         // Paint the button labels.
-        if (this.mode === "tutorial") {
+        if (this.mode == "tutorial") {
+            console.log("Using tutorial labels...");
             this.tLabels.forEach(label => label.paint());
 
         } else {
