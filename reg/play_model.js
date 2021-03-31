@@ -434,7 +434,7 @@ class PlayModel {
         if (this.state == "Equilibrate" && this.playerPosition <= 6) {
 
             // Transition to your turn indicator.
-            this.turnIndicator.setVelocity(1);
+            this.turnIndicator.setVelocity(0.75);
 
             // Save the state of the loop to be able to revert.
             this.view.loop.save();
@@ -450,7 +450,7 @@ class PlayModel {
                     model.checkBtn.onClick = function() {};
                     model.revertBtn.onClick = function() {};    // Avoid re-trigger.
                     // Transition to PC turn.
-                    model.turnIndicator.setVelocity(-1);
+                    model.turnIndicator.setVelocity(-0.75);
                     model.transitionState();
                 }
             };
@@ -458,7 +458,7 @@ class PlayModel {
         } else if (this.state == "Pump" && this.playerPosition > 6) {
 
             // Transition to you turn.
-            this.turnIndicator.setVelocity(1);
+            this.turnIndicator.setVelocity(0.75);
 
             // Save the state of the loop to be able to revert.
             this.view.loop.save();
@@ -474,7 +474,7 @@ class PlayModel {
                     model.checkBtn.onClick = function() {};
                     model.revertBtn.onClick = function() {};    // Avoid re-trigger.
                     // Transition to pc turn indicator.
-                    model.turnIndicator.setVelocity(-1);
+                    model.turnIndicator.setVelocity(-0.75);
                     model.transitionState();
                 }
             }
@@ -653,7 +653,11 @@ class TurnIndicator {
      * transition image on the screen.
      */
     paint() {
-        CONTEXT.drawImage(document.getElementById(this.image[this.frame]), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Update the state of the turn indicator.
+        this.updateFrame();
+
+        CONTEXT.drawImage(document.getElementById(this.image[Math.floor(this.frame)]), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
     /**
