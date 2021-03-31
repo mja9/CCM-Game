@@ -270,6 +270,7 @@ class PlayModel {
         // Choose starting limb position.
         D_LIMB[2].isSelected = true;
         this.playerPosition = 3;
+        
 
         // Add the turn indicator object to the dispatcher.
         mainDispatcher.add(this.turnIndicator);
@@ -602,12 +603,7 @@ class PlayModel {
         this.isGameOver = true;
 
         // TODO: Display goodbye box.
-        const goodbye = 
-        {
-            paint() {
-                CONTEXT.drawImage(document.getElementById("goodbye-box"), 215, 75, 900, 580);
-            }
-        }
+        let goodbye = new EndGame(665, 365, 700, 480, 665, 348, 135, 198);
         mainDispatcher.add(goodbye);
     }
 
@@ -702,14 +698,14 @@ class EndGame {
         this.y = yPos;
         this.w = width;
         this.h = height;
-        this.bg = "";
+        this.bg = "end-bg";
 
         // Gif fields.
         this.xGif = xGif;
         this.yGif = yGif;
         this.wGif = wGif;
         this.hGif = hGif;
-        this.image = [""];
+        this.image = ["end-0", "end-1", "end-2", "end-3", "end-4", "end-5", "end-6", "end-7", "end-8", "end-9", "end-10"];
         this.frame = 0;
         this.v = 0.5;
     }
