@@ -87,7 +87,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for dialogue 3.
-        const line1 = "That new structure is the $(white)loop of Henle$,";
+        const line1 = "That new structure is the loop of Henle,";
         const line2 = "nestled between the distal and proximal";
         const line3 = "convoluted tubules in the kidney.";
 
@@ -123,8 +123,8 @@ class TutorialModel {
 
         // Lines of text for dialogue 4.
         const line1 = "Fluid enters at a low concentration. As it flows through the loop, the";
-        const line2 = "concentration grows as an osmotic gradient is created through $(white)countercurrent$";
-        const line3 = "$(white)multiplication.$ The gradient ultimately draws water out of urine leaving the";
+        const line2 = "concentration grows as an osmotic gradient is created through countercurrent";
+        const line3 = "multiplication. The gradient ultimately draws water out of urine leaving the";
         const line4 = "body through the collecting duct, minimizing water loss.";
 
         // Add this dialogue box. 
@@ -162,8 +162,8 @@ class TutorialModel {
 
         // Lines of text for dialogue 5.
         const line1 = "This game will teach you how countercurrent";
-        const line2 = "multiplication works by allowing you to $(white)build your$";
-        const line3 = "$(white)own osmotic gradient$ in the loop of Henle.";
+        const line2 = "multiplication works by allowing you to build your";
+        const line3 = "own osmotic gradient in the loop of Henle.";
 
         // Add this dialogue box.
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt " + this.font);        
@@ -605,7 +605,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db15.
-        const line1 = "The $(white)salt$ and $(white)water$ icons allow you to";
+        const line1 = "The $(#f26c4f)salt$ and $(#0060ff)water$ icons allow you to";
         const line2 = "add or subtract a unit of $(white)50 mOsm$";
         const line3 = "from the corresponding box.";
 
@@ -768,8 +768,8 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // Add db19's subtext.
-        const line5 = "Press the $(#0060ff)next$ button when you are done, or the";
-        const line6 = "$(#0060ff)retry$ button to reset your concentration.";
+        const line5 = "Press the $(#0060ff)NEXT$ button when you are done, or the";
+        const line6 = "$(#0060ff)RESET$ button to reset your concentration.";
 
         let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
@@ -837,7 +837,7 @@ class TutorialModel {
 
         // Lines of text for db21.
         const line1 = "Next, the descending limb will passively";
-        const line2 = "$(#ffd300)EQUILIBRATE$ with the interstitial fluid to";
+        const line2 = "$(#ffb829)EQUILIBRATE$ with the interstitial fluid to";
         const line3 = "match its concentration. Its walls are";
         const line4 = "$(white)permeable$ to accomodate this";
         const line5 = "process.";
@@ -904,8 +904,8 @@ class TutorialModel {
         text.alpha = 1.0;
 
         // Add db22's subtext.
-        const line5 = "Press the $(#0060ff)next$ button when you are done, or the";
-        const line6 = "$(#0060ff)retry$ button to reset your concentration.";
+        const line5 = "Press the $(#0060ff)NEXT$ button when you are done, or the";
+        const line6 = "$(#0060ff)RESET$ button to reset your concentration.";
 
         let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
@@ -945,17 +945,16 @@ class TutorialModel {
 
         // Lines of text for db23.
         const line1 = "You've set up all the concentrations";
-        const line2 = "correctly!";
+        const line2 = "correctly! Now you can $(#0060ff)FLOW$ through the loop.";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Add db23's subtext.
-        const line3 = "Click $(#0060ff)next$ to advance the fluid and";
-        const line4 = "$(#58cced)FLOW$ through the loop.";
+        const line3 = "Click $(#0060ff)NEXT$ to advance the fluid.";
 
-        let subtext = new BlockingDialogue([line3, line4], 247, 597, 25, "12pt " + this.font);
+        let subtext = new BlockingDialogue([line3], 247, 597, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
 
         // Press anything event.
