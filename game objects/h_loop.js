@@ -277,10 +277,29 @@ class HairpinBend {
  */
 class SideBar {
 
-    constructor() {
+    /**
+     * Constructor for sidebar.
+     * @param {String} mode Either 'tutorial' or 'simulation'. 
+     */
+    constructor(mode) {
         this.maxbar = new MaxBar(400, 159, 23, 294);
         this.a = 0.0;
         this.v = 0.0;
+
+        let font = "10pt Hanken Book";
+        let color = "#16a3e5";
+
+        // Button labels for tutorial.
+        this.tLabels = [
+            new Label(139, 448, font, color, "RESET"),
+            new Label(278, 448, font, color, "NEXT")
+        ];
+
+        // Button labels for simulation.
+        this.sLabels = [
+
+        ];
+        this.mode = mode;
     }
 
     /**
@@ -389,6 +408,14 @@ class SideBar {
 
         // Additional animations.
         this.flash();
+
+        // Paint the button labels.
+        if (this.mode === "tutorial") {
+            this.tLabels.forEach(label => label.paint());
+
+        } else {
+            this.sLabels.forEach(label => label.paint());
+        }
     }
 
     /**

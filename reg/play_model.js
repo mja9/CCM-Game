@@ -7,7 +7,7 @@ class PlayModel {
         this.equilibrateButton = new StateButton(194.0, 240.0, 256, 60, function() {}, "255, 184, 41");
         this.flowButton = new StateButton(194.0, 305.0, 256, 60, function() {}, "49, 177, 238");
         this.checkBtn = new Button(289, 408, 62, 54, function(){}, "check");
-        this.revertBtn = new Button(142.5, 409.5, 61, 59, function(){}, "replay");
+        this.revertBtn = new Button(142.5, 405.5, 61, 59, function(){}, "replay");
         this.turnIndicator = new TurnIndicator(243, 593, 246, 100);
         this.tutorial = new TutorialModel(this);
         this.view = playView;

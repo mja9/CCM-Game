@@ -218,3 +218,37 @@ class StateButton {
 
 }
 
+/**
+ * A class representing a button label object.
+ */
+class Label {
+
+    /**
+     * Constructor for label object.
+     * @param {Number} xPos center x for label.
+     * @param {Number} yPos center y for label.
+     * @param {String} font label font.
+     * @param {String} color label color.
+     * @param {String} text  label text.
+     */
+    constructor(xPos, yPos, font, color, text) {
+        this.x = xPos;
+        this.y = yPos;
+        this.font = font;
+        this.color = color;
+        this.text = text;
+    }
+
+    /**
+     * Paint method for label.
+     */
+    paint() {
+        CONTEXT.fillStyle = this.color;
+        CONTEXT.textAlign = "center";
+        CONTEXT.textBaseline = "middle";
+        CONTEXT.font = this.font;
+        CONTEXT.fillText(this.text, this.x, this.y);
+    }
+
+}
+

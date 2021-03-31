@@ -5,7 +5,7 @@ class SimulationView {
     constructor() {
         mainDispatcher.add(this);
         this.loop = new LoopOfHenle();
-        this.sidebar = new SideBar();
+        this.sidebar = new SideBar("simulation");
         mainDispatcher.add(this.sidebar);
     }
 

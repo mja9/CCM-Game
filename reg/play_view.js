@@ -7,7 +7,7 @@ class PlayView {
 
     init() {
         this.loop = new LoopOfHenle();
-        this.sidebar = new SideBar();
+        this.sidebar = new SideBar("tutorial");
         mainDispatcher.add(this.sidebar);
     }
 
