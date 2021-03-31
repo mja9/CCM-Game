@@ -433,8 +433,8 @@ class PlayModel {
 
         if (this.state == "Equilibrate" && this.playerPosition <= 6) {
 
-            // TODO: Transition to your turn indicator.
-            this.turnIndicator.toYou();
+            // Transition to your turn indicator.
+            this.turnIndicator.setVelocity(1);
 
             // Save the state of the loop to be able to revert.
             this.view.loop.save();
@@ -449,16 +449,16 @@ class PlayModel {
                 if (model.view.loop.validateEquilibrate()) {
                     model.checkBtn.onClick = function() {};
                     model.revertBtn.onClick = function() {};    // Avoid re-trigger.
-                    // TODO: Transition to PC turn.
-                    model.turnIndicator.toPC();
+                    // Transition to PC turn.
+                    model.turnIndicator.setVelocity(-1);
                     model.transitionState();
                 }
             };
 
         } else if (this.state == "Pump" && this.playerPosition > 6) {
 
-            // TODO: Transition to you turn.
-            this.turnIndicator.toYou();
+            // Transition to you turn.
+            this.turnIndicator.setVelocity(1);
 
             // Save the state of the loop to be able to revert.
             this.view.loop.save();
@@ -473,8 +473,8 @@ class PlayModel {
                 if (model.view.loop.validatePump()) {
                     model.checkBtn.onClick = function() {};
                     model.revertBtn.onClick = function() {};    // Avoid re-trigger.
-                    // TODO: Transition to pc turn indicator.
-                    model.turnIndicator.toPC();
+                    // Transition to pc turn indicator.
+                    model.turnIndicator.setVelocity(-1);
                     model.transitionState();
                 }
             }
@@ -624,15 +624,28 @@ class TurnIndicator {
         this.y = yPos;
         this.w = width;
         this.h = height;
-        
+        // Begins with the PC's turn, ends with YOUR turn.
+        this.image = ["turn-0", "turn-1", "turn-2", "turn-3", "turn-4", "turn-5", "turn-6", "turn-7", "turn-8", 
+                        "turn-9", "turn-10", "turn-11"];
+        this.frame = 0;
+        this.v = 0;
     }
 
     /**
-     * Updates the current frame we are on for the gif
-     * while in animation mode.
+     * Updates the current frame we are on for the gif.
      */
     updateFrame() {
+        this.frame += this.v;
 
+        // Clamp the max index of frame.
+        if (this.frame >= this.image.length) {
+            this.frame = this.image.length - 1;
+        }
+
+        // Clamp minimum index of frame.
+        if (this.frame < 0) {
+            this.frame = 0;
+        }
     }
 
     /**
@@ -640,34 +653,15 @@ class TurnIndicator {
      * transition image on the screen.
      */
     paint() {
-        // CONTEXT.drawImage(document.getElementById(this.image), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        CONTEXT.drawImage(document.getElementById(this.image[this.frame]), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
 
     /**
-     * Sets the image to the PC turn image.
+     * Set the direction the animation should move in.
+     * @param {Number} v Either 1 or -1 for the animation direction.
      */
-    setPCTurn() {
-
-    }
-
-    /**
-     * Sets the timage to the 'to PC' transition.
-     */
-    toPC() {
-        // TODO:
-    }
-
-    /**
-     * Sets the image to the your turn image.
-     */
-    setYourTurn() {
-    }
-
-    /**
-     * Sets the image to the 'to You' transition.
-     */
-    toYou() {
-        // TODO:       
+    setVelocity(v) {
+        this.v = v;
     }
 
 }
