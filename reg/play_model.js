@@ -270,7 +270,6 @@ class PlayModel {
         // Choose starting limb position.
         D_LIMB[2].isSelected = true;
         this.playerPosition = 3;
-        
 
         // Add the turn indicator object to the dispatcher.
         mainDispatcher.add(this.turnIndicator);
@@ -424,7 +423,7 @@ class PlayModel {
                     model.view.sidebar.maxbar.checkMax();
                     model.movePlayer();
 
-                    // TODO: Stop the game when we reach the end.
+                    // Stop the game when we reach the end.
                     if (!model.isGameOver) {
                         model.transitionState();
                     }
@@ -602,7 +601,7 @@ class PlayModel {
         // Indicate the game is over.
         this.isGameOver = true;
 
-        // TODO: Display goodbye box.
+        // Display goodbye box.
         let goodbye = new EndGame(665, 365, 700, 480, 665, 348, 135, 198);
         mainDispatcher.add(goodbye);
     }
@@ -705,7 +704,8 @@ class EndGame {
         this.yGif = yGif;
         this.wGif = wGif;
         this.hGif = hGif;
-        this.image = ["end-0", "end-1", "end-2", "end-3", "end-4", "end-5", "end-6", "end-7", "end-8", "end-9", "end-10"];
+        this.image = ["end-0", "end-1", "end-2", "end-3", "end-4", "end-5", "end-6", "end-7", "end-8", "end-9", "end-9", 
+                        "end-9", "end-10", "end-10", "end-10", "end-10", "end-10"];
         this.frame = 0;
         this.v = 0.5;
     }
@@ -733,7 +733,7 @@ class EndGame {
         CONTEXT.drawImage(document.getElementById(this.bg), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 
         // Draw the gif.
-        CONTEXT.drawImage(document.getElementById(this.image[Math.floor(this.frame)]), this.xGif - this.wGif / 2, this.yGif - this.hGif / 2, this.w, this.hGif);
+        CONTEXT.drawImage(document.getElementById(this.image[Math.floor(this.frame)]), this.xGif - this.wGif / 2, this.yGif - this.hGif / 2, this.wGif, this.hGif);
 
         // Update gif state.
         this.updateFrame();
