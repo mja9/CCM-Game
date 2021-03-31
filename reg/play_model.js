@@ -11,6 +11,7 @@ class PlayModel {
         this.turnIndicator = new TurnIndicator(243, 593, 246, 100);
         this.tutorial = new TutorialModel(this);
         this.view = playView;
+        this.isGameOver = false;
     }
 
     /**
@@ -107,7 +108,7 @@ class PlayModel {
                     mainDispatcher.remove(moveable);
                     mainDispatcher.add(moveable);
 
-                    // TODO: Need to maintain a notion of this.
+                    // Need to maintain a notion of this.
                     if (inTutorial) {   // Moveable handler for tutorial only.
 
                         // Highlight selected limb position.
@@ -421,7 +422,11 @@ class PlayModel {
                 this.view.loop.flow(function() {
                     model.view.sidebar.maxbar.checkMax();
                     model.movePlayer();
-                    model.transitionState();
+
+                    // TODO: Stop the game when we reach the end.
+                    if (!model.isGameOver) {
+                        model.transitionState();
+                    }
                 });
                 break;
 
@@ -593,7 +598,10 @@ class PlayModel {
         MOVEABLE = [];
         DROPPABLE = [];  
 
-        // Display goodbye box.
+        // Indicate the game is over.
+        this.isGameOver = true;
+
+        // TODO: Display goodbye box.
         const goodbye = 
         {
             paint() {
@@ -666,6 +674,73 @@ class TurnIndicator {
      */
     setVelocity(v) {
         this.v = v;
+    }
+
+}
+
+/**
+ * An object representing the end game screen
+ * and its gif animation.
+ */
+class EndGame {
+
+    /**
+     * Constructor for the game end screen.
+     * @param {Number} xPos The x-component of the center of the end screen bg.
+     * @param {Number} yPos The y-component of the center of the end screen bg.
+     * @param {Number} width The width of the end screen bg.
+     * @param {Number} height The height of the end screen bg.
+     * @param {Number} xGif The x-component of the end screen gif.
+     * @param {Number} yGif The y-component of the end screen gif.
+     * @param {Number} wGif The width of the end screen gif.
+     * @param {Number} hGif The height of the end screen gif.
+     */
+    constructor(xPos, yPos, width, height, xGif, yGif, wGif, hGif) {
+
+        // Background fields.
+        this.x = xPos;
+        this.y = yPos;
+        this.w = width;
+        this.h = height;
+        this.bg = "";
+
+        // Gif fields.
+        this.xGif = xGif;
+        this.yGif = yGif;
+        this.wGif = wGif;
+        this.hGif = hGif;
+        this.image = [""];
+        this.frame = 0;
+        this.v = 0.5;
+    }
+
+    /**
+     * Method to update the current frame of the 
+     * end screen gif.
+     */
+    updateFrame() {
+        this.frame += this.v;
+
+        // Implement frames as cyclic array.
+        if (this.frame > this.image.length - 1) {
+            this.frame = 0;
+        }
+    }
+
+    /**
+     * Paint method for the end screen.
+     * Paints the background and the gif.
+     */
+    paint() {
+
+        // Draw the background.
+        CONTEXT.drawImage(document.getElementById(this.bg), this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+
+        // Draw the gif.
+        CONTEXT.drawImage(document.getElementById(this.image[Math.floor(this.frame)]), this.xGif - this.wGif / 2, this.yGif - this.hGif / 2, this.w, this.hGif);
+
+        // Update gif state.
+        this.updateFrame();
     }
 
 }
