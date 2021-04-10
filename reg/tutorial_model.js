@@ -3,12 +3,15 @@ class TutorialModel {
     constructor(playModel) {
         this.playModel = playModel;
         this.font = "Hanken Light";
+        this.loopIsSaved = false;
     }
 
+    /**
+     * Initialize the tutorial by displaying the first welcome message.
+     */
     init() {
         this.displayWelcomeTutorial();
     }
-
 
     /**
      * Handles the incoming animation, and click detection
@@ -933,10 +936,16 @@ class TutorialModel {
                 document.removeEventListener("keydown", keyDownEvent19);     // Avoid re-trigger.
                 mainDispatcher.removeAll([text, subtext]);
                 tutorial.playModel.removeMoveableHandler();
+                tutorial.loopIsSaved = false;   // Reset loop save tracking.
                 tutorial.displayDialogueBox20();
             }
         };
-        this.playModel.view.loop.save();    // Save the state for the revert button.
+
+        // Only save the state of the loop when this is first reached!
+        if (!this.loopIsSaved) {
+            this.playModel.view.loop.save();    // Save the state for the revert button.
+            this.loopIsSaved = true;
+        }
         this.playModel.revertBtn.onClick = function () {
             tutorial.playModel.view.loop.revert();
         };
@@ -1087,10 +1096,15 @@ class TutorialModel {
                 document.removeEventListener("keydown", keyDownEvent22);     // Avoid re-trigger.
                 mainDispatcher.removeAll([text, subtext]);
                 tutorial.playModel.removeMoveableHandler();
+                tutorial.loopIsSaved = false;   // Reset loop save tracking.
                 tutorial.displayDialogueBox23();
             }
         };
-        this.playModel.view.loop.save();    // Save loop state for revert button.
+
+        if (!this.loopIsSaved) {
+            this.playModel.view.loop.save();    // Save loop state for revert button.
+            this.loopIsSaved = true;
+        }
         this.playModel.revertBtn.onClick = function () {
             tutorial.playModel.view.loop.revert();
         };
