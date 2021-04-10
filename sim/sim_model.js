@@ -13,6 +13,14 @@ class SimulationModel {
     }
 
     init() {
+        // Add the back to menu button.
+        let backToMenu = new Button(49.5, 59, 41, 44, 
+            function() {
+                location.reload();
+            }, "back");
+        mainDispatcher.add(backToMenu);
+        CLICKABLE.push(backToMenu);
+
         this.initSimBtns();
         this.initStateButtons();
 

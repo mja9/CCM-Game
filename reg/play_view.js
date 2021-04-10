@@ -9,6 +9,13 @@ class PlayView {
         this.loop = new LoopOfHenle();
         this.sidebar = new SideBar("tutorial");
         mainDispatcher.add(this.sidebar);
+
+        // Add the back to menu button.
+        let backToMenu = new Button(49.5, 59, 41, 44, 
+            function() {
+                location.reload();
+            }, "back");
+        mainDispatcher.add(backToMenu);
     }
 
     /**
