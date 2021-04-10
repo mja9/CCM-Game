@@ -541,6 +541,11 @@ class TutorialModel {
                 // Shared actions fo rmoving back or forward.
                 document.removeEventListener("keydown", keyDownEvent11);     // Avoid re-trigger.
                 mainDispatcher.remove(text);    
+                for (let i = 0; i < A_LIMB.length; i++) {   // Remove concebtration flashes.
+                    A_LIMB[i].resetFlash();
+                    D_LIMB[i].resetFlash();
+                    INTER_FLUID[i].resetFlash();
+                }
         
                 // Click left to go back and right to go forward.
                 if (event.key == "ArrowLeft") {
@@ -577,6 +582,16 @@ class TutorialModel {
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3, line4], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
+
+        // Flash the concentrations.
+        for (let i = 0; i < A_LIMB.length; i++) {
+            A_LIMB[i].setFlashState(2);
+            A_LIMB[i].setFlash(0.05);
+            D_LIMB[i].setFlashState(2);
+            D_LIMB[i].setFlash(0.05);
+            INTER_FLUID[i].setFlashState(2);
+            INTER_FLUID[i].setFlash(0.05);
+        }
 
         // Press anything event.
         function keyDownEvent12(event) {

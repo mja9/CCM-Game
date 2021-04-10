@@ -214,8 +214,8 @@ class GradientPosition {
         this.a += this.flashVel;
 
         // Clamp the alpha number by a set maximum.
-        if (this.a >= 0.65) {
-            this.a = 0.65;
+        if (this.a >= 0.75) {
+            this.a = 0.75;
             this.flashVel = -this.flashVel;
         }
 
