@@ -120,6 +120,7 @@ function initGameTutorial() {
 }
 
 function initSimulation() {
+
     let simView = new SimulationView();
     let simModel = new SimulationModel(simView);
     simModel.init();

@@ -259,7 +259,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for dialogue box 7.
-        const line1 = "Welcome to your kindey. Let's help you";
+        const line1 = "Welcome to your kidney. Let's help you";
         const line2 = "get oriented and learn the rules of the";
         const line3 = "game.";
 
@@ -269,17 +269,19 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent7(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent7)
-            document.removeEventListener("keydown", keyDownEvent7);     // Avoid re-trigger.
 
-            // Clear the screen and display db 8.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox8();
+            // Do not allow left key to do anything.
+            if (event.key == "ArrowRight") {
+                document.removeEventListener("keydown", keyDownEvent7);     // Avoid re-trigger.
+
+                // Clear the screen and display db 8.
+                mainDispatcher.remove(text);
+                tutorial.displayDialogueBox8();
+            }
         }
 
         // On input display db8.
         document.addEventListener("keydown", keyDownEvent7);
-        CANVAS.addEventListener("mousedown", keyDownEvent7);
         mainDispatcher.add(text);
     }
 
@@ -300,14 +302,20 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent8(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent8);
-            document.removeEventListener("keydown", keyDownEvent8);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox9();
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                document.removeEventListener("keydown", keyDownEvent8);     // Avoid re-trigger.
+                mainDispatcher.remove(text);
+
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox7();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox9();
+                } 
+
+            }
         }
 
-        // On input display db9.
-        CANVAS.addEventListener("mousedown", keyDownEvent8);
         document.addEventListener("keydown", keyDownEvent8);
         mainDispatcher.add(text);
     }
@@ -335,15 +343,24 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent9(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent9);
-            document.removeEventListener("keydown", keyDownEvent9);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            D_LIMB.forEach(pos => pos.resetFlash());
-            tutorial.displayDialogueBox9Part2();
+            
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent9);     // Avoid re-trigger.
+                mainDispatcher.remove(text);
+                D_LIMB.forEach(pos => pos.resetFlash());
+
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox8();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox9Part2();
+                } 
+            }
         }
 
         // On input display db9 part 2.
-        CANVAS.addEventListener("mousedown", keyDownEvent9);
         document.addEventListener("keydown", keyDownEvent9);
         mainDispatcher.add(text);
     }
@@ -371,15 +388,24 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent9Part2(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent9Part2);
-            document.removeEventListener("keydown", keyDownEvent9Part2);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            mainDispatcher.remove(bend);
-            tutorial.displayDialogueBox9Part3();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent9Part2);     // Avoid re-trigger.
+                mainDispatcher.remove(text);
+                mainDispatcher.remove(bend);
+
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox9();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox9Part3();
+                } 
+            }
         }
 
         // On input display db9 part 3.
-        CANVAS.addEventListener("mousedown", keyDownEvent9Part2);
         document.addEventListener("keydown", keyDownEvent9Part2);
         mainDispatcher.add(text);
     }
@@ -410,15 +436,24 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent9Part3(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent9Part3);
-            document.removeEventListener("keydown", keyDownEvent9Part3);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            A_LIMB.forEach(pos => pos.resetFlash());
-            tutorial.displayDialogueBox10();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent9Part3);     // Avoid re-trigger.
+                mainDispatcher.remove(text);
+                A_LIMB.forEach(pos => pos.resetFlash());
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox9Part2();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox10();
+                } 
+            }            
         }
 
         // On input display db10.
-        CANVAS.addEventListener("mousedown", keyDownEvent9Part3);
         document.addEventListener("keydown", keyDownEvent9Part3);
         mainDispatcher.add(text);
     }
@@ -445,17 +480,26 @@ class TutorialModel {
             pos.setFlash(0.05);
         });
 
-        // Press anything event.
+        // Press arrow keys to navigate tutorial.
         function keyDownEvent10(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent10);
-            document.removeEventListener("keydown", keyDownEvent10);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            INTER_FLUID.forEach(pos => pos.resetFlash());
-            tutorial.displayDialogueBox11();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent10);     // Avoid re-trigger.
+                mainDispatcher.remove(text);
+                INTER_FLUID.forEach(pos => pos.resetFlash());
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox9Part3();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox11();
+                } 
+            }
         }
 
         // On input display db11.
-        CANVAS.addEventListener("mousedown", keyDownEvent10);
         document.addEventListener("keydown", keyDownEvent10);
         mainDispatcher.add(text);
     }
@@ -491,14 +535,28 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent11(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent11);
-            document.removeEventListener("keydown", keyDownEvent11);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox12();
+    
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent11);     // Avoid re-trigger.
+                mainDispatcher.remove(text);    
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    for (let i = 0; i < A_LIMB.length; i++) {   // Remove concebtration flashes.
+                        A_LIMB[i].resetFlash();
+                        D_LIMB[i].resetFlash();
+                        INTER_FLUID[i].resetFlash();
+                    }
+                    tutorial.displayDialogueBox10();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox12();
+                } 
+            }
         }
 
         // On input display db12.
-        CANVAS.addEventListener("mousedown", keyDownEvent11);
         document.addEventListener("keydown", keyDownEvent11);
         mainDispatcher.add(text);
     }
@@ -522,19 +580,28 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent12(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent12);
-            document.removeEventListener("keydown", keyDownEvent12);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            for (let i = 0; i < A_LIMB.length; i++) {   // Remove concebtration flashes.
-                A_LIMB[i].resetFlash();
-                D_LIMB[i].resetFlash();
-                INTER_FLUID[i].resetFlash();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent12);     // Avoid re-trigger.
+                mainDispatcher.remove(text);
+                for (let i = 0; i < A_LIMB.length; i++) {   // Remove concebtration flashes.
+                    A_LIMB[i].resetFlash();
+                    D_LIMB[i].resetFlash();
+                    INTER_FLUID[i].resetFlash();
+                }
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox11();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox13();
+                } 
             }
-            tutorial.displayDialogueBox13();
         }
 
         // On input display db13.
-        CANVAS.addEventListener("mousedown", keyDownEvent12);
         document.addEventListener("keydown", keyDownEvent12);
         mainDispatcher.add(text);
     }
@@ -557,14 +624,23 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent13(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent13);
-            document.removeEventListener("keydown", keyDownEvent13);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox14();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent13);     // Avoid re-trigger.
+                mainDispatcher.remove(text);        
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox12();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox14();
+                } 
+            }
         }
 
         // On input display db14.
-        CANVAS.addEventListener("mousedown", keyDownEvent13);
         document.addEventListener("keydown", keyDownEvent13);
         mainDispatcher.add(text);
     }
@@ -587,14 +663,23 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent14(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent14);
-            document.removeEventListener("keydown", keyDownEvent14);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox15();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent14);     // Avoid re-trigger.
+                mainDispatcher.remove(text);        
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox13();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox15();        
+                } 
+            }
         }
 
         // On input display db15.
-        CANVAS.addEventListener("mousedown", keyDownEvent14);
         document.addEventListener("keydown", keyDownEvent14);
         mainDispatcher.add(text);
     }
@@ -617,14 +702,23 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent15(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent15);
-            document.removeEventListener("keydown", keyDownEvent15);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox16();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent15);     // Avoid re-trigger.
+                mainDispatcher.remove(text);        
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox14();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox16();        
+                } 
+            }
         }
 
         // On input display db16.
-        CANVAS.addEventListener("mousedown", keyDownEvent15);
         document.addEventListener("keydown", keyDownEvent15);
         mainDispatcher.add(text);
     }
@@ -648,14 +742,23 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent16(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent16);
-            document.removeEventListener("keydown", keyDownEvent16);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox17();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent16);     // Avoid re-trigger.
+                mainDispatcher.remove(text);        
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox15();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox17();
+                } 
+            }
         }
 
         // On input display db17.
-        CANVAS.addEventListener("mousedown", keyDownEvent16);
         document.addEventListener("keydown", keyDownEvent16);
         mainDispatcher.add(text);
     }
@@ -704,17 +807,26 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent17(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent17);
-            document.removeEventListener("keydown", keyDownEvent17);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
 
-            // Remove grayed out icon copy.
-            mainDispatcher.removeAll(grayed);
-            tutorial.displayDialogueBox18();
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent17);     // Avoid re-trigger.
+                mainDispatcher.remove(text);
+
+                // Remove grayed out icon copy.
+                mainDispatcher.removeAll(grayed);        
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox16();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox18();        
+                } 
+            }
         }
 
         // On input display db18.
-        CANVAS.addEventListener("mousedown", keyDownEvent17);
         document.addEventListener("keydown", keyDownEvent17);
         mainDispatcher.add(text);
     }
@@ -737,14 +849,23 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent18(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent18);
-            document.removeEventListener("keydown", keyDownEvent18);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox19();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent18);     // Avoid re-trigger.
+                mainDispatcher.remove(text);        
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox17();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox19();        
+                } 
+            }
         }
 
         // On input display db19.
-        CANVAS.addEventListener("mousedown", keyDownEvent18);
         document.addEventListener("keydown", keyDownEvent18);
         mainDispatcher.add(text);
     }
@@ -775,12 +896,17 @@ class TutorialModel {
         subtext.alpha = 1.0;
 
         // Press anything event.
-        function keyDownEvent19() {
-            CANVAS.removeEventListener("mousedown", keyDownEvent19);
-            document.removeEventListener("keydown", keyDownEvent19);     // Avoid re-trigger.
-            mainDispatcher.removeAll([text, subtext]);
-            tutorial.playModel.removeMoveableHandler()
-            tutorial.displayDialogueBox20();
+        function keyDownEvent19(event) {
+
+            if (event.key == "ArrowLeft") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent19);     // Avoid re-trigger.
+                mainDispatcher.removeAll([text, subtext]);
+                tutorial.playModel.removeMoveableHandler();
+                tutorial.displayDialogueBox18();
+        
+            }
         }
 
         // On check display db20.
@@ -789,13 +915,17 @@ class TutorialModel {
             if (tutorial.playModel.view.loop.validatePump()) {
                 tutorial.playModel.checkBtn.onClick = function () { };
                 tutorial.playModel.revertBtn.onClick = function () { };   // Avoid reverting after successful pump.
-                keyDownEvent19();
+                document.removeEventListener("keydown", keyDownEvent19);     // Avoid re-trigger.
+                mainDispatcher.removeAll([text, subtext]);
+                tutorial.playModel.removeMoveableHandler();
+                tutorial.displayDialogueBox20();
             }
         };
         this.playModel.view.loop.save();    // Save the state for the revert button.
         this.playModel.revertBtn.onClick = function () {
             tutorial.playModel.view.loop.revert();
         };
+        document.addEventListener("keydown", keyDownEvent19);
         mainDispatcher.addAll([text, subtext]);
     }
 
