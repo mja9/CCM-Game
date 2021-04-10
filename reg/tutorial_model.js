@@ -1298,14 +1298,19 @@ class TutorialModel {
         // Press anything event.
         function keyDownEvent27(event) {
 
-            if (event.key == "ArrowRight") {
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
                 
                 // Shared actions fo rmoving back or forward.
                 document.removeEventListener("keydown", keyDownEvent27);     // Avoid re-trigger.
                 mainDispatcher.remove(text);
-                tutorial.playModel.addMoveableHandler();
-                tutorial.playModel.initRegularGame();   
-        
+
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox26();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.playModel.addMoveableHandler();
+                    tutorial.playModel.initRegularGame();  
+                } 
             }
         }
 
