@@ -24,8 +24,11 @@ class SimulationModel {
         this.initSimBtns();
         this.initStateButtons();
 
+        let simModel = this;
         // Set timeout to begin simulation.
-        this.transitionState();
+        window.setTimeout(function() {
+            simModel.transitionState();
+        }, 2000);
     }
 
     /**
