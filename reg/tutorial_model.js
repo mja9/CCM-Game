@@ -960,14 +960,19 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent20(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent20);
-            document.removeEventListener("keydown", keyDownEvent20);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            tutorial.displayDialogueBox21();
+
+            if (event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent20);     // Avoid re-trigger.
+                mainDispatcher.remove(text);            
+        
+                // Click left to go back and right to go forward.
+                tutorial.displayDialogueBox21();
+            }
         }
 
         // On input display db21.
-        CANVAS.addEventListener("mousedown", keyDownEvent20);
         document.addEventListener("keydown", keyDownEvent20);
         mainDispatcher.add(text);
     }
@@ -1017,15 +1022,24 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent21(event) {
-            CANVAS.removeEventListener("mousedown", keyDownEvent21);
-            document.removeEventListener("keydown", keyDownEvent21);     // Avoid re-trigger.
-            mainDispatcher.remove(text);
-            mainDispatcher.removeAll(grayed); // Remove shadow icon animation.
-            tutorial.displayDialogueBox22();
+
+            if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+                
+                // Shared actions fo rmoving back or forward.
+                document.removeEventListener("keydown", keyDownEvent21);     // Avoid re-trigger.
+                mainDispatcher.remove(text);
+                mainDispatcher.removeAll(grayed); // Remove shadow icon animation.            
+        
+                // Click left to go back and right to go forward.
+                if (event.key == "ArrowLeft") {
+                    tutorial.displayDialogueBox20();
+                } else if (event.key == "ArrowRight") {
+                    tutorial.displayDialogueBox22();        
+                } 
+            }
         }
 
         // On input display db22.
-        CANVAS.addEventListener("mousedown", keyDownEvent21);
         document.addEventListener("keydown", keyDownEvent21);
         mainDispatcher.add(text);
     }
@@ -1055,12 +1069,13 @@ class TutorialModel {
         subtext.alpha = 1.0;
 
         // Press anything event.
-        function keyDownEvent22() {
-            CANVAS.removeEventListener("mousedown", keyDownEvent22);
-            document.removeEventListener("keydown", keyDownEvent22);     // Avoid re-trigger.
-            mainDispatcher.removeAll([text, subtext]);
-            tutorial.playModel.removeMoveableHandler();
-            tutorial.displayDialogueBox23();
+        function keyDownEvent22(event) {
+            if (event.key == "ArrowLeft") {
+                document.removeEventListener("keydown", keyDownEvent22);     // Avoid re-trigger.
+                mainDispatcher.removeAll([text, subtext]);
+                tutorial.playModel.removeMoveableHandler();
+                tutorial.displayDialogueBox21();
+            }
         }
 
         // On input display db23.
@@ -1069,13 +1084,17 @@ class TutorialModel {
             if (tutorial.playModel.view.loop.validateEquilibrate()) {
                 tutorial.playModel.checkBtn.onClick = function () { };
                 tutorial.playModel.revertBtn.onClick = function () { };
-                keyDownEvent22();
+                document.removeEventListener("keydown", keyDownEvent22);     // Avoid re-trigger.
+                mainDispatcher.removeAll([text, subtext]);
+                tutorial.playModel.removeMoveableHandler();
+                tutorial.displayDialogueBox23();
             }
         };
         this.playModel.view.loop.save();    // Save loop state for revert button.
         this.playModel.revertBtn.onClick = function () {
             tutorial.playModel.view.loop.revert();
         };
+        document.addEventListener("keydown", keyDownEvent22);
         mainDispatcher.addAll([text, subtext]);
     }
 
@@ -1103,8 +1122,6 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent23() {
-            CANVAS.removeEventListener("mousedown", keyDownEvent23);
-            document.removeEventListener("keydown", keyDownEvent23);     // Avoid re-trigger.
             mainDispatcher.removeAll([text, subtext]);
             tutorial.displayDialogueBox24();
         }
