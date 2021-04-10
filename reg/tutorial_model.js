@@ -33,8 +33,8 @@ class TutorialModel {
         // when user input is detected. Both dialogue boxes are shwon on the screen at once.
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 206, 37, "20pt " + this.font);
         text.v = 0.02;
-        text.animationDecorator = function() {
-            text.animationDecorator = function() {};    // Avoid double-jeopardy. 
+        text.animationDecorator = function () {
+            text.animationDecorator = function () { };    // Avoid double-jeopardy. 
             document.addEventListener("keydown", keyDownEvent1);
             CANVAS.addEventListener("mousedown", keyDownEvent1);
         };
@@ -63,18 +63,18 @@ class TutorialModel {
             document.removeEventListener("keydown", keyDownEvent2);     // Avoid re-trigger.
             db1.v = - 0.1;
             text.v = -0.1;
-            text.animationDecorator = function() {
-                text.animationDecorator = function() {};    // Avoid double-jeopardy.
+            text.animationDecorator = function () {
+                text.animationDecorator = function () { };    // Avoid double-jeopardy.
                 mainDispatcher.removeAll([text, db1]);  // Remove the old objects.  
                 tutorial.displayDialogueBox3();
             }
         }
 
         // Clear the screen then display dialogue 3 when detecting user input.
-        text.animationDecorator = function() {
-            text.animationDecorator = function() {};    // Avoid double-jeopardy.    
+        text.animationDecorator = function () {
+            text.animationDecorator = function () { };    // Avoid double-jeopardy.    
             document.addEventListener("keydown", keyDownEvent2);
-            CANVAS.addEventListener("mousedown", keyDownEvent2);  
+            CANVAS.addEventListener("mousedown", keyDownEvent2);
         };
         mainDispatcher.add(text);
     }
@@ -103,8 +103,8 @@ class TutorialModel {
 
         // On input, dialogue 4 appears on the screen as well.
         text.v = 0.02;
-        text.animationDecorator = function() {
-            text.animationDecorator = function() {};    // Avoid double-jeopardy.
+        text.animationDecorator = function () {
+            text.animationDecorator = function () { };    // Avoid double-jeopardy.
             document.addEventListener("keydown", keyDownEvent3);
             CANVAS.addEventListener("mousedown", keyDownEvent3);
 
@@ -137,18 +137,18 @@ class TutorialModel {
             document.removeEventListener("keydown", keyDownEvent4);     // Avoid re-trigger.
             db3.v = - 0.1;
             text.v = -0.1;
-            text.animationDecorator = function() {
-                text.animationDecorator = function() {};    // Avoid double-jeopardy.
+            text.animationDecorator = function () {
+                text.animationDecorator = function () { };    // Avoid double-jeopardy.
                 mainDispatcher.removeAll([text, db3]);  // Remove the old objects.  
                 tutorial.displayDialogueBox5();
             }
         }
 
         // Clear the screen then display dialogue 3 when detecting user input.
-        text.animationDecorator = function() {
-            text.animationDecorator = function() {};    // Avoid double-jeopardy.    
-            document.addEventListener("keydown", keyDownEvent4); 
-            CANVAS.addEventListener("mousedown", keyDownEvent4); 
+        text.animationDecorator = function () {
+            text.animationDecorator = function () { };    // Avoid double-jeopardy.    
+            document.addEventListener("keydown", keyDownEvent4);
+            CANVAS.addEventListener("mousedown", keyDownEvent4);
         };
         mainDispatcher.add(text);
     }
@@ -166,13 +166,13 @@ class TutorialModel {
         const line3 = "own osmotic gradient in the loop of Henle.";
 
         // Add this dialogue box.
-        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt " + this.font);        
+        let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt " + this.font);
 
         // On input, dialogue 6 appears on the screen as well.
         text.v = 0.02;
-        text.animationDecorator = function() {
-            text.animationDecorator = function() {};    // Avoid double-jeopardy.
-            window.setTimeout(function() { 
+        text.animationDecorator = function () {
+            text.animationDecorator = function () { };    // Avoid double-jeopardy.
+            window.setTimeout(function () {
                 tutorial.displayDialogueBox6();
             }, 100);
         }
@@ -199,57 +199,57 @@ class TutorialModel {
             CANVAS.removeEventListener("mousedown", keyDownEvent6);
             document.removeEventListener("keydown", keyDownEvent6);     // Avoid re-trigger.
 
-                let fade = {
-                    v: 0.1,
-                    alpha: 0.0,
-                    move: function() {
-                        fade.alpha += fade.v
-        
-                        if (fade.alpha >= 1.0) {
-                            fade.animationDecorator();
-                            fade.alpha = 1.0;
-                        }
-                        else if (fade.alpha <= 0.0) {
-                            fade.animationDecorator();
-                            fade.alpha = 0.0;
-                        }
-                    },
-                    paint: function() {
-                        fade.move();
-                        let oldAlpha = CONTEXT.globalAlpha;
-                        CONTEXT.globalAlpha = fade.alpha;
-                        CONTEXT.fillStyle = "black";
-                        CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
-                        CONTEXT.globalAlpha = oldAlpha;
-                    },
+            let fade = {
+                v: 0.1,
+                alpha: 0.0,
+                move: function () {
+                    fade.alpha += fade.v
 
-                    animationDecorator: function() {
-                        fade.animationDecorator = function() {};    // Avoid double-jeopardy.
-                        mainDispatcher.clear();
-
-                        // Place the new game board behind the fade object.
-                        tutorial.playModel.view.switchBackground();
-                        mainDispatcher.add(tutorial.playModel.view);
-                        tutorial.playModel.view.init();
-                        tutorial.playModel.addButtons();
-                        tutorial.playModel.initBackButton();    // Allow player to go back to menu.
-                        tutorial.playModel.init();  // Initialize the clickable handler.
-                        mainDispatcher.add(fade);
-
-                        fade.v = -0.1;
-                        fade.animationDecorator = function() {
-                            fade.animationDecorator = function() {};    // Avoid double-jeopardy.
-                            mainDispatcher.remove(fade);
-                            tutorial.displayDialogueBox7();
-                        }
+                    if (fade.alpha >= 1.0) {
+                        fade.animationDecorator();
+                        fade.alpha = 1.0;
                     }
-                };
-                mainDispatcher.add(fade);
+                    else if (fade.alpha <= 0.0) {
+                        fade.animationDecorator();
+                        fade.alpha = 0.0;
+                    }
+                },
+                paint: function () {
+                    fade.move();
+                    let oldAlpha = CONTEXT.globalAlpha;
+                    CONTEXT.globalAlpha = fade.alpha;
+                    CONTEXT.fillStyle = "black";
+                    CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+                    CONTEXT.globalAlpha = oldAlpha;
+                },
+
+                animationDecorator: function () {
+                    fade.animationDecorator = function () { };    // Avoid double-jeopardy.
+                    mainDispatcher.clear();
+
+                    // Place the new game board behind the fade object.
+                    tutorial.playModel.view.switchBackground();
+                    mainDispatcher.add(tutorial.playModel.view);
+                    tutorial.playModel.view.init();
+                    tutorial.playModel.addButtons();
+                    tutorial.playModel.initBackButton();    // Allow player to go back to menu.
+                    tutorial.playModel.init();  // Initialize the clickable handler.
+                    mainDispatcher.add(fade);
+
+                    fade.v = -0.1;
+                    fade.animationDecorator = function () {
+                        fade.animationDecorator = function () { };    // Avoid double-jeopardy.
+                        mainDispatcher.remove(fade);
+                        tutorial.displayDialogueBox7();
+                    }
+                }
+            };
+            mainDispatcher.add(fade);
         };
 
         // Clear the screen then display the loop of Henle.
         document.addEventListener("keydown", keyDownEvent6);
-        CANVAS.addEventListener("mousedown", keyDownEvent6);  
+        CANVAS.addEventListener("mousedown", keyDownEvent6);
         mainDispatcher.add(text);
     }
 
@@ -389,7 +389,7 @@ class TutorialModel {
      * detection for db9 part 3, where
      * the ascending limb gets highlighted.
      */
-     displayDialogueBox9Part3() {
+    displayDialogueBox9Part3() {
         const tutorial = this;
 
         // Lines of text for db9.
@@ -683,11 +683,11 @@ class TutorialModel {
             let saltCopy = new SaltIcon(A_LIMB[i].salt.startX + (A_LIMB[i].salt.w / 2), A_LIMB[i].salt.startY + (A_LIMB[i].salt.h / 2), A_LIMB[i]);
 
             // When shadow salt reaches the inter position, reset its position and velocity.
-            saltCopy.animationDecorator = function() {
+            saltCopy.animationDecorator = function () {
                 saltCopy.x = saltCopy.startX;
                 saltCopy.v = -10;
             };
-            saltCopy.terminationCriteria = function() {
+            saltCopy.terminationCriteria = function () {
                 if (saltCopy.x <= INTER_FLUID[i].x + (INTER_FLUID[i].w / 4.0)) {
                     return true;
                 }
@@ -699,7 +699,7 @@ class TutorialModel {
             let grayedSalt = new GrayOut(0.5, saltCopy);
             grayed.push(grayedSalt);
         }
-        
+
         mainDispatcher.addAll(grayed);
 
         // Press anything event.
@@ -718,7 +718,7 @@ class TutorialModel {
         document.addEventListener("keydown", keyDownEvent17);
         mainDispatcher.add(text);
     }
-    
+
     /**
      * Handles the display and click
      * detection for db18.
@@ -785,15 +785,15 @@ class TutorialModel {
 
         // On check display db20.
         this.playModel.addMoveableHandler();
-        this.playModel.checkBtn.onClick = function() {
+        this.playModel.checkBtn.onClick = function () {
             if (tutorial.playModel.view.loop.validatePump()) {
-                tutorial.playModel.checkBtn.onClick = function() {};
-                tutorial.playModel.revertBtn.onClick = function() {};   // Avoid reverting after successful pump.
+                tutorial.playModel.checkBtn.onClick = function () { };
+                tutorial.playModel.revertBtn.onClick = function () { };   // Avoid reverting after successful pump.
                 keyDownEvent19();
             }
         };
         this.playModel.view.loop.save();    // Save the state for the revert button.
-        this.playModel.revertBtn.onClick = function() {
+        this.playModel.revertBtn.onClick = function () {
             tutorial.playModel.view.loop.revert();
         };
         mainDispatcher.addAll([text, subtext]);
@@ -852,11 +852,11 @@ class TutorialModel {
             let waterCopy = new WaterIcon(D_LIMB[i].water.startX - (D_LIMB[i].water.w / 2), D_LIMB[i].water.startY + (D_LIMB[i].water.h / 2), D_LIMB[i]);
 
             // When shadow salt reaches the inter position, reset its position and velocity.
-            waterCopy.animationDecorator = function() {
+            waterCopy.animationDecorator = function () {
                 waterCopy.x = waterCopy.startX;
                 waterCopy.v = 10;
             };
-            waterCopy.terminationCriteria = function() {
+            waterCopy.terminationCriteria = function () {
                 if (waterCopy.x >= INTER_FLUID[i].x - (INTER_FLUID[i].w / 4.0)) {
                     return true;
                 }
@@ -920,15 +920,15 @@ class TutorialModel {
 
         // On input display db23.
         this.playModel.addMoveableHandler();    // Allow icons to be moved once again.
-        this.playModel.checkBtn.onClick = function() {
+        this.playModel.checkBtn.onClick = function () {
             if (tutorial.playModel.view.loop.validateEquilibrate()) {
-                tutorial.playModel.checkBtn.onClick = function() {};
-                tutorial.playModel.revertBtn.onClick = function() {};
+                tutorial.playModel.checkBtn.onClick = function () { };
+                tutorial.playModel.revertBtn.onClick = function () { };
                 keyDownEvent22();
             }
         };
         this.playModel.view.loop.save();    // Save loop state for revert button.
-        this.playModel.revertBtn.onClick = function() {
+        this.playModel.revertBtn.onClick = function () {
             tutorial.playModel.view.loop.revert();
         };
         mainDispatcher.addAll([text, subtext]);
@@ -965,8 +965,8 @@ class TutorialModel {
         }
 
         // On input display db24.
-        this.playModel.checkBtn.onClick = function() {
-            tutorial.playModel.checkBtn.onClick = function() {};
+        this.playModel.checkBtn.onClick = function () {
+            tutorial.playModel.checkBtn.onClick = function () { };
             tutorial.playModel.view.loop.flow(keyDownEvent23);
         };
         mainDispatcher.addAll([text, subtext]);
@@ -1036,7 +1036,7 @@ class TutorialModel {
             tutorial.playModel.pumpButton.resetFlash();
             tutorial.playModel.equilibrateButton.resetFlash();
             tutorial.playModel.flowButton.resetFlash();
-        
+
             tutorial.displayDialogueBox26();
         }
 
