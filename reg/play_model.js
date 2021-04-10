@@ -9,6 +9,10 @@ class PlayModel {
         this.checkBtn = new Button(289, 408, 62, 54, function(){}, "check");
         this.revertBtn = new Button(142.5, 405.5, 61, 59, function(){}, "replay");
         this.turnIndicator = new TurnIndicator(243, 593, 246, 100);
+        this.backToMenu = new Button(49.5, 59, 41, 44, 
+                    function() {
+                        location.reload();
+                    }, "back");
         this.tutorial = new TutorialModel(this);
         this.view = playView;
         this.isGameOver = false;
@@ -19,7 +23,7 @@ class PlayModel {
      * play to the canvas.
      */
     addButtons() {
-        mainDispatcher.addAll([this.checkBtn, this.revertBtn, this.pumpButton, this.equilibrateButton, this.flowButton]);
+        mainDispatcher.addAll([this.checkBtn, this.revertBtn, this.pumpButton, this.equilibrateButton, this.flowButton, this.backToMenu]);
     }
 
     init() {
@@ -29,6 +33,14 @@ class PlayModel {
         this.initAscendingLimb();
         this.initDescendingLimb();
         this.initInterstitialFluid();
+    }
+
+    /**
+     * Method to initialize click handler for
+     * back to menu button.
+     */
+    initBackButton() {
+        CLICKABLE.push(this.backToMenu);
     }
 
     initPlayButtons() {

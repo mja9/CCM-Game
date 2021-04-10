@@ -232,6 +232,8 @@ class TutorialModel {
                         mainDispatcher.add(tutorial.playModel.view);
                         tutorial.playModel.view.init();
                         tutorial.playModel.addButtons();
+                        tutorial.playModel.initBackButton();    // Allow player to go back to menu.
+                        tutorial.playModel.init();  // Initialize the clickable handler.
                         mainDispatcher.add(fade);
 
                         fade.v = -0.1;
@@ -613,8 +615,6 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
-        // TODO: Flash the icons here.
-
         // Press anything event.
         function keyDownEvent15(event) {
             CANVAS.removeEventListener("mousedown", keyDownEvent15);
@@ -784,7 +784,6 @@ class TutorialModel {
         }
 
         // On check display db20.
-        this.playModel.init();  // Initialize the clickable handler.
         this.playModel.addMoveableHandler();
         this.playModel.checkBtn.onClick = function() {
             if (tutorial.playModel.view.loop.validatePump()) {
