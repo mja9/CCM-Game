@@ -100,7 +100,7 @@ class BlockingDialogue extends FadingObject {
      * @param {Array} lines An array of strings representing the lines of text.
      * @param {Number} xCenter The x-position about which the text is center-aligned.
      * @param {Number} firstY The y-position of the midline of the first line of text.
-     * @param {Number} lineDistance The distance between the midlinesof each line of text, assumed to be uniform.
+     * @param {Number} lineDistance The distance between the midlines of each line of text, assumed to be uniform.
      * @param {*} font A string representing the font name and size to be used for this text box, assumed to be uniform.
      */
     constructor(lines, xCenter, firstY, lineDistance, font) {

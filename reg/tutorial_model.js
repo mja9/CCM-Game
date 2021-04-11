@@ -97,7 +97,7 @@ class TutorialModel {
         const tutorial = this;
 
         // The lines of text of the first dialogue box.
-        const line1 = "400 million years ago, our fishy ancestors transitioned from a life";
+        const line1 = "Some 400 million years ago, our fishy ancestors transitioned from a life";
         const line2 = "in the sea to one on land. This drier environment presented a host";
         const line3 = "of new problems -- not least, water conservation during excretion.";
 
@@ -192,21 +192,20 @@ class TutorialModel {
     }
 
     /**
-     * Handles the incoming animation, click detection, 
-     * and outgoing animation for dialogue 4. 
-     * Also handles outging animation for dialogue box 3.
+     * Handles the incoming animation and click detection.
+     * for dialogue 4. 
      * @param {BlockingDialogue} db3 Dialogue box 3 which appears at the same time as 4.
      */
     displayDialogueBox4(db3) {
         const tutorial = this;
 
         // Lines of text for dialogue 4.
-        const line1 = "Fluid enters at a low concentration. As it flows through the loop, the";
-        const line2 = "concentration grows as an osmotic gradient is created through countercurrent";
-        const line3 = "multiplication. The gradient ultimately draws water out of urine leaving the";
-        const line4 = "body through the collecting duct, minimizing water loss.";
+        const line1 = "Fluid enters the loop around the same concentration as blood plasma.";
+        const line2 = "As it flows through the loop, the concentration grows as an osmotic gradient";
+        const line3 = "is created through countercurrent multiplication. The gradient ultimately draws";
+        const line4 = "water out of urine leaving the body through the collecting duct, minimizing water loss.";
 
-        // Add this dialogue box. 
+        // Add this dialogue box.
         let text = new BlockingDialogue([line1, line2, line3, line4], CANVAS.clientWidth / 2, 350, 37, "20pt " + this.font);
         text.v = 0.1;
 
@@ -214,13 +213,7 @@ class TutorialModel {
         function keyDownEvent4(event) {
             CANVAS.removeEventListener("mouswdown", keyDownEvent4);
             document.removeEventListener("keydown", keyDownEvent4);     // Avoid re-trigger.
-            db3.v = - 0.1;
-            text.v = -0.1;
-            text.animationDecorator = function () {
-                text.animationDecorator = function () { };    // Avoid double-jeopardy.
-                mainDispatcher.removeAll([text, db3]);  // Remove the old objects.  
-                tutorial.displayDialogueBox5();
-            }
+            tutorial.displayDialogueBox4Part2(db3, text);
         }
 
         // Clear the screen then display dialogue 3 when detecting user input.
@@ -228,6 +221,48 @@ class TutorialModel {
             text.animationDecorator = function () { };    // Avoid double-jeopardy.    
             document.addEventListener("keydown", keyDownEvent4);
             CANVAS.addEventListener("mousedown", keyDownEvent4);
+        };
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the incoming animation, click detection, and outgoing 
+     * animation for the additional paragraph in dialogue box 4.
+     * Additionally handles the outgoing animation for dialogue boxes
+     * 3 and 4.
+     * @param {BlockingDialogue} db3 Dialogue box 3, which appears at the same time.
+     * @param {BlockingDialogue} db4 Dialogue box 4 part 1, which appears at the same time.
+     */
+    displayDialogueBox4Part2(db3, db4) {
+        const tutorial = this;
+
+        // Lines of text for dialogue 4 part 2.
+        const line1 = "This is necessary because active transport cannot directly generate";
+        const line2 = "sufficient osmotic strength with which to concentrate urine.";
+
+        // Add this dialogue box.
+        let text = new BlockingDialogue([line1, line2], CANVAS.clientWidth / 2, 535, 37, "20pt " + this.font);
+        text.v = 0.1;
+
+        // Press anything event.
+        function keyDownEvent4Part2(event) {
+            CANVAS.removeEventListener("mouswdown", keyDownEvent4Part2);
+            document.removeEventListener("keydown", keyDownEvent4Part2);     // Avoid re-trigger.
+            db3.v = - 0.1;
+            db4.v = -0.1;
+            text.v = -0.1;
+            text.animationDecorator = function () {
+                text.animationDecorator = function () { };    // Avoid double-jeopardy.
+                mainDispatcher.removeAll([text, db3, db4]);  // Remove the old objects.  
+                tutorial.displayDialogueBox5();
+            }
+        }
+
+        // Clear the screen then display dialogue 3 when detecting user input.
+        text.animationDecorator = function () {
+            text.animationDecorator = function () { };    // Avoid double-jeopardy.    
+            document.addEventListener("keydown", keyDownEvent4Part2);
+            CANVAS.addEventListener("mousedown", keyDownEvent4Part2);
         };
         mainDispatcher.add(text);
     }
