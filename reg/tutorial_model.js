@@ -211,7 +211,7 @@ class TutorialModel {
 
         // Press anything event.
         function keyDownEvent4(event) {
-            CANVAS.removeEventListener("mouswdown", keyDownEvent4);
+            CANVAS.removeEventListener("mousedown", keyDownEvent4);
             document.removeEventListener("keydown", keyDownEvent4);     // Avoid re-trigger.
             tutorial.displayDialogueBox4Part2(db3, text);
         }
@@ -682,10 +682,10 @@ class TutorialModel {
         // Lines of text for db11.
         const line1 = "The goal of countercurrent";
         const line2 = "multiplication is to increase the";
-        const line3 = "concentration, or $(white)osmotic potential$, of";
-        const line4 = "the interstitial fluid, which will create"
-        const line5 = "concentrated urine in the collecting";
-        const line6 = "duct."
+        const line3 = "concentration, or $(white)osmotic pressure$, of";
+        const line4 = "the interstitial fluid, which will ultimately"
+        const line5 = "create concentrated urine in the";
+        const line6 = "collecting duct."
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3, line4, line5, line6], 247, 526, 30, "14pt " + this.font);
@@ -751,8 +751,8 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db12.
-        const line1 = "The osmotic potential of fluid is";
-        const line2 = "measured in $(white)milliosmoles$ (mOsm) -- the";
+        const line1 = "The osmotic pressure of fluid is";
+        const line2 = "measured in $(white)milliosmolarity$ (mOsm) -- the";
         const line3 = "higher the number, the more";
         const line4 = "concentrated."
 
@@ -815,9 +815,9 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db13.
-        const line1 = "The loop starts off at a homogeneous";
-        const line2 = "300 mOsm, the same as your blood";
-        const line3 = "plasma.";
+        const line1 = "The loop starts off at 300 mOsm,";
+        const line2 = "the same osmolarity as your";
+        const line3 = "blood plasma.";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
@@ -854,7 +854,7 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for db14.
-        const line1 = "Osmotic potential of the interstitial";
+        const line1 = "Osmotic pressure of the interstitial";
         const line2 = "fluid can be increased by removing";
         const line3 = "salt or water from the loop.";
 
@@ -974,7 +974,7 @@ class TutorialModel {
         // Lines of text for db17.
         const line1 = "First, the ascending limb will actively $(#ff5853)PUMP$";
         const line2 = "out solutes into the interstitial fluid, as its";
-        const line3 = "walls are $(white)impermeable$ to water.";
+        const line3 = "walls are essentially $(white)impermeable$ to water.";
 
         // Add this dialogue box. 
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
@@ -1188,11 +1188,12 @@ class TutorialModel {
         const line1 = "Next, the descending limb will passively";
         const line2 = "$(#ffb829)EQUILIBRATE$ with the interstitial fluid to";
         const line3 = "match its concentration. Its walls are";
-        const line4 = "$(white)permeable$ to accomodate this";
-        const line5 = "process.";
+        const line4 = "$(white)permeable$ to water, so the fluid inside";
+        const line5 = "becomes more concentrated as it loses water by";
+        const line6 = "osmosis and sometimes gains salts by diffusion.";
 
         // Add this dialogue box. 
-        let text = new BlockingDialogue([line1, line2, line3, line4, line5], 247, 526, 30, "14pt " + this.font);
+        let text = new BlockingDialogue([line1, line2, line3, line4, line5, line6], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
         // Shadow animation for the water icon.
