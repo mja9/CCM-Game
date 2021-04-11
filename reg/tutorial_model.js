@@ -9,6 +9,7 @@ class TutorialModel {
             function() {
                 tutorial.skipTutorial();
             }, 'skip');
+        this.removeOnSkip = function() {};
     }
 
     /**
@@ -27,7 +28,7 @@ class TutorialModel {
      * Method to skip the tutorial and go straight to regular play.
      */
     skipTutorial() {
-
+        // TODO:
         const tutorial = this;
 
         // fade into the regular play.
@@ -56,8 +57,11 @@ class TutorialModel {
             },
 
             animationDecorator: function () {
-                fade.animationDecorator = function () { };    // Avoid double-jeopardy.
+                fade.animationDecorator = function () {};    // Avoid double-jeopardy.
                 mainDispatcher.clear();
+
+                // Perform additional removal function.
+                tutorial.removeOnSkip();
 
                 // Place the new game board behind the fade object.
                 tutorial.playModel.view.switchBackground();
@@ -310,7 +314,7 @@ class TutorialModel {
                     tutorial.playModel.addButtons();
                     tutorial.playModel.initBackButton();    // Allow player to go back to menu.
                     tutorial.playModel.init();  // Initialize the clickable handler.
-                    mainDispatcher.add(tutorial.skipBtn);   // TODO:
+                    mainDispatcher.add(tutorial.skipBtn);
                     mainDispatcher.add(fade);
 
                     fade.v = -0.1;
@@ -418,6 +422,11 @@ class TutorialModel {
             pos.setFlash(0.05);
         });
 
+        // If we press skip button here, remove descending limb flash.
+        this.removeOnSkip = function() {
+            D_LIMB.forEach(pos => pos.resetFlash());
+        };
+
         // Press anything event.
         function keyDownEvent9(event) {
             
@@ -511,6 +520,11 @@ class TutorialModel {
             pos.setFlash(0.05);
         });
 
+        // If we press skip button here, remove ascending limb flash.
+        this.removeOnSkip = function() {
+            A_LIMB.forEach(pos => pos.resetFlash());
+        };
+
         // Press anything event.
         function keyDownEvent9Part3(event) {
 
@@ -556,6 +570,11 @@ class TutorialModel {
             pos.setFlashState(1);
             pos.setFlash(0.05);
         });
+
+        // If we press skip button here, remove interstitial fluid flash.
+        this.removeOnSkip = function() {
+            INTER_FLUID.forEach(pos => pos.resetFlash());
+        };
 
         // Press arrow keys to navigate tutorial.
         function keyDownEvent10(event) {
@@ -609,6 +628,15 @@ class TutorialModel {
             INTER_FLUID[i].setFlashState(2);
             INTER_FLUID[i].setFlash(0.05);
         }
+
+        // If we press skip button here, remove concentration flash.
+        this.removeOnSkip = function() {
+            for (let i = 0; i < A_LIMB.length; i++) {
+                A_LIMB[i].resetFlash();
+                D_LIMB[i].resetFlash();
+                INTER_FLUID[i].resetFlash();
+            }
+        };
 
         // Press anything event.
         function keyDownEvent11(event) {
@@ -669,6 +697,15 @@ class TutorialModel {
             INTER_FLUID[i].setFlashState(2);
             INTER_FLUID[i].setFlash(0.05);
         }
+
+        // If we press skip button here, remove concentration flash.
+        this.removeOnSkip = function() {
+            for (let i = 0; i < A_LIMB.length; i++) {
+                A_LIMB[i].resetFlash();
+                D_LIMB[i].resetFlash();
+                INTER_FLUID[i].resetFlash();
+            }
+        };
 
         // Press anything event.
         function keyDownEvent12(event) {
@@ -987,6 +1024,11 @@ class TutorialModel {
         let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
 
+        // If we press skip button here, remove draggable handler to avoid double jeapordy.
+        this.removeOnSkip = function() {
+            tutorial.playModel.removeMoveableHandler();
+        };
+
         // Press anything event.
         function keyDownEvent19(event) {
 
@@ -1155,6 +1197,11 @@ class TutorialModel {
         let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
 
+        // If we press skip button here, remove draggable handler to avoid double jeapordy.
+        this.removeOnSkip = function() {
+            tutorial.playModel.removeMoveableHandler();
+        };
+
         // Press anything event.
         function keyDownEvent22(event) {
             if (event.key == "ArrowLeft") {
@@ -1249,6 +1296,11 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
+        // If we press skip button here, reset side bar flashing.
+        this.removeOnSkip = function() {
+            tutorial.playModel.view.sidebar.resetFlash();   // Remove flash highlight animation.
+        };
+
         // Press anything event.
         function keyDownEvent24(event) {
 
@@ -1286,6 +1338,13 @@ class TutorialModel {
         this.playModel.pumpButton.setFlashVelocity(0.05);
         this.playModel.equilibrateButton.setFlashVelocity(0.05);
         this.playModel.flowButton.setFlashVelocity(0.05);
+
+        // If we press skip button here, reset state box flashing.
+        this.removeOnSkip = function() {
+            tutorial.playModel.pumpButton.resetFlash();
+            tutorial.playModel.equilibrateButton.resetFlash();
+            tutorial.playModel.flowButton.resetFlash(); 
+        };
 
         // Press anything event.
         function keyDownEvent25(event) {
@@ -1334,6 +1393,11 @@ class TutorialModel {
 
         // Flash highlight of the maxbar.
         this.playModel.view.sidebar.maxbar.setFlashVelocity(0.05);
+
+        // If we press skip button here, reset maxbar flashing.
+        this.removeOnSkip = function() {
+            tutorial.playModel.view.sidebar.maxbar.resetFlash();
+        };
 
         // Press anything event.
         function keyDownEvent26(event) {
@@ -1390,6 +1454,11 @@ class TutorialModel {
                 if (event.key == "ArrowLeft") {
                     tutorial.displayDialogueBox26();
                 } else if (event.key == "ArrowRight") {
+
+                    // get rid of the skip tutorial button.
+                    mainDispatcher.remove(tutorial.skipBtn);
+                    CLICKABLE.splice(CLICKABLE.indexOf(tutorial.skipBtn), 1);
+
                     tutorial.playModel.addMoveableHandler();
                     tutorial.playModel.initRegularGame();  
                 } 
