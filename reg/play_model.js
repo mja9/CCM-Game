@@ -469,6 +469,10 @@ class PlayModel {
                     // Transition to PC turn.
                     model.turnIndicator.setVelocity(-0.75);
                     model.transitionState();
+
+                // Show player which positions are wrong.
+                } else {
+                    model.view.loop.flashWrongEquis();
                 }
             };
 
@@ -493,6 +497,10 @@ class PlayModel {
                     // Transition to pc turn indicator.
                     model.turnIndicator.setVelocity(-0.75);
                     model.transitionState();
+                
+                // Show player which positions are wrong.
+                } else {
+                    model.view.loop.flashWrongPumps();
                 }
             }
         }
