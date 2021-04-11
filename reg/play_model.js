@@ -13,6 +13,7 @@ class PlayModel {
                     function() {
                         location.reload();
                     }, "back");
+        this.hintBtn = new HintButton(31, 699, 38, 38, function() {}, "hint");
         this.tutorial = new TutorialModel(this);
         this.view = playView;
         this.isGameOver = false;
@@ -23,7 +24,8 @@ class PlayModel {
      * play to the canvas.
      */
     addButtons() {
-        mainDispatcher.addAll([this.checkBtn, this.revertBtn, this.pumpButton, this.equilibrateButton, this.flowButton, this.backToMenu]);
+        mainDispatcher.addAll([this.checkBtn, this.revertBtn, this.pumpButton, this.equilibrateButton, 
+            this.flowButton, this.backToMenu]);
     }
 
     init() {
@@ -453,6 +455,20 @@ class PlayModel {
             // Transition to your turn indicator.
             this.turnIndicator.setVelocity(0.75);
 
+            // Add hint for the pump phase.
+            mainDispatcher.add(this.hintBtn);
+            CLICKABLE.push(this.hintBtn);
+            const btn = this.hintBtn;
+            this.hintBtn.onClick = function() {
+                btn.hintLine1 = "The descending limb is equilibrating with the";
+                btn.hintLine2 = "interstitial fluid, so their concentrations should match.";
+
+                window.setTimeout(function() {
+                    btn.hintLine1 = "";
+                    btn.hintLine2 = "";
+                }, 5000);
+            }
+
             // Save the state of the loop to be able to revert.
             this.view.loop.save();
 
@@ -466,6 +482,12 @@ class PlayModel {
                 if (model.view.loop.validateEquilibrate()) {
                     model.checkBtn.onClick = function() {};
                     model.revertBtn.onClick = function() {};    // Avoid re-trigger.
+
+                    // Remove hint button.
+                    mainDispatcher.remove(btn);
+                    CLICKABLE.splice(CLICKABLE.indexOf(btn), 1);
+                    btn.onClick = function() {};
+
                     // Transition to PC turn.
                     model.turnIndicator.setVelocity(-0.75);
                     model.transitionState();
@@ -481,6 +503,20 @@ class PlayModel {
             // Transition to you turn.
             this.turnIndicator.setVelocity(0.75);
 
+            // Add hint for the equi phase.
+            mainDispatcher.add(this.hintBtn);
+            CLICKABLE.push(this.hintBtn);
+            const btn = this.hintBtn;
+            this.hintBtn.onClick = function() {
+                btn.hintLine1 = "Due to biological constraints, the difference between the ascending limb";
+                btn.hintLine2 = "and the interstitial fluid should approximate but not exceed 200 mOsm.";
+
+                window.setTimeout(function() {
+                    btn.hintLine1 = "";
+                    btn.hintLine2 = "";
+                }, 5000);
+            }
+
             // Save the state of the loop to be able to revert.
             this.view.loop.save();
 
@@ -494,6 +530,12 @@ class PlayModel {
                 if (model.view.loop.validatePump()) {
                     model.checkBtn.onClick = function() {};
                     model.revertBtn.onClick = function() {};    // Avoid re-trigger.
+
+                    // Remove hint button.
+                    mainDispatcher.remove(btn);
+                    CLICKABLE.splice(CLICKABLE.indexOf(btn), 1);
+                    btn.onClick = function() {};
+
                     // Transition to pc turn indicator.
                     model.turnIndicator.setVelocity(-0.75);
                     model.transitionState();
@@ -613,8 +655,8 @@ class PlayModel {
     }
 
     gameOver() {
-        // Don't let the player interact with anything else.
-        CLICKABLE = [];
+        // Don't let the player interact with anything else (aside from back to menu).
+        CLICKABLE = [this.backToMenu];
         MOVEABLE = [];
         DROPPABLE = [];  
 
@@ -624,6 +666,7 @@ class PlayModel {
         // Display goodbye box.
         let goodbye = new EndGame(665, 365, 700, 480, 665, 348, 135, 198);
         mainDispatcher.add(goodbye);
+        
     }
 
 }

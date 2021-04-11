@@ -252,3 +252,41 @@ class Label {
 
 }
 
+class HintButton extends Button {
+
+    /**
+     * Constrcutor for the button class.
+     * @param {Number} xPos x component of the button's center
+     * @param {Number} yPos y component of the button's center.
+     * @param {Number} width width of the button
+     * @param {Number} height height of the button
+     * @param {Function} clickAction action triggered when button is clicked
+     */
+     constructor(xPos, yPos, width, height, clickAction) {
+        super(xPos, yPos, width, height, clickAction, "hint");
+        this.hintLine1 = "";
+        this.hintLine2 = "";
+    }
+
+    /**
+     * Overriden paint method for the HintButton class.
+     * Additionally paints the associated hint when the player
+     * clicks the button.
+     */
+    paint() {
+        super.paint();
+
+        // Paint the hint as well.
+        CONTEXT.fillStyle = "#c9eeff";
+        CONTEXT.textAlign = "start";
+        CONTEXT.textBaseline = "middle";
+        CONTEXT.font = "10pt Hanken Light";
+
+        // Draw the first line.
+        CONTEXT.fillText(this.hintLine1, this.x + 35, this.y - 9);
+
+        // Draw the second line.
+        CONTEXT.fillText(this.hintLine2, this.x + 35, this.y + 5);
+    }
+
+}
