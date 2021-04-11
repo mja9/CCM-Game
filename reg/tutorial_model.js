@@ -4,13 +4,86 @@ class TutorialModel {
         this.playModel = playModel;
         this.font = "Hanken Light";
         this.loopIsSaved = false;
+        const tutorial = this;
+        this.skipBtn = new Button(1272, 666.5, 78, 57, 
+            function() {
+                tutorial.skipTutorial();
+            }, 'skip');
     }
 
     /**
      * Initialize the tutorial by displaying the first welcome message.
      */
     init() {
+
+        // Add the skip tutorial button.
+        mainDispatcher.add(this.skipBtn);
+        CLICKABLE.push(this.skipBtn);
+
         this.displayWelcomeTutorial();
+    }
+
+    /**
+     * Method to skip the tutorial and go straight to regular play.
+     */
+    skipTutorial() {
+
+        const tutorial = this;
+
+        // fade into the regular play.
+        let fade = {
+            v: 0.1,
+            alpha: 0.0,
+            move: function () {
+                fade.alpha += fade.v
+
+                if (fade.alpha >= 1.0) {
+                    fade.animationDecorator();
+                    fade.alpha = 1.0;
+                }
+                else if (fade.alpha <= 0.0) {
+                    fade.animationDecorator();
+                    fade.alpha = 0.0;
+                }
+            },
+            paint: function () {
+                fade.move();
+                let oldAlpha = CONTEXT.globalAlpha;
+                CONTEXT.globalAlpha = fade.alpha;
+                CONTEXT.fillStyle = "black";
+                CONTEXT.fillRect(0, 0, CANVAS.clientWidth, CANVAS.clientHeight);
+                CONTEXT.globalAlpha = oldAlpha;
+            },
+
+            animationDecorator: function () {
+                fade.animationDecorator = function () { };    // Avoid double-jeopardy.
+                mainDispatcher.clear();
+
+                // Place the new game board behind the fade object.
+                tutorial.playModel.view.switchBackground();
+                mainDispatcher.add(tutorial.playModel.view);
+                tutorial.playModel.view.init();
+                tutorial.playModel.addButtons();
+                tutorial.playModel.initBackButton();    // Allow player to go back to menu.
+                tutorial.playModel.init();  // Initialize the clickable handler. 
+                mainDispatcher.add(fade);
+
+                fade.v = -0.1;
+                fade.animationDecorator = function () {
+                    fade.animationDecorator = function () { };    // Avoid double-jeopardy.
+                    mainDispatcher.remove(fade);
+
+                    // Perform the rest of the initialization.
+                    tutorial.playModel.addMoveableHandler();
+                    tutorial.playModel.initRegularGame();  
+                }
+            }
+        };
+
+        // Remove the skip btn from CLICKABLE.
+        CLICKABLE.splice(CLICKABLE.indexOf(this.skipBtn), 1);
+
+        mainDispatcher.add(fade);
     }
 
     /**
@@ -237,6 +310,7 @@ class TutorialModel {
                     tutorial.playModel.addButtons();
                     tutorial.playModel.initBackButton();    // Allow player to go back to menu.
                     tutorial.playModel.init();  // Initialize the clickable handler.
+                    mainDispatcher.add(tutorial.skipBtn);   // TODO:
                     mainDispatcher.add(fade);
 
                     fade.v = -0.1;
