@@ -275,10 +275,48 @@ class TutorialModel {
         const tutorial = this;
 
         // Lines of text for dialogue 5.
-        const line1 = "This game will teach you how countercurrent";
-        const line2 = "multiplication works by allowing you to build your";
-        const line3 = "own osmotic gradient in the loop of Henle.";
+        const line1 = "This game will teach you how countercurrent multiplication creates";
+        const line2 = "a gradient of NaCl concentration. You will play the role of glomerular filtrate,";
+        const line3 = "gaining and losing osmolarity as you move through the loop of Henle,";
+        const line4 = "first descending into the medulla of the kidney and then ascending"
+        const line5 = "back out toward the cortex."
 
+        // Add this dialogue box.
+        let text = new BlockingDialogue([line1, line2, line3, line4, line5], CANVAS.clientWidth / 2, 249, 37, "20pt " + this.font);
+
+        // Press anything event.
+        function keyDownEvent5(event) {
+            CANVAS.removeEventListener("mouswdown", keyDownEvent5);
+            document.removeEventListener("keydown", keyDownEvent5);     // Avoid re-trigger.
+            text.v = -0.1;
+            text.animationDecorator = function () {
+                text.animationDecorator = function () { };    // Avoid double-jeopardy.
+                mainDispatcher.removeAll([text]);  // Remove the old objects.  
+                tutorial.displayDialogueBox5Half();
+            }
+        }
+
+        text.v = 0.02;
+        text.animationDecorator = function () {
+            text.animationDecorator = function () {};    // Avoid double-jeopardy.
+            document.addEventListener("keydown", keyDownEvent5);
+            CANVAS.addEventListener("mousedown", keyDownEvent5);
+        }
+        mainDispatcher.add(text);
+    }
+
+    /**
+     * Handles the incoming animation, click detection,
+     * and ougoing animation of dialogue box 5 and a half.
+     */
+    displayDialogueBox5Half() {
+        const tutorial = this;
+
+        // Lines of text for dialogue 5.
+        const line1 = "LEARNING GOAL: You will understand urine formation in mammals.";
+        const line2 = "LEARNING OUTCOME: You will explain the mechanism used by the";
+        const line3 = "mammalian kidney to concentrate urine."
+    
         // Add this dialogue box.
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt " + this.font);
 
