@@ -28,7 +28,6 @@ class TutorialModel {
      * Method to skip the tutorial and go straight to regular play.
      */
     skipTutorial() {
-        // TODO:
         const tutorial = this;
 
         // fade into the regular play.
@@ -1007,6 +1006,10 @@ class TutorialModel {
     displayDialogueBox19() {
         const tutorial = this;
 
+        // Remove the skip button at this point.
+        CLICKABLE.splice(CLICKABLE.indexOf(this.skipBtn), 1);
+        mainDispatcher.remove(this.skipBtn);
+
         // Lines of text for db19.
         const line1 = "$(#0060ff)Drag the correct element$ into the";
         const line2 = "corresponding position in the interstitial";
@@ -1023,11 +1026,6 @@ class TutorialModel {
 
         let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
-
-        // If we press skip button here, remove draggable handler to avoid double jeapordy.
-        this.removeOnSkip = function() {
-            tutorial.playModel.removeMoveableHandler();
-        };
 
         // Press anything event.
         function keyDownEvent19(event) {
@@ -1197,11 +1195,6 @@ class TutorialModel {
         let subtext = new BlockingDialogue([line5, line6], 247, 660, 25, "12pt " + this.font);
         subtext.alpha = 1.0;
 
-        // If we press skip button here, remove draggable handler to avoid double jeapordy.
-        this.removeOnSkip = function() {
-            tutorial.playModel.removeMoveableHandler();
-        };
-
         // Press anything event.
         function keyDownEvent22(event) {
             if (event.key == "ArrowLeft") {
@@ -1296,11 +1289,6 @@ class TutorialModel {
         let text = new BlockingDialogue([line1, line2, line3], 247, 526, 30, "14pt " + this.font);
         text.alpha = 1.0;
 
-        // If we press skip button here, reset side bar flashing.
-        this.removeOnSkip = function() {
-            tutorial.playModel.view.sidebar.resetFlash();   // Remove flash highlight animation.
-        };
-
         // Press anything event.
         function keyDownEvent24(event) {
 
@@ -1338,13 +1326,6 @@ class TutorialModel {
         this.playModel.pumpButton.setFlashVelocity(0.05);
         this.playModel.equilibrateButton.setFlashVelocity(0.05);
         this.playModel.flowButton.setFlashVelocity(0.05);
-
-        // If we press skip button here, reset state box flashing.
-        this.removeOnSkip = function() {
-            tutorial.playModel.pumpButton.resetFlash();
-            tutorial.playModel.equilibrateButton.resetFlash();
-            tutorial.playModel.flowButton.resetFlash(); 
-        };
 
         // Press anything event.
         function keyDownEvent25(event) {
@@ -1393,11 +1374,6 @@ class TutorialModel {
 
         // Flash highlight of the maxbar.
         this.playModel.view.sidebar.maxbar.setFlashVelocity(0.05);
-
-        // If we press skip button here, reset maxbar flashing.
-        this.removeOnSkip = function() {
-            tutorial.playModel.view.sidebar.maxbar.resetFlash();
-        };
 
         // Press anything event.
         function keyDownEvent26(event) {
