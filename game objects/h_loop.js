@@ -39,6 +39,7 @@ class LoopOfHenle {
     
         return !improperPump;
     }
+
     /**
      * Checks if the position in currentPos of the ascending limb
      * has a valid concentration according to the pump 
@@ -58,6 +59,20 @@ class LoopOfHenle {
         }
 
         return true;
+    }
+
+    /**
+     * Method to quickly find and flash all 
+     * positions in the ascending limb with 
+     * incorrect concentrations.
+     */
+    flashWrongPumps() {
+        for (let i = 0; i < A_LIMB.length; i++) {
+            if (!this.checkPump(i)) {
+                A_LIMB[i].incorrect = true;
+                INTER_FLUID[i].incorrect = true;
+            }
+        }
     }
 
     validateEquilibrate() {
@@ -89,6 +104,20 @@ class LoopOfHenle {
 
         return false;
 
+    }
+
+    /**
+     * Method to quickly find and flash all 
+     * positions in the descending limb with 
+     * incorrect concentrations.
+     */
+    flashWrongEquis() {
+        for (let i = 0; i < D_LIMB.length; i++) {
+            if (!this.checkEqui(i)) {
+                D_LIMB[i].incorrect = true;
+                INTER_FLUID[i].incorrect = true;
+            }
+        }
     }
 
     flow(animationDecorator = function() {}) {

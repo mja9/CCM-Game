@@ -938,6 +938,10 @@ class TutorialModel {
                 tutorial.playModel.removeMoveableHandler();
                 tutorial.loopIsSaved = false;   // Reset loop save tracking.
                 tutorial.displayDialogueBox20();
+
+            // Show the player which positions are wrong.
+            } else {
+                tutorial.playModel.view.loop.flashWrongPumps();
             }
         };
 
@@ -1098,6 +1102,10 @@ class TutorialModel {
                 tutorial.playModel.removeMoveableHandler();
                 tutorial.loopIsSaved = false;   // Reset loop save tracking.
                 tutorial.displayDialogueBox23();
+            
+            // Indicate wrong positions to the player.
+            } else {
+                tutorial.playModel.view.loop.flashWrongEquis();
             }
         };
 

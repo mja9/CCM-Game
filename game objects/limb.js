@@ -11,6 +11,9 @@ class GradientPosition {
         this.rad = 15.0;
         this.flashVel = 0;
         this.flashState = 0;    // 1 to flash, 2 to flashNumbers
+        this.incorrect = 0;
+        this.errorAlpha = 0;
+        this.errorVelocity = 0.1;
     }
 
     /**
@@ -124,6 +127,11 @@ class GradientPosition {
 
     }
 
+    /**
+     * Method to perform a white flashing highlight.
+     * Used to highlight the gradient position when showcasing
+     * loop parts in the tutorial.
+     */
     flash() {
 
         // Optimization technique: avoid painting an invisible square.
@@ -237,6 +245,60 @@ class GradientPosition {
         this.setFlashState(0);
     }
 
+    /**
+     * Method that flashes this position to indicate 
+     * the player has inputted the incorrect concentration for
+     * this position.
+     */
+    invalidConcentration() {
+        if (this.incorrect) {
+
+            // Set the alpha.
+            let oldAplha = CONTEXT.globalAlpha;
+            CONTEXT.globalAlpha = this.errorAlpha;
+
+            // Paint the red flash.
+            CONTEXT.fillStyle = "red";
+
+            // Draw the rounded box.
+            let rad = this.rad;
+            CONTEXT.beginPath();
+            CONTEXT.moveTo(this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+            CONTEXT.lineTo(this.x + (this.w / 2.0) - rad, this.y - (this.h / 2.0));
+            CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y - (this.h / 2.0), 
+            this.x + (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+            CONTEXT.lineTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+            CONTEXT.quadraticCurveTo(this.x + (this.w / 2.0), this.y + (this.h / 2.0), 
+            this.x + (this.w / 2.0) - rad, this.y + (this.h / 2.0));
+            CONTEXT.lineTo(this.x - (this.w / 2.0) + rad, this.y + (this.h / 2.0));
+            CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y + (this.h / 2.0), 
+            this.x - (this.w / 2.0), this.y + (this.h / 2.0) - rad);
+            CONTEXT.lineTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0) + rad);
+            CONTEXT.quadraticCurveTo(this.x - (this.w / 2.0), this.y - (this.h / 2.0), 
+            this.x - (this.w / 2.0) + rad, this.y - (this.h / 2.0));
+            CONTEXT.fill();
+
+            // Reset the global alpha.
+            CONTEXT.globalAlpha = oldAplha;
+
+            // Increment the alpha.
+            this.errorAlpha += this.errorVelocity;
+
+            // Clamp and set up for future calls.
+            if (this.errorAlpha >= 0.5) {
+                this.errorAlpha = 0.5;
+                this.errorVelocity = -0.1;
+            }
+
+            // End animation and reset for next use.
+            else if (this.errorAlpha <= 0 && this.errorVelocity < 0) {
+                this.errorAlpha = 0;
+                this.errorVelocity = 0.1;
+                this.incorrect = false;
+            }
+        }
+    }
+
 }
 
 class LimbPosition extends GradientPosition {
@@ -278,6 +340,7 @@ class LimbPosition extends GradientPosition {
         // Additonal animations.
         this.flash();
         this.flashNumbers(0);
+        this.invalidConcentration();    // TODO:
     }
 
     selectionIndicator() {
@@ -505,5 +568,6 @@ class InterPosition extends GradientPosition{
         // Additional animations.
         this.flash();
         this.flashNumbers(1);
+        this.invalidConcentration();    // TODO:
     }
 }
