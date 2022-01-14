@@ -1,0 +1,53 @@
+NOTE: please check max conc against whatever is coded in the simulation mode, to make sure they match (if there is discrepancy follow whatever is coded)
+
+beaver:
+y 128
+x 129
+max: 500 mosmol
+sci_name: Castor_canadensis
+color: 1 (lowest category)
+
+human:
+x 105
+y 128
+max: 1200 mosmol
+sci_name: Homo_sapiens
+color: 2
+
+rabbit:
+x 145
+y 128
+max: 2300 mosmol
+sci_name: Sylvilagus_aquaticus
+color: 3
+
+cat:
+x 145
+y 112
+max: 3200 mosmol
+sci_name: Felis catus
+color: 4
+
+fox:
+x 139
+y 124
+max: 4000 mosmol
+sci_name: Fennecus zerda
+color: 5
+
+kang rat:
+x 135
+y 144
+max: 6300 mosmol
+sci_name: Dipodomys merriami
+color: 6 (highest)
+
+chinchilla:
+x 111
+y 155
+max: 7600 mosmol
+sci_name: Chinchilla_laniger
+color: 6 (highest)
+
+
+
