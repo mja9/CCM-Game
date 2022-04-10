@@ -10,6 +10,10 @@ class SimulationModel {
         this.state = "Flow";
         this.baseSpeed = 50;
         this.currSpeed = 1.0;
+
+        // Initialize animal hover over detection.
+        let a = this.animals;
+        CANVAS.addEventListener("mousemove", (event) => { SimulationModel.animalHoverOver(event, a) });
     }
 
     init() {
@@ -300,6 +304,34 @@ class SimulationModel {
         D_LIMB[lastOccurence].c += 50;
     }
 
+    static animalHoverOver(event, animals) {
+        let mx = event.offsetX;
+        let my = event.offsetY;
+        let i = animals.i;
+        let xPos = animals.xPositions;
+        let yPos = animals.yPositions;
+        let w = animals.widths;
+        let h = animals.heights;
+
+        // Check if there is an animal on the screen.
+        if (i > -1) {
+            
+            // Check if we are within the bounds of the onscreen animal.
+            if (mx >= xPos[i] - (w[i] / 2) && mx <= xPos[i] + (w[i] / 2)) {
+                
+                if (my >= yPos[i] - (h[i] / 2) && my <= yPos[i] + (h[i] / 2)) {
+                    animals.isHovering = true;
+                } else if (animals.isHovering) {
+                    animals.isHovering = false;
+                }
+
+            } else if (animals.isHovering) {
+                animals.isHovering = false;
+            }
+
+        }
+    }
+
 }
 
 class Animals {
@@ -312,6 +344,15 @@ class Animals {
         this.widths = [89, 39, 86, 103, 102, 108, 116];
         this.heights = [106, 155, 124, 109, 136, 107, 83];
         this.concentrations = [500, 1200, 2300, 3200, 4000, 6400, 7600];
+
+        // Animal tag fields.
+        this.isHovering = false;
+        this.tagX = [129, 105, 145, 145, 139, 135, 111];
+        // Detract from max canvas height.
+        this.tagY = [128, 128, 128, 112, 124, 144, 155];
+        this.tagW = 175;
+        this.tagH = 40;
+        this.tagImages = ["tag-color1", "tag-color2", "tag-color3", "tag-color4", "tag-color5", "tag-color6"];
     }
 
     checkAnimals() {
@@ -324,9 +365,20 @@ class Animals {
 
     paint() {
         if (this.i >= 0) {
+            // Draw animal image.
             CONTEXT.drawImage(document.getElementById(this.images[this.i]), 
                 this.xPositions[this.i] - this.widths[this.i] / 2, this.yPositions[this.i] - this.heights[this.i] / 2, 
                 this.widths[this.i], this.heights[this.i]);
+
+            // Draw animal tag if hovering.
+            if (this.isHovering) {
+                // console.log("Mouse is hovering!");
+                let x = this.tagX[this.i];
+                let y = CANVAS.clientHeight - this.tagY[this.i];
+                let w = this.tagW;
+                let h = this.tagH;
+                CONTEXT.drawImage(document.getElementById(this.tagImages[this.i]), x, y, w, h);
+            }
         }
     }
 }
