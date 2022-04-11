@@ -10,6 +10,26 @@ class TutorialModel {
                 tutorial.skipTutorial();
             }, 'skip');
         this.removeOnSkip = function() {};
+        this.promptIntro = {
+            paint: function() {
+                let text = "- click anywhere or press the right arrow key to continue -";
+                CONTEXT.fillStyle = "#0060ff";
+                CONTEXT.font = "15pt " + this.font;
+                CONTEXT.textAlign = "center";
+                CONTEXT.textBaseline = "middle";
+                CONTEXT.fillText(text, CANVAS.clientWidth / 2, CANVAS.clientHeight - 100);
+            }
+        };
+        // this.promptTut = {
+        //     paint: function() {
+        //         let text = "- press the right arrow key to continue -";
+        //         CONTEXT.fillStyle = "#0060ff";
+        //         CONTEXT.font = "10pt " + this.font;
+        //         CONTEXT.textAlign = "center";
+        //         CONTEXT.textBaseline = "middle";
+        //         CONTEXT.fillText(text, 247, 476);
+        //     }
+        // }
     }
 
     /**
@@ -100,6 +120,7 @@ class TutorialModel {
         const line1 = "Some 400 million years ago, our fishy ancestors transitioned from a life";
         const line2 = "in the sea to one on land. This drier environment presented a host";
         const line3 = "of new problems -- not least, water conservation during excretion.";
+        const promptIntro = this.promptIntro;
 
         // Press anything event.
         function keyDownEvent1(event) {
@@ -116,6 +137,7 @@ class TutorialModel {
             text.animationDecorator = function () { };    // Avoid double-jeopardy. 
             document.addEventListener("keydown", keyDownEvent1);
             CANVAS.addEventListener("mousedown", keyDownEvent1);
+            mainDispatcher.add(promptIntro);
         };
         mainDispatcher.add(text);
     }
@@ -316,6 +338,7 @@ class TutorialModel {
         const line1 = "LEARNING GOAL: You will understand urine formation in mammals.";
         const line2 = "LEARNING OUTCOME: You will explain the mechanism used by the";
         const line3 = "mammalian kidney to concentrate urine."
+        const prompt = this.promptIntro;
     
         // Add this dialogue box.
         let text = new BlockingDialogue([line1, line2, line3], CANVAS.clientWidth / 2, 249, 37, "20pt " + this.font);
@@ -326,6 +349,7 @@ class TutorialModel {
             text.animationDecorator = function () { };    // Avoid double-jeopardy.
             window.setTimeout(function () {
                 tutorial.displayDialogueBox6();
+                mainDispatcher.remove(prompt);
             }, 100);
         }
         mainDispatcher.add(text);
@@ -436,6 +460,7 @@ class TutorialModel {
         // On input display db8.
         document.addEventListener("keydown", keyDownEvent7);
         mainDispatcher.add(text);
+        // mainDispatcher.add(this.promptTut);
     }
 
     /** 
