@@ -20,16 +20,16 @@ class TutorialModel {
                 CONTEXT.fillText(text, CANVAS.clientWidth / 2, CANVAS.clientHeight - 100);
             }
         };
-        // this.promptTut = {
-        //     paint: function() {
-        //         let text = "- press the right arrow key to continue -";
-        //         CONTEXT.fillStyle = "#0060ff";
-        //         CONTEXT.font = "10pt " + this.font;
-        //         CONTEXT.textAlign = "center";
-        //         CONTEXT.textBaseline = "middle";
-        //         CONTEXT.fillText(text, 247, 476);
-        //     }
-        // }
+        this.promptTut = {
+            paint: function() {
+                let text = "- press the right arrow key to continue -";
+                CONTEXT.fillStyle = "#0060ff";
+                CONTEXT.font = "9pt " + this.font;
+                CONTEXT.textAlign = "center";
+                CONTEXT.textBaseline = "top";
+                CONTEXT.fillText(text, 247, 481);
+            }
+        }
     }
 
     /**
@@ -460,7 +460,7 @@ class TutorialModel {
         // On input display db8.
         document.addEventListener("keydown", keyDownEvent7);
         mainDispatcher.add(text);
-        // mainDispatcher.add(this.promptTut);
+        mainDispatcher.add(this.promptTut);
     }
 
     /** 
@@ -1165,6 +1165,10 @@ class TutorialModel {
         this.playModel.revertBtn.onClick = function () {
             tutorial.playModel.view.loop.revert();
         };
+
+        // Remove the other prompt.
+        mainDispatcher.remove(this.promptTut);
+
         document.addEventListener("keydown", keyDownEvent19);
         mainDispatcher.addAll([text, subtext]);
     }
@@ -1175,6 +1179,9 @@ class TutorialModel {
      */
     displayDialogueBox20() {
         const tutorial = this;
+
+        // Add back prompt.
+        mainDispatcher.add(this.promptTut);
 
         // Lines of text for db20.
         const line1 = "Great job!";
@@ -1329,6 +1336,10 @@ class TutorialModel {
         this.playModel.revertBtn.onClick = function () {
             tutorial.playModel.view.loop.revert();
         };
+
+        // Remove prompt.
+        mainDispatcher.remove(this.promptTut);
+
         document.addEventListener("keydown", keyDownEvent22);
         mainDispatcher.addAll([text, subtext]);
     }
@@ -1375,6 +1386,9 @@ class TutorialModel {
      */
     displayDialogueBox24() {
         const tutorial = this;
+
+        // Add back prompt.
+        mainDispatcher.add(this.promptTut);
 
         // Lines of text for db24.
         const line1 = "One final thing -- the $(white)box$ above will";
@@ -1504,6 +1518,7 @@ class TutorialModel {
      */
     displayDialogueBox27() {
         const tutorial = this;
+        const promptTut = this.promptTut;
 
         // Lines of text for db27.
         const line1 = "Now you will be $(white)restricted to your$";
@@ -1530,8 +1545,9 @@ class TutorialModel {
                     tutorial.displayDialogueBox26();
                 } else if (event.key == "ArrowRight") {
 
-                    // get rid of the skip tutorial button.
+                    // get rid of the skip tutorial button and prompt.
                     mainDispatcher.remove(tutorial.skipBtn);
+                    mainDispatcher.remove(promptTut);
                     CLICKABLE.splice(CLICKABLE.indexOf(tutorial.skipBtn), 1);
 
                     tutorial.playModel.addMoveableHandler();
