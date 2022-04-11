@@ -352,7 +352,7 @@ class Animals {
         this.tagY = [128, 128, 128, 112, 124, 144, 155];
         this.tagW = 175;
         this.tagH = 40;
-        this.tagImages = ["tag-color1", "tag-color2", "tag-color3", "tag-color4", "tag-color5", "tag-color6"];
+        this.tagImages = ["tag-beaver", "tag-human", "tag-rabbit", "tag-cat", "tag-fox", "tag-dime", "tag-chinchilla"];
     }
 
     checkAnimals() {
@@ -372,7 +372,6 @@ class Animals {
 
             // Draw animal tag if hovering.
             if (this.isHovering) {
-                // console.log("Mouse is hovering!");
                 let x = this.tagX[this.i];
                 let y = CANVAS.clientHeight - this.tagY[this.i];
                 let w = this.tagW;
